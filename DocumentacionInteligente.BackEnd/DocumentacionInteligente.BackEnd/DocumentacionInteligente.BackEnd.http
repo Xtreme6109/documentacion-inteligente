@@ -1,0 +1,6 @@
+@DocumentacionInteligente.BackEnd_HostAddress = http://localhost:5168
+
+GET {{DocumentacionInteligente.BackEnd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
