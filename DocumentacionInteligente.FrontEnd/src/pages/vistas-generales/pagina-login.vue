@@ -11,7 +11,7 @@
     <input class="login-input" type="text" placeholder="Correo o Usuario" id="usuario" />
     <label for="contrasegna">Contraseña</label>
     <input class="login-input" type="password" placeholder="Contraseña" id="contrasegna" />
-    <button class="login-button">Ingresar</button>
+    <router-link to="/inicio" class="login-button">Ingresar</router-link>
     <div class="forgot-password">
       <a href="#" class="text-light">¿Has olvidado la contraseña?</a>
     </div>
@@ -127,6 +127,9 @@ label {
 }
 
 .login-button {
+  all: unset;
+  display: block;
+  text-align: center;
   margin-top: 50px;
   width: 100%;
   background-color: #555; /* Fondo oscuro del botón */

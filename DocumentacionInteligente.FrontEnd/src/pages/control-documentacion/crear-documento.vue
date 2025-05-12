@@ -169,7 +169,7 @@ function loadMore() {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .border-box {
   border: 1px solid #ccc;
   border-radius: 6px;
