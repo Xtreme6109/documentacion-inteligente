@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-card class="q-pa-lg shadow-2">
-      <div class="text-h4 q-mb-lg">Subir Documento Manualmente</div>
+      <div class="text-h5 q-mb-lg">Subir Documento Manualmente</div>
 
       <q-form @submit.prevent="subirDocumento" ref="formRef">
         <div class="q-gutter-md">
@@ -51,6 +51,8 @@
             label="Estado del documento"
             outlined
             :options="estados"
+            emit-value
+            map-options
             :rules="[val => !!val || 'Seleccione un estado']"
           />
 
@@ -66,10 +68,10 @@
               label="Subir Documento"
               color="primary"
               type="submit"
+              :loading="subiendo"
               class="q-mt-md"
             />
           </div>
-
         </div>
       </q-form>
     </q-card>
@@ -78,9 +80,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useQuasar } from 'quasar'
+// import axios from 'axios'
 
-// Referencia al formulario para validación
+const $q = useQuasar()
 const formRef = ref(null)
+const subiendo = ref(false)
 
 // Datos del formulario
 const formData = ref({
@@ -88,7 +93,7 @@ const formData = ref({
   archivo: null,
   descripcion: '',
   categoria: null,
-  estado: '',
+  estado: null,
   creadoIA: false
 })
 
@@ -100,16 +105,51 @@ const categorias = [
 ]
 
 // Opciones de estado
-const estados = ['Borrador', 'Aprobado', 'Rechazado']
+const estados = [
+  { label: 'Borrador', value: 'Borrador' },
+  { label: 'Aprobado', value: 'Aprobado' },
+  { label: 'Rechazado', value: 'Rechazado' }
+]
 
-// Simula envío
 function subirDocumento() {
-  formRef.value.validate().then((ok) => {
-    if (ok) {
-      console.log('Datos del formulario:', formData.value)
-      // axios
-    } else {
-      console.warn('Validación fallida')
+  formRef.value.validate().then(async (ok) => {
+    if (!ok) {
+      $q.notify({ type: 'negative', message: 'Por favor completa todos los campos obligatorios' })
+      return
+    }
+
+    subiendo.value = true
+
+    try {
+      const payload = new FormData()
+      payload.append('titulo', formData.value.titulo)
+      payload.append('archivo', formData.value.archivo)
+      payload.append('descripcion', formData.value.descripcion)
+      payload.append('categoria', formData.value.categoria)
+      payload.append('estado', formData.value.estado)
+      payload.append('creadoIA', formData.value.creadoIA ? '1' : '0')
+
+      // await axios.post('/api/subir-documento', payload)
+
+      await new Promise(resolve => setTimeout(resolve, 1000)) // Simulación
+
+      $q.notify({ type: 'positive', message: 'Documento subido correctamente' })
+
+      // Limpiar formulario
+      formRef.value.resetValidation()
+      formData.value = {
+        titulo: '',
+        archivo: null,
+        descripcion: '',
+        categoria: null,
+        estado: null,
+        creadoIA: false
+      }
+
+    } catch (err) {
+      $q.notify({ type: 'negative', message: 'Error al subir el documento' + ' ' + err.message })
+    } finally {
+      subiendo.value = false
     }
   })
 }

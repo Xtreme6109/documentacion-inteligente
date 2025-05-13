@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="border-box">
-      <div class="text-h4">Política de Privacidad</div>
+      <div class="text-h5">Política de Privacidad</div>
       <div style="height: 250px; overflow-y: auto" ref="scrollTarget1">
         <q-infinite-scroll @load="loadMore" :scroll-target="scrollTarget1">
           <div class="caption">
@@ -164,8 +164,19 @@ const politicas = [
 const scrollTarget1 = ref(null)
 const scrollTarget2 = ref(null)
 
-function loadMore() {
-  setTimeout(() => {}, 1000)
+const count = ref(5) 
+
+function loadMore(index, done) {
+  setTimeout(() => {
+    const nuevos = documentos.slice(count.value, count.value + 2)
+    if (nuevos.length) {
+      documentos.push(...nuevos)
+      count.value += nuevos.length
+      done()
+    } else {
+      done(true)
+    }
+  }, 1000)
 }
 </script>
 
