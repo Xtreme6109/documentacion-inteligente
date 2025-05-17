@@ -1,0 +1,49 @@
+## Archivos de Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Archivos de compilación
+bin/
+obj/
+[Bb]uild/
+[Ll]ogs/
+
+## Archivos de configuración local
+*.dbmdl
+*.vscode/
+*.env
+
+## Archivos de configuración de paquetes
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Archivos de dependencias
+*.nuget.props
+*.nuget.targets
+*.nupkg
+packages/
+
+## Archivos generados por herramientas
+*.cache
+*.pdb
+*.exe
+*.dll
+*.log
+*.sql
+*.mdf
+*.ldf
+
+## Archivos generados por EF Core
+Migrations/
+
+## Otros del sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.b*
