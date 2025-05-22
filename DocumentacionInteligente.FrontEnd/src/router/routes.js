@@ -26,7 +26,18 @@ const routes = [
       {
         path: '',
         component: () =>
-          import('src/pages/control-documentacion/crear-documento.vue'),
+          import('src/pages/control-documentacion/creacion-documentacion/crear-documento.vue'),
+      },
+    ],
+  },
+  {
+    path: '/peticion-documento-ia',
+    component: menuComponent,
+    children: [
+      {
+        path: '',
+        component: () =>
+          import('src/pages/control-documentacion/creacion-documentacion/peticion-documento-ia.vue'),
       },
     ],
   },

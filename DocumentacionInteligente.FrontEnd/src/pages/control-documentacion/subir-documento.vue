@@ -3,7 +3,6 @@
     <q-card class="q-pa-lg shadow-2">
       <div class="text-h5 q-mb-lg">Subir Documento Manualmente</div>
 
-      <q-form @submit.prevent="subirDocumento" ref="formRef">
         <div class="q-gutter-md">
 
           <!-- Título del documento -->
@@ -73,18 +72,17 @@
             />
           </div>
         </div>
-      </q-form>
     </q-card>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useQuasar } from 'quasar'
+//import { useQuasar } from 'quasar'
 // import axios from 'axios'
 
-const $q = useQuasar()
-const formRef = ref(null)
+//const $q = useQuasar()
+//const formRef = ref(null)
 const subiendo = ref(false)
 
 // Datos del formulario
@@ -111,7 +109,7 @@ const estados = [
   { label: 'Rechazado', value: 'Rechazado' }
 ]
 
-function subirDocumento() {
+/*function subirDocumento() {
   formRef.value.validate().then(async (ok) => {
     if (!ok) {
       $q.notify({ type: 'negative', message: 'Por favor completa todos los campos obligatorios' })
@@ -152,5 +150,5 @@ function subirDocumento() {
       subiendo.value = false
     }
   })
-}
+}*/
 </script>
