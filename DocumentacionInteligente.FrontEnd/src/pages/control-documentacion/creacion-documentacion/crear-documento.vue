@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="border-box">
-      <div class="text-h5">Política de Privacidad</div>
+      <div class="text-h4">Política de Privacidad</div>
       <div style="height: 250px; overflow-y: auto" ref="scrollTarget1">
         <q-infinite-scroll @load="loadMore" :scroll-target="scrollTarget1">
           <div class="caption">
@@ -39,7 +39,7 @@
                   respecto a la información utilizada para general los documentos.
                 </p>
               </div>
-              <q-btn color="primary" label="Diseñar" />
+              <q-btn color="primary" label="Diseñar" to="/peticion-documento-ia" />
             </div>
           </div>
         </div>
@@ -164,7 +164,7 @@ const politicas = [
 const scrollTarget1 = ref(null)
 const scrollTarget2 = ref(null)
 
-const count = ref(5) 
+const count = ref(5)
 
 function loadMore(index, done) {
   setTimeout(() => {
