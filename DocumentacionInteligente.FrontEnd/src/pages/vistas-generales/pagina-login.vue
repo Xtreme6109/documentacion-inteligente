@@ -6,7 +6,7 @@
     <div class="shape"></div>
   </div>
   <form>
-    <h3>Inciar Sesión</h3>
+    <h3>Iniciar Sesión</h3>
     <label for="usuario">Usuario</label>
     <input class="login-input" type="text" placeholder="Correo o Usuario" id="usuario" />
     <label for="contrasegna">Contraseña</label>
