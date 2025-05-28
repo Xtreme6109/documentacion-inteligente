@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Archivos de Visual Studio
 .vs/
 *.suo
@@ -47,3 +48,36 @@ Desktop.ini
 .DS_Store
 *.swp
 *.b*
+=======
+# Archivos de Visual Studio
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos de compilación
+bin/
+obj/
+out/
+
+# Archivos de configuración que pueden contener claves
+**/appsettings*.json
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
+
+# Archivos de dependencias
+*.nupkg
+*.snupkg
+packages/
+
+# Otros
+.env
+>>>>>>> rama-david

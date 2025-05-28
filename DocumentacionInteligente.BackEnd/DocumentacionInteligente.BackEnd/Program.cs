@@ -87,6 +87,47 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"];
+var issuer = jwtSettings["Issuer"];
+var audience = jwtSettings["Audience"];
+
+// Verificamos si la clave secreta es v�lida
+if (string.IsNullOrEmpty(secretKey))
+    throw new Exception("La clave secreta JWT no est� definida en appsettings.json (JwtSettings:SecretKey)");
+
+// Leer la cadena de conexi�n de appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Configurar autenticaci�n JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = issuer,
+            ValidAudience = audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        };
+    });
+
+// Configurar pol�ticas de autorizaci�n
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+    options.AddPolicy("User", policy => policy.RequireClaim("User"));
+    options.AddPolicy("EsAdministrador", policy => policy.RequireClaim("Admin"));
+});
+
+// Agregar DbContexts
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Agregar servicios
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -107,7 +148,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API V1");
+    });
 }
 
 app.UseHttpsRedirection();
