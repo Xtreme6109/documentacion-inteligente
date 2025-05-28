@@ -11,14 +11,14 @@ var secretKey = jwtSettings["SecretKey"];
 var issuer = jwtSettings["Issuer"];
 var audience = jwtSettings["Audience"];
 
-// Verificamos si la clave secreta es válida
+// Verificamos si la clave secreta es vï¿½lida
 if (string.IsNullOrEmpty(secretKey))
-    throw new Exception("La clave secreta JWT no está definida en appsettings.json (JwtSettings:SecretKey)");
+    throw new Exception("La clave secreta JWT no estï¿½ definida en appsettings.json (JwtSettings:SecretKey)");
 
-// Leer la cadena de conexión de appsettings.json
+// Leer la cadena de conexiï¿½n de appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Configurar autenticación JWT
+// Configurar autenticaciï¿½n JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -34,7 +34,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Configurar políticas de autorización
+// Configurar polï¿½ticas de autorizaciï¿½n
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
@@ -51,13 +51,14 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Configurar Swagger
+// Configurar Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "Documentacion Inteligente API",
         Version = "v1",
-        Description = "API para la gestión de documentos y usuarios"
+        Description = "API para la gestiÃ³n de documentos y usuarios"
     });
 
     // esquema de seguridad para JWT para Swagger
@@ -83,6 +84,8 @@ builder.Services.AddSwaggerGen(c =>
             },
             new string[] {}
         }
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
