@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\DocumentacionInteligente.BackEnd.props" />
-</Project>
