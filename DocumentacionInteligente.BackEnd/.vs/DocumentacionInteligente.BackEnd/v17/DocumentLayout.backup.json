@@ -1,0 +1,229 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\documentoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\documentos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\documentos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\versiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\versiones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\palabras_clave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\palabras_clave.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\logs_acceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\logs_acceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\ia_procesamientos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\ia_procesamientos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\users\\kchavez\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 12,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DOCUMENTOS.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T17:41:10.825Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "VERSIONES.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T17:35:44.65Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PALABRAS_CLAVE.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T17:35:24.845Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "LOGS_ACCESO.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T17:35:12.951Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T17:35:01.551Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IA_PROCESAMIENTOS.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T17:34:50.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DocumentosController.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T16:38:38.502Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "USUARIOS.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T23:57:46.005Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T22:41:23.722Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T16:16:29.626Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T22:36:21.096Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Program.cs",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T21:22:10.222Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\appsettings.json",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\appsettings.json",
+              "ToolTip": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\appsettings.json",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAswBUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-13T21:24:32.229Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

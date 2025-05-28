@@ -11,14 +11,14 @@ var secretKey = jwtSettings["SecretKey"];
 var issuer = jwtSettings["Issuer"];
 var audience = jwtSettings["Audience"];
 
-// Verificamos si la clave secreta es vï¿½lida
+// Verificamos si la clave secreta es válida
 if (string.IsNullOrEmpty(secretKey))
-    throw new Exception("La clave secreta JWT no estï¿½ definida en appsettings.json (JwtSettings:SecretKey)");
+    throw new Exception("La clave secreta JWT no está definida en appsettings.json (JwtSettings:SecretKey)");
 
-// Leer la cadena de conexiï¿½n de appsettings.json
+// Leer la cadena de conexión de appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Configurar autenticaciï¿½n JWT
+// Configurar autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -34,7 +34,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Configurar polï¿½ticas de autorizaciï¿½n
+// Configurar políticas de autorización
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
@@ -51,14 +51,13 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Configurar Swagger
-// Configurar Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "Documentacion Inteligente API",
         Version = "v1",
-        Description = "API para la gestiÃ³n de documentos y usuarios"
+        Description = "API para la gestión de documentos y usuarios"
     });
 
     // esquema de seguridad para JWT para Swagger
@@ -87,61 +86,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["SecretKey"];
-var issuer = jwtSettings["Issuer"];
-var audience = jwtSettings["Audience"];
-
-// Verificamos si la clave secreta es vï¿½lida
-if (string.IsNullOrEmpty(secretKey))
-    throw new Exception("La clave secreta JWT no estï¿½ definida en appsettings.json (JwtSettings:SecretKey)");
-
-// Leer la cadena de conexiï¿½n de appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// Configurar autenticaciï¿½n JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = issuer,
-            ValidAudience = audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-        };
-    });
-
-// Configurar polï¿½ticas de autorizaciï¿½n
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
-    options.AddPolicy("User", policy => policy.RequireClaim("User"));
-    options.AddPolicy("EsAdministrador", policy => policy.RequireClaim("Admin"));
-});
-
-// Agregar DbContexts
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
-// Agregar servicios
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:9000")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVueApp", policy =>
@@ -155,14 +99,9 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configurar middleware
-
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API V1");
-    });
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
@@ -171,8 +110,6 @@ app.UseHttpsRedirection();
 app.UseCors("AllowVueApp");
 
 app.UseAuthentication();
-app.UseCors("AllowFrontend");
-
 app.UseAuthorization();
 
 app.UseSwagger();
