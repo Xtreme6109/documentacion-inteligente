@@ -63,7 +63,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AuthController",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
     "Method": "CreateFirstAdmin",
     "RelativePath": "api/Auth/create-first-admin",
     "HttpMethod": "POST",
@@ -79,7 +79,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AuthController",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -95,7 +95,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AuthController",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
     "Method": "Register",
     "RelativePath": "api/Auth/register",
     "HttpMethod": "POST",
@@ -111,7 +111,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AuthController",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
     "Method": "TestDB",
     "RelativePath": "api/Auth/testdb",
     "HttpMethod": "GET",

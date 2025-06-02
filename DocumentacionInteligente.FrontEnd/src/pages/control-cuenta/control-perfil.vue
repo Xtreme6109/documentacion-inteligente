@@ -33,13 +33,25 @@
 
         <q-card-section>
           <q-input v-model="nuevaContrasena" label="Nueva Contraseña" type="password" />
-          <q-input v-model="confirmarContrasena" label="Confirmar Contraseña" type="password" class="q-mt-md" />
+          <q-input
+            v-model="confirmarContrasena"
+            label="Confirmar Contraseña"
+            type="password"
+            class="q-mt-md"
+            :error="confirmarContrasena && !validarContrasena"
+            error-message="Las contraseñas no coinciden"
+          />
         </q-card-section>
 
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn
+            flat
+            label="Cancelar"
+            @click="() => { dialogVisible = false; nuevaContrasena = ''; confirmarContrasena = '' }"
+          />
+
           <q-btn
             color="primary"
             :loading="guardando"
@@ -54,26 +66,58 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-// import axios from 'axios' // Descomenta si usarás peticiones reales
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
+
+// Instancia centralizada de Axios
+const api = axios.create({
+  baseURL: 'http://localhost:5168/api'
+})
 
 const dialogVisible = ref(false)
 const guardando = ref(false)
 
+// Perfil cargado desde el backend
 const perfil = ref({
-  nombre: 'Juan Pérez',
-  correo: 'juan.perez@empresa.com',
-  foto: 'https://cdn.quasar.dev/img/avatar.png'
+  nombre: '',
+  correo: '',
+  foto: 'https://cdn.quasar.dev/img/avatar.png' // opcional
 })
 
 // Datos para cambiar contraseña
 const nuevaContrasena = ref('')
 const confirmarContrasena = ref('')
 
-// Valida que la nueva contraseña y la confirmación sean iguales
-const validarContrasena = computed(() => nuevaContrasena.value === confirmarContrasena.value && nuevaContrasena.value.length > 0)
+// Validación de contraseñas
+const validarContrasena = computed(() =>
+  nuevaContrasena.value === confirmarContrasena.value &&
+  nuevaContrasena.value.length > 0
+)
 
-function cambiarContrasena() {
+// Obtener datos del usuario autenticado
+async function cargarPerfil() {
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) throw new Error('Token no encontrado')
+
+    const response = await api.get('/user/perfil', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    const data = response.data
+    perfil.value.nombre = data.nombre
+    perfil.value.correo = data.correo
+    // Si hay foto en el backend: perfil.value.foto = data.foto
+  } catch (error) {
+    console.error('Error al cargar el perfil:', error)
+    alert('No se pudo cargar el perfil del usuario.')
+  }
+}
+
+// Cambiar contraseña
+async function cambiarContrasena() {
   if (!validarContrasena.value) {
     alert('Las contraseñas no coinciden o están vacías')
     return
@@ -81,26 +125,32 @@ function cambiarContrasena() {
 
   guardando.value = true
 
-  // Simulación de retardo como si se llamara al backend
-  setTimeout(() => {
-    // Aquí iría una llamada real a la API para actualizar la contraseña:
-    /*
-    axios.post('/api/perfil/cambiar-contrasena', { nuevaContrasena: nuevaContrasena.value })
-      .then(response => {
-        alert('Contraseña cambiada correctamente')
-      })
-      .catch(error => {
-        console.error('Error al cambiar contraseña:', error)
-      })
-    */
+  try {
+    const token = localStorage.getItem('token')
+    await api.put(
+      '/user/cambiar-contrasena',
+      { nuevaContrasena: nuevaContrasena.value },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
 
-    // Simulación de éxito
     alert('Contraseña cambiada correctamente')
-
-    guardando.value = false
     dialogVisible.value = false
     nuevaContrasena.value = ''
     confirmarContrasena.value = ''
-  }, 1200)
+  } catch (error) {
+    console.error('Error al cambiar contraseña:', error)
+    alert('Error al cambiar la contraseña')
+  } finally {
+    guardando.value = false
+  }
 }
+
+// Cargar el perfil al montar el componente
+onMounted(() => {
+  cargarPerfil()
+})
 </script>

@@ -9,6 +9,12 @@ const routes = [
     ],
   },
 
+  //CERRAR SESION
+  {
+    path: '/cerrar-sesion',
+    component: () => import('src/components/componentes-generales/cerrar-sesion.vue'),
+  },
+
   //MENU DE INICIO
   {
     path: '/inicio',
@@ -154,6 +160,17 @@ const routes = [
         path: '',
         component: () =>
           import('src/pages/control-administracion/control-categorias.vue'),
+      },
+    ],
+  },
+    {
+    path: '/crear-roles',
+    component: menuComponent,
+    children: [
+      {
+        path: '',
+        component: () =>
+          import('src/pages/control-administracion/control-roles.vue'),
       },
     ],
   },

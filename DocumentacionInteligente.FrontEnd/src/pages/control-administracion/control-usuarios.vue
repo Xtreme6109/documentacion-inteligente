@@ -45,7 +45,7 @@
             label="Rol"
             outlined
             dense
-            :options="['Administrador', 'Usuario', 'Editor']"
+            :options="['Admin', 'User']"
           />
           <q-input
             v-if="!usuario.id"
@@ -69,9 +69,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
-//import axios from 'axios'
+import axios from 'axios'
 
 const $q = useQuasar()
+
+
 const usuarios = ref([])
 const cargando = ref(false)
 const modalAbierto = ref(false)
@@ -91,21 +93,29 @@ const columnas = [
   { name: 'acciones', label: 'Acciones', align: 'center' }
 ]
 
+
+
 function cargarUsuarios() {
   cargando.value = true
-  // axios.get('/api/usuarios')
-  //   .then(res => usuarios.value = res.data)
-  //   .catch(err => console.error(err))
-  //   .finally(() => cargando.value = false)
-  setTimeout(() => {
-    // Mock temporal
-    usuarios.value = [
-      { id: 1, nombre: 'Carlos López', correo: 'carlos@mail.com', rol: 'Administrador' },
-      { id: 2, nombre: 'Ana Pérez', correo: 'ana@mail.com', rol: 'Usuario' }
-    ]
-    cargando.value = false
-  }, 500)
+  axios.get('http://localhost:5168/api/User/load-users') 
+    .then(res => {
+      console.log(res.data)
+      usuarios.value = res.data.map(u => ({
+        id: u.id,                
+        nombre: u.nombre,
+        correo: u.correo,
+        rol: u.rol
+      }))
+    })
+    .catch(err => {
+      console.error(err)
+      $q.notify({ type: 'negative', message: 'Error cargando usuarios' })
+    })
+    .finally(() => {
+      cargando.value = false
+    })
 }
+
 
 function abrirModal(usuarioExistente = null) {
   if (usuarioExistente) {
@@ -123,22 +133,43 @@ function abrirModal(usuarioExistente = null) {
 }
 
 function guardarUsuario() {
-  if (usuario.value.id) {
-    // axios.put(`/api/usuarios/${usuario.value.id}`, usuario.value)
-    //   .then(() => {
-    //     $q.notify({ type: 'positive', message: 'Usuario actualizado' })
-    //     cargarUsuarios()
-    //   })
-    //   .catch(() => $q.notify({ type: 'negative', message: 'Error al actualizar' }))
-  } else {
-    // axios.post('/api/usuarios', usuario.value)
-    //   .then(() => {
-    //     $q.notify({ type: 'positive', message: 'Usuario creado' })
-    //     cargarUsuarios()
-    //   })
-    //   .catch(() => $q.notify({ type: 'negative', message: 'Error al crear' }))
+  if (!usuario.value.nombre || !usuario.value.correo || !usuario.value.rol) {
+    $q.notify({ type: 'negative', message: 'Todos los campos excepto la contraseña son obligatorios' });
+    return;
   }
-  modalAbierto.value = false
+
+  // Si es creación, la contraseña es obligatoria
+  if (!usuario.value.id && !usuario.value.password) {
+    $q.notify({ type: 'negative', message: 'La contraseña es obligatoria para crear usuario' });
+    return;
+  }
+
+  const payload = {
+    Nombre: usuario.value.nombre,
+    Correo: usuario.value.correo,
+    Password: usuario.value.password,
+    Rol: usuario.value.rol
+  }  // Solo si la API lo acepta (en el backend tendrías que modificar para leerlo)  };
+
+  if (usuario.value.id) {
+    // Actualizar usuario
+    axios.put(`http://localhost:5168/api/User/update-user/${usuario.value.id}`, payload)
+      .then(() => {
+        $q.notify({ type: 'positive', message: 'Usuario actualizado' });
+        cargarUsuarios();
+        modalAbierto.value = false;
+      })
+      .catch(() => $q.notify({ type: 'negative', message: 'Error al actualizar usuario' }));
+  } else {
+    // Crear usuario
+    axios.post('http://localhost:5168/api/User/register', payload)
+      .then(() => {
+        $q.notify({ type: 'positive', message: 'Usuario creado' });
+        cargarUsuarios();
+        modalAbierto.value = false;
+      })
+      .catch(() => $q.notify({ type: 'negative', message: 'Error al crear usuario' }));
+  }
 }
 
 function confirmarEliminar(u) {

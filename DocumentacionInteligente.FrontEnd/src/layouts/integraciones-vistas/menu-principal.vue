@@ -111,6 +111,12 @@ const linksList = [
     link: '/crear-categoria'
   },
   {
+    title: 'Roles',
+    caption: 'Administración',
+    icon: 'admin_panel_settings', // Icono recomendado para roles/permisos
+    link: '/crear-roles'
+  },
+  {
     title: 'Perfil',
     caption: 'Cuenta',
     icon: 'account_circle', // Perfil de usuario

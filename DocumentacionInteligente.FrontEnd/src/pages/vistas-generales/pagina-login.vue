@@ -1,23 +1,60 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
+const correo = ref('')
+const password = ref('')
+const router = useRouter()
+const error = ref('')
+
+const baseURL = 'http://localhost:5168/api/User/login'
+
+const login = async () => {
+  error.value = ''
+  try {
+    const response = await axios.post(baseURL, {
+      correo: correo.value,
+      password: password.value
+    })
+
+    const token = response.data.token
+
+    localStorage.setItem('token', token)
+
+    router.push('/inicio')
+  } catch (err) {
+    if (err.response?.data?.message) {
+      error.value = err.response.data.message
+    } else {
+      error.value = 'Error al iniciar sesión'
+    }
+  }
+}
+</script>
 <template>
   <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
   </div>
-  <form>
+
+  <form @submit.prevent="login">
     <h3>Iniciar Sesión</h3>
-    <label for="usuario">Usuario</label>
-    <input class="login-input" type="text" placeholder="Correo o Usuario" id="usuario" />
+
+    <label for="usuario">Correo Electrónico</label>
+    <input class="login-input" type="text" placeholder="Correo o Usuario" id="usuario" v-model="correo" />
+
     <label for="contrasegna">Contraseña</label>
-    <input class="login-input" type="password" placeholder="Contraseña" id="contrasegna" />
-    <router-link to="/inicio" class="login-button">Ingresar</router-link>
+    <input class="login-input" type="password" placeholder="Contraseña" id="contrasegna" v-model="password" />
+
+    <button type="submit" class="login-button">Ingresar</button>
+
+    <div v-if="error" class="error-message">{{ error }}</div>
+
     <div class="forgot-password">
       <a href="#" class="text-light">¿Has olvidado la contraseña?</a>
     </div>
   </form>
-
-  <!-- Renderizar el componente de Partículas -->
 </template>
 
 <style lang="scss">
@@ -114,6 +151,7 @@ label {
   display: block;
   height: 50px;
   width: 100%;
+  color: #333;
   background-color: #fff;
   border-radius: 3px;
   padding: 0 10px;

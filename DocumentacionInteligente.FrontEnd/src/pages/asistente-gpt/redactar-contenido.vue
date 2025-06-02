@@ -6,7 +6,6 @@
         <div class="text-subtitle2">Especifica el contenido que deseas generar</div>
       </q-card-section>
 
-      <q-form @submit.prevent="generarContenido">
         <q-card-section class="q-gutter-md">
 
           <q-input
@@ -59,7 +58,6 @@
             :disable="cargando"
           />
         </q-card-section>
-      </q-form>
 
       <q-separator />
 
@@ -88,10 +86,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useQuasar } from 'quasar'
+//import { useQuasar } from 'quasar'
 // import axios from 'axios'
 
-const $q = useQuasar()
+//const $q = useQuasar()
 
 const datos = ref({
   titulo: '',
@@ -110,7 +108,7 @@ const respuestaIA = ref('')
 const cargando = ref(false)
 
 // Generar contenido
-async function generarContenido() {
+/*async function generarContenido() {
   cargando.value = true
   const prompt = `
     Tema: ${datos.value.titulo}
@@ -147,5 +145,5 @@ async function fakeApiGenerarTexto(prompt) {
       resolve(`📝 Contenido generado automáticamente para:\n${prompt.trim()}`)
     }, 1500)
   })
-}
+}*/
 </script>

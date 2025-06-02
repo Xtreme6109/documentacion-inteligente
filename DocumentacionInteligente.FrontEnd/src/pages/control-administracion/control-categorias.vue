@@ -53,9 +53,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
-// import axios from 'axios'
+import axios from 'axios'
 
 const $q = useQuasar()
+
+const api = axios.create({
+  baseURL: 'http://localhost:5168/api' // Asegúrate de usar el puerto correcto
+})
 
 const categorias = ref([])
 const columnas = [
@@ -67,12 +71,14 @@ const columnas = [
 const categoria = ref({})
 const modalAbierto = ref(false)
 
-function cargarMock() {
-  categorias.value = [
-    { id: 1, nombre: 'Legal', descripcion: 'Documentos jurídicos y contratos' },
-    { id: 2, nombre: 'Técnico', descripcion: 'Manual, instrucciones, procedimientos técnicos' },
-    { id: 3, nombre: 'Interno', descripcion: 'Uso exclusivo del personal interno' }
-  ]
+async function cargarCategorias() {
+  try {
+    const res = await api.get('/categorias')
+    categorias.value = res.data
+  } catch (err) {
+    console.error(err)
+    $q.notify({ type: 'negative', message: 'Error al cargar categorías' })
+  }
 }
 
 function abrirModal(cat = null) {
@@ -85,42 +91,55 @@ function abrirModal(cat = null) {
   modalAbierto.value = true
 }
 
-function guardarCategoria() {
+async function guardarCategoria() {
   if (!categoria.value.nombre) {
     $q.notify({ type: 'negative', message: 'El nombre es obligatorio' })
     return
   }
 
-  if (categoria.value.id) {
-    const index = categorias.value.findIndex(c => c.id === categoria.value.id)
-    categorias.value[index] = { ...categoria.value }
-    $q.notify({ message: 'Categoría actualizada', color: 'positive' })
-    // axios.put(`/api/categorias/${categoria.value.id}`, categoria.value)
-  } else {
-    categoria.value.id = Date.now()
-    categorias.value.push({ ...categoria.value })
-    $q.notify({ message: 'Categoría creada', color: 'positive' })
-    // axios.post('/api/categorias', categoria.value)
-  }
+  try {
+    if (categoria.value.id) {
+      await api.put(`/categorias/${categoria.value.id}`, {
+        nombre: categoria.value.nombre,
+        descripcion: categoria.value.descripcion
+      })
+      $q.notify({ message: 'Categoría actualizada', color: 'positive' })
+    } else {
+      await api.post('/categorias', {
+        nombre: categoria.value.nombre,
+        descripcion: categoria.value.descripcion
+      })
+      $q.notify({ message: 'Categoría creada', color: 'positive' })
+    }
 
-  modalAbierto.value = false
+    modalAbierto.value = false
+    cargarCategorias()
+  } catch (err) {
+    console.error(err)
+    $q.notify({ type: 'negative', message: 'Error al guardar categoría' })
+  }
 }
 
-function eliminarCategoria(cat) {
+async function eliminarCategoria(cat) {
   $q.dialog({
     title: 'Eliminar categoría',
     message: `¿Eliminar la categoría "${cat.nombre}"?`,
     cancel: true,
     persistent: true
-  }).onOk(() => {
-    categorias.value = categorias.value.filter(c => c.id !== cat.id)
-    $q.notify({ message: 'Eliminado', color: 'negative' })
-    // axios.delete(`/api/categorias/${cat.id}`)
+  }).onOk(async () => {
+    try {
+      await api.delete(`/categorias/${cat.id}`)
+      $q.notify({ message: 'Categoría eliminada', color: 'negative' })
+      cargarCategorias()
+    } catch (err) {
+      console.error(err)
+      $q.notify({ type: 'negative', message: 'Error al eliminar categoría' })
+    }
   })
 }
 
 onMounted(() => {
-  cargarMock()
+  cargarCategorias()
 })
 </script>
 

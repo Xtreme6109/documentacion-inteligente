@@ -1,6 +1,10 @@
 ﻿using DocumentacionInteligente.BackEnd.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using DocumentacionInteligente.BackEnd.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace DocumentacionInteligente.BackEnd.Data
 {
@@ -13,6 +17,8 @@ namespace DocumentacionInteligente.BackEnd.Data
         public DbSet<IA_PROCESAMIENTOS> IA_PROCESAMIENTOS { get; set; }
         public DbSet<PALABRAS_CLAVE> PALABRAS_CLAVE { get; set; }
         public DbSet<LOGS_ACCESO> LOGS_ACCESO { get; set; }
+        public DbSet<ROL> ROLES { get; set; }
+
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){  }
 
@@ -25,6 +31,7 @@ namespace DocumentacionInteligente.BackEnd.Data
             modelBuilder.Entity<IA_PROCESAMIENTOS>().ToTable("IA_PROCESAMIENTOS");
             modelBuilder.Entity<PALABRAS_CLAVE>().ToTable("PALABRAS_CLAVE");
             modelBuilder.Entity<LOGS_ACCESO>().ToTable("LOGS_ACCESO");
+            modelBuilder.Entity<ROL>().ToTable("ROLES");
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -5,41 +5,63 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 var issuer = jwtSettings["Issuer"];
 var audience = jwtSettings["Audience"];
 
-// Verificamos si la clave secreta es válida
-if (string.IsNullOrEmpty(secretKey))
-    throw new Exception("La clave secreta JWT no está definida en appsettings.json (JwtSettings:SecretKey)");
 
-// Leer la cadena de conexión de appsettings.json
+Console.WriteLine($"[DEBUG] SecretKey: {secretKey}");
+Console.WriteLine($"[DEBUG] Issuer: {issuer}");
+Console.WriteLine($"[DEBUG] Audience: {audience}");
+
+
+// Verificamos si la clave secreta es vï¿½lida
+if (string.IsNullOrEmpty(secretKey))
+    throw new Exception("La clave secreta JWT no estï¿½ definida en appsettings.json (JwtSettings:SecretKey)");
+
+// Leer la cadena de conexiï¿½n de appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Configurar autenticación JWT
+// Configurar autenticaciï¿½n JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = issuer,
-            ValidAudience = audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-        };
-    });
+        //ValidateIssuer = true,
+        //ValidateAudience = true,
+        //ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+    };
 
-// Configurar políticas de autorización
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine("Token invÃ¡lido: " + context.Exception.Message);
+            Console.WriteLine($"[DEBUG] SecretKey: {secretKey}");
+            Console.WriteLine($"[DEBUG] Issuer: {issuer}");
+            Console.WriteLine($"[DEBUG] Audience: {audience}");
+
+            return Task.CompletedTask;
+        }
+    };
+});
+
+
+// Configurar polï¿½ticas de autorizaciï¿½n
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
-    options.AddPolicy("User", policy => policy.RequireClaim("User"));
-    options.AddPolicy("EsAdministrador", policy => policy.RequireClaim("Admin"));
+    options.AddPolicy("Admin", policy => policy.RequireClaim("Rol", "Admin"));
+    options.AddPolicy("User", policy => policy.RequireClaim("Rol", "User"));
+    //options.AddPolicy("EsAdministrador", policy => policy.RequireClaim("Rol", "Admin"));
 });
 
 // Agregar DbContexts
@@ -57,7 +79,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Documentacion Inteligente API",
         Version = "v1",
-        Description = "API para la gestión de documentos y usuarios"
+        Description = "API para la gestiï¿½n de documentos y usuarios"
     });
 
     // esquema de seguridad para JWT para Swagger
