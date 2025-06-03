@@ -25,7 +25,7 @@ namespace DocumentacionInteligente.BackEnd.Migrations
                 newName: "IX_DOCUMENTOS_VERSIONID");
 
             migrationBuilder.AddColumn<int>(
-                name: "CATEGORIAID",
+                name: "CATEGORIA_ID",
                 table: "DOCUMENTOS",
                 type: "int",
                 nullable: true);

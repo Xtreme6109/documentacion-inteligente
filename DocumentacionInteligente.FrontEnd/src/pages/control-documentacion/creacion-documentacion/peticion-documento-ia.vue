@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="border-box">
-      <div class="text-h4">Consola de Generación de Documentos</div>
+      <div class="text-h4">Consola de Generación de Documentos General</div>
       <div class="tw-flex flex-column q-mt-md">
         <q-card
             class="q-pa-0 q-my-lg text-black"

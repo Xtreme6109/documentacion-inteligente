@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using DocumentacionInteligente.BackEnd.Data;
 using DocumentacionInteligente.BackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocumentacionInteligente.BackEnd.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriasController : ControllerBase
@@ -40,8 +43,8 @@ namespace DocumentacionInteligente.BackEnd.Controllers
         {
             var nuevaCategoria = new CATEGORIAS
             {
-                NOMBRE = request.Nombre,
-                DESCRIPCION = request.Descripcion,
+                NOMBRE = request.Nombre ?? string.Empty,
+                DESCRIPCION = request.Descripcion ?? string.Empty,
                 CREATE_DATE = DateTime.UtcNow
             };
 
@@ -59,8 +62,8 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             if (categoria == null)
                 return NotFound("Categoría no encontrada.");
 
-            categoria.NOMBRE = request.Nombre;
-            categoria.DESCRIPCION = request.Descripcion;
+            categoria.NOMBRE = request.Nombre ?? string.Empty;
+            categoria.DESCRIPCION = request.Descripcion ?? string.Empty;
 
             _context.SaveChanges();
 
@@ -80,11 +83,42 @@ namespace DocumentacionInteligente.BackEnd.Controllers
 
             return Ok("Categoría eliminada correctamente.");
         }
+
+        // GET: api/categorias/con-documentos
+        [HttpGet("con-documentos")]
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasConDocumentos()
+        {
+            var categorias = await _context.CATEGORIAS
+                .Include(c => c.DOCUMENTOS)
+                .ToListAsync();
+
+            var dto = categorias.Select(c => new CategoriaDTO
+            {
+                ID = c.ID,
+                NOMBRE = c.NOMBRE,
+                DESCRIPCION = c.DESCRIPCION,
+                CREATE_DATE = c.CREATE_DATE,
+                DOCUMENTOS = c.DOCUMENTOS.Select(d => new DocumentoDto
+                {
+                    Id = d.ID,
+                    Titulo = d.TITULO,
+                    Descripcion = d.DESCRIPCION,
+                    Categoria = d.CATEGORIA_ID,
+                    Estado = d.ESTADO,
+                    CreadoIA = d.CREADO_IA ?? false,
+                    CreateDate = d.CREATE_DATE,
+                    VersionActual = d.VERSION_ACTUAL ?? 0,
+                    RutaArchivo = d.RUTA_ARCHIVO
+                }).ToList()
+            });
+
+            return Ok(dto);
+        }
     }
 
     public class CategoriaRequest
     {
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        public string? Nombre { get; set; }
+        public string? Descripcion { get; set; }
     }
 }

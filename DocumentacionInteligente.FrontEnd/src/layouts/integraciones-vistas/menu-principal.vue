@@ -33,7 +33,6 @@
     </q-drawer>
 
     <q-page-container>
-      <BreadCrumbs />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -42,7 +41,6 @@
 <script setup>
 import { ref } from 'vue'
 import GroupedLinks from 'src/components/componentes-generales/control-de-links-agrupados.vue'
-import BreadCrumbs from 'src/components/componentes-generales/componente-breadcrumbs.vue'
 const linksList = [
   {
     title: 'Crear con IA',
