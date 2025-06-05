@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DocumentacionInteligente.BackEnd.Models
 {
@@ -17,6 +18,7 @@ namespace DocumentacionInteligente.BackEnd.Models
         public DateTime CREATE_DATE { get; set; }
 
         // Relación de navegación: una categoría tiene muchos documentos
+        [JsonIgnore]
         public virtual ICollection<DOCUMENTOS> DOCUMENTOS { get; set; } = new List<DOCUMENTOS>();
     }
 }

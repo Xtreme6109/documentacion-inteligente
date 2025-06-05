@@ -116,6 +116,7 @@ async function guardarRol() {
   try {
     if (rol.value.id) {
       await api.put(`/roles/${rol.value.id}`, {
+        id: rol.value.id,
         nombre: rol.value.nombre,
         descripcion: rol.value.descripcion,
         estado: rol.value.estado

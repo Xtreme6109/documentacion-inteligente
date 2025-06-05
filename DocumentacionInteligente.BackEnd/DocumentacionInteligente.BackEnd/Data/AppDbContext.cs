@@ -20,7 +20,7 @@ namespace DocumentacionInteligente.BackEnd.Data
         public DbSet<ROL> ROLES { get; set; }
 
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){  }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

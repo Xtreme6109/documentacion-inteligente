@@ -1,5 +1,6 @@
 ﻿using DocumentacionInteligente.BackEnd.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class DOCUMENTOS
 {
@@ -14,7 +15,10 @@ public class DOCUMENTOS
 
     public int USUARIO_ID { get; set; }
 
-    public int? CATEGORIA_ID { get; set; }
+    [Column("CATEGORIA_ID")]
+    public int CATEGORIA_ID { get; set; }
+
+    [ForeignKey(nameof(CATEGORIA_ID))]
     public virtual CATEGORIAS? CATEGORIA { get; set; }
 
     public DateTime CREATE_DATE { get; set; }
@@ -24,5 +28,7 @@ public class DOCUMENTOS
     public string ESTADO { get; set; } = string.Empty;
 
     public int? VERSION_ACTUAL { get; set; }
+
+    [ForeignKey(nameof(VERSION_ACTUAL))]
     public virtual VERSIONES? VERSION { get; set; }
 }

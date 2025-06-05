@@ -30,9 +30,6 @@ namespace DocumentacionInteligente.BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("CATEGORIAID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CATEGORIA_ID")
                         .HasColumnType("int");
 
@@ -61,15 +58,13 @@ namespace DocumentacionInteligente.BackEnd.Migrations
                     b.Property<int>("USUARIO_ID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VERSIONID")
-                        .HasColumnType("int");
 
                     b.Property<int?>("VERSION_ACTUAL")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CATEGORIAID");
+                    b.HasIndex("CATEGORIA_ID");
 
                     b.HasIndex("VERSIONID");
 
@@ -239,19 +234,20 @@ namespace DocumentacionInteligente.BackEnd.Migrations
                 });
 
             modelBuilder.Entity("DOCUMENTOS", b =>
-                {
-                    b.HasOne("DocumentacionInteligente.BackEnd.Models.CATEGORIAS", "CATEGORIA")
-                        .WithMany("DOCUMENTOS")
-                        .HasForeignKey("CATEGORIAID");
+               {
+                   b.HasOne("DocumentacionInteligente.BackEnd.Models.CATEGORIAS", "CATEGORIA")
+                       .WithMany("DOCUMENTOS")
+                       .HasForeignKey("CATEGORIA_ID") // <- corregido aquí
+                       .HasConstraintName("FK_DOCUMENTOS_CATEGORIAS");
 
-                    b.HasOne("VERSIONES", "VERSION")
-                        .WithMany()
-                        .HasForeignKey("VERSIONID");
+                   b.HasOne("VERSIONES", "VERSION")
+                       .WithMany()
+                       .HasForeignKey("VERSIONID");
 
-                    b.Navigation("CATEGORIA");
+                   b.Navigation("CATEGORIA");
 
-                    b.Navigation("VERSION");
-                });
+                   b.Navigation("VERSION");
+               });
 
             modelBuilder.Entity("DocumentacionInteligente.BackEnd.Models.CATEGORIAS", b =>
                 {

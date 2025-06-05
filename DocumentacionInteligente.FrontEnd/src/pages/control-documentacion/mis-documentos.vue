@@ -21,7 +21,7 @@
       <!-- Tabla -->
       <q-card-section>
         <q-table
-          :rows="documentos"
+          :rows="documentosFiltrados"
           :columns="columnas"
           row-key="ID"
           flat
@@ -66,22 +66,143 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+
+    <q-dialog v-model="modalVisible" persistent>
+      <q-card style="min-width: 60%; max-width: 90%; min-height: 80%;">
+        <q-card-section class="q-pa-md row q-col-gutter-md q-gutter-y-md flex-wrap">
+          <div class="col-12 row items-center justify-between q-mb-sm">
+            <div class="text-h5 text-weight-bold">
+              {{ documentoSeleccionado?.titulo }}
+            </div>
+            <q-btn
+              flat
+              dense
+              round
+              icon="close"
+              color="primary"
+              @click="modalVisible = false"
+              aria-label="Cerrar"
+              class="q-ml-auto"
+            />
+          </div>
+
+          <q-separator spaced class="col-12" />
+
+          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+            <q-badge color="primary" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
+              Descripción
+            </q-badge>
+            <span class="text-body1">{{ documentoSeleccionado?.descripcion || '-' }}</span>
+          </div>
+
+          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+            <q-badge color="secondary" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
+              Categoría
+            </q-badge>
+            <span class="text-body1">{{ obtenerNombreCategoria(documentoSeleccionado?.categoria_id) || '-' }}</span>
+          </div>
+
+          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+            <q-badge color="accent" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
+              Estado
+            </q-badge>
+            <span class="text-body1">{{ documentoSeleccionado?.estado || '-' }}</span>
+          </div>
+
+          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+            <q-badge color="teal" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
+              Creado por IA
+            </q-badge>
+            <span class="text-body1">{{ documentoSeleccionado?.creado_ia ? 'Sí' : 'No' }}</span>
+          </div>
+
+          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+            <q-badge color="grey-8" text-color="white" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
+              Fecha creación
+            </q-badge>
+            <span class="text-body1">
+              {{ documentoSeleccionado?.creatE_DATE ? new Date(documentoSeleccionado.creatE_DATE).toLocaleString() : '-' }}
+            </span>
+          </div>
+
+          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+            <q-badge color="deep-orange" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
+              Versión
+            </q-badge>
+            <span class="text-body1">{{ documentoSeleccionado?.versioN_ACTUAL || '-' }}</span>
+          </div>
+        </q-card-section>
+
+
+
+        <q-card-section>
+          <iframe
+            v-if="documentoSeleccionado?.rutA_ARCHIVO"
+            :src="obtenerURLVisualizacion(documentoSeleccionado.rutA_ARCHIVO)"
+            width="100%"
+            height="600px"
+            frameborder="0"
+          />
+
+          <div v-else class="text-grey">No hay documento disponible.</div>
+        </q-card-section>
+
+
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed,onMounted } from 'vue'
 import { useQuasar } from 'quasar'
-// import axios from 'axios'
+import axios from 'axios'
 
 const $q = useQuasar()
+const modalVisible = ref(false)
+const documentoSeleccionado = ref(null)
 
-// Mock de filtros
+// Axios con configuración de baseURL y token
+const api = axios.create({
+  baseURL: 'http://localhost:5168/api'
+})
+
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => Promise.reject(error)
+)
+
+// Filtros
 const filtros = ref({
   titulo: '',
   categoria: null,
   estado: null,
   creadoIA: false
+})
+
+const documentosFiltrados = computed(() => {
+  return documentos.value.filter(doc => {
+    if (filtros.value.titulo && !doc.titulo.toLowerCase().includes(filtros.value.titulo.toLowerCase())) {
+      return false
+    }
+    if (filtros.value.categoria && doc.categoria !== filtros.value.categoria) {
+      return false
+    }
+    if (filtros.value.estado && doc.estado !== filtros.value.estado) {
+      return false
+    }
+    if (filtros.value.creadoIA && !doc.creadoIA) {
+      return false
+    }
+    return true
+  })
 })
 
 const categorias = [
@@ -93,48 +214,42 @@ const categorias = [
 const estados = ['Borrador', 'Aprobado', 'Rechazado']
 
 const columnas = [
-  { name: 'TITULO', label: 'Título', field: 'TITULO', sortable: true },
-  { name: 'DESCRIPCION', label: 'Descripción', field: 'DESCRIPCION' },
-  { name: 'CATEGORIA', label: 'Categoría', field: 'CATEGORIA' },
-  { name: 'CREATE_DATE', label: 'Creado el', field: 'CREATE_DATE', format: val => new Date(val).toLocaleDateString() },
-  { name: 'ESTADO', label: 'Estado', field: 'ESTADO' },
-  { name: 'VERSION_ACTUAL', label: 'Versión', field: 'VERSION_ACTUAL' },
-  { name: 'CREADO_IA', label: 'IA', field: 'CREADO_IA' },
-  { name: 'acciones', label: 'Acciones', field: 'ID' }
+  { name: 'titulo', label: 'Título', field: 'titulo', sortable: true },
+  { name: 'descripcion', label: 'Descripción', field: 'descripcion' },
+  { name: 'categoriaLabel', label: 'Categoría', field: 'categoriaLabel' },
+  { name: 'createDate', label: 'Creado el', field: 'createDate', format: val => new Date(val).toLocaleDateString() },
+  { name: 'estado', label: 'Estado', field: 'estado' },
+  { name: 'versionActual', label: 'Versión', field: 'versionActual' },
+  { name: 'creadoIA', label: 'IA', field: 'creadoIA', format: val => val ? 'Sí' : 'No' },
+  { name: 'acciones', label: 'Acciones', field: 'id' }
 ]
 
-// Documentos de prueba
+
 const documentos = ref([])
 const modalAbierto = ref(false)
 const doc = ref({})
 
-function cargarMock() {
-  documentos.value = [
-    {
-      ID: 1,
-      TITULO: 'Contrato laboral',
-      DESCRIPCION: 'Documento de contrato estándar.',
-      CATEGORIA: 1,
-      CREATE_DATE: '2025-05-10',
-      ESTADO: 'Aprobado',
-      VERSION_ACTUAL: 3,
-      CREADO_IA: true
-    },
-    {
-      ID: 2,
-      TITULO: 'Manual técnico',
-      DESCRIPCION: 'Instrucciones para el sistema.',
-      CATEGORIA: 2,
-      CREATE_DATE: '2025-05-11',
-      ESTADO: 'Borrador',
-      VERSION_ACTUAL: 1,
-      CREADO_IA: false
-    }
-  ]
+async function fetchDocumentos() {
+  try {
+    const res = await api.get('/Documentos/AllDocuments')
+    res.data.forEach(d => {
+      console.log('Valor de d.categoria:', d.categoria)
+    })
+    documentos.value = res.data.map(d => ({
+      ...d,
+      CATEGORIA_LABEL: obtenerNombreCategoria(d.categoria)
+    }))
+  } catch (err) {
+    $q.notify({ type: 'negative', message: 'Error al cargar documentos: ' + err.message })
+  }
+}
+
+function obtenerNombreCategoria(categoriaId) {
+  const cat = categorias.find(c => c.value === categoriaId)
+  return cat?.label || 'Sin categoría'
 }
 
 function buscar() {
-  // Aquí iría la lógica para filtrar desde el backend
   $q.notify({ message: 'Filtrado (simulado)', color: 'primary' })
 }
 
@@ -151,6 +266,20 @@ function abrirModal(documento = null) {
   modalAbierto.value = true
 }
 
+function obtenerURLVisualizacion(ruta) {
+  const base = `http://localhost:5168/${ruta}`
+  const ext = ruta.split('.').pop().toLowerCase()
+  const encoded = encodeURIComponent(base)
+
+  if (ext === 'pdf') {
+    return base
+  } else if (ext === 'docx' || ext === 'doc') {
+    return `https://view.officeapps.live.com/op/embed.aspx?src=${encoded}`
+  } else {
+    return ''
+  }
+}
+
 function guardarDocumento() {
   if (!doc.value.TITULO || !doc.value.DESCRIPCION || !doc.value.CATEGORIA || !doc.value.ESTADO) {
     $q.notify({ type: 'negative', message: 'Faltan campos requeridos' })
@@ -158,32 +287,48 @@ function guardarDocumento() {
   }
 
   if (doc.value.ID) {
-    // axios.put(`/api/documentos/${doc.value.ID}`, doc.value)
-    //   .then(() => cargarMock())
+    // Simulación de actualización local
     const index = documentos.value.findIndex(d => d.ID === doc.value.ID)
-    documentos.value[index] = { ...doc.value }
+    if (index !== -1) {
+      documentos.value[index] = {
+        ...doc.value,
+        CATEGORIA_LABEL: obtenerNombreCategoria(doc.value.CATEGORIA)
+      }
+    }
     $q.notify({ message: 'Documento actualizado', color: 'positive' })
   } else {
     doc.value.ID = Date.now()
     doc.value.CREATE_DATE = new Date().toISOString()
     doc.value.VERSION_ACTUAL = 1
-    documentos.value.push({ ...doc.value })
+    documentos.value.push({
+      ...doc.value,
+      CATEGORIA_LABEL: obtenerNombreCategoria(doc.value.CATEGORIA)
+    })
     $q.notify({ message: 'Documento creado', color: 'positive' })
   }
 
   modalAbierto.value = false
 }
 
-function verDocumento(doc) {
-  $q.dialog({
-    title: doc.TITULO,
-    message: doc.DESCRIPCION,
-    ok: 'Cerrar'
-  })
+async function verDocumento(doc) {
+  if (!doc?.id) {
+    $q.notify({ type: 'negative', message: 'ID del documento no está definido.' })
+    return
+  }
+
+  try {
+    const res = await api.get(`/Documentos/${doc.id}`)
+    documentoSeleccionado.value = res.data
+    console.log('Documento cargado:', documentoSeleccionado.value)
+    modalVisible.value = true
+  } catch (error) {
+    $q.notify({ type: 'negative', message: 'Error al cargar el documento: ' + error.message })
+  }
 }
 
+
+
 function descargarArchivo(doc) {
-  // Simulación
   $q.notify({ message: `Descargando ${doc.TITULO}`, color: 'info' })
 }
 
@@ -200,6 +345,6 @@ function eliminarDocumento(doc) {
 }
 
 onMounted(() => {
-  cargarMock()
+  fetchDocumentos()
 })
 </script>

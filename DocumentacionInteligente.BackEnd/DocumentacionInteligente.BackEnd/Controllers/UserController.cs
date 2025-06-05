@@ -38,7 +38,8 @@ namespace DocumentacionInteligente.BackEnd.Controllers
                 new Claim("Correo", user.CORREO),
                 new Claim("Rol", user.ROL),
                 new Claim("User", "true"),
-                new Claim("Admin", user.ROL == "Admin" ? "true" : "false")
+                new Claim("Admin", user.ROL == "Admin" ? "true" : "false"),
+                new Claim("UsuarioId", user.ID.ToString())  // <-- ¡Este es el que necesitas!
             };
 
             var token = GenerateJwtToken(claims);
@@ -141,14 +142,14 @@ namespace DocumentacionInteligente.BackEnd.Controllers
         [HttpDelete("delete-user/{id}")]
         public IActionResult DeleteUser(int id)
         {
-        var usuario = _context.USUARIOS.FirstOrDefault(u => u.ID == id);
-        if (usuario == null)
-            return NotFound("Usuario no encontrado.");
+            var usuario = _context.USUARIOS.FirstOrDefault(u => u.ID == id);
+            if (usuario == null)
+                return NotFound("Usuario no encontrado.");
 
-        _context.USUARIOS.Remove(usuario);
-        _context.SaveChanges();
+            _context.USUARIOS.Remove(usuario);
+            _context.SaveChanges();
 
-        return Ok("Usuario eliminado correctamente.");
+            return Ok("Usuario eliminado correctamente.");
         }
 
         [Authorize] // Requiere token JWT válido
@@ -183,7 +184,8 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             var usuario = _context.USUARIOS.FirstOrDefault(u => u.CORREO == correoUsuario);
             if (usuario == null) return NotFound("Usuario no encontrado");
 
-            return Ok(new {
+            return Ok(new
+            {
                 nombre = usuario.NOMBRE,
                 correo = usuario.CORREO
             });
@@ -218,7 +220,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
         public string Nombre { get; set; }
         public string Correo { get; set; }
         public string Password { get; set; }
-        public string Rol { get; set; } 
+        public string Rol { get; set; }
     }
 
     public class CambiarContrasenaRequest

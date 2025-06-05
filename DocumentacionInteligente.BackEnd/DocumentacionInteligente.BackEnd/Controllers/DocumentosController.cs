@@ -16,18 +16,60 @@ public class DocumentosController : ControllerBase
     }
 
     // GET: api/Documentos
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetDocumentos()
     {
+        try
+        {
+            var documentos = await _context.DOCUMENTOS
+                .Include(d => d.CATEGORIA)
+                .Include(d => d.VERSION)
+                .ToListAsync();
+
+            return Ok(documentos);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error interno: {ex.Message}");
+        }
+    }
+
+    [HttpGet("AllDocuments")]
+    public async Task<ActionResult<List<DocumentoDto>>> GetAllDocuments()
+    {
         var documentos = await _context.DOCUMENTOS
-            .Include(d => d.CATEGORIA)
-            .Include(d => d.VERSION)
+            .Select(d => new DocumentoDto
+            {
+                Id = d.ID,
+                Titulo = d.TITULO,
+                Descripcion = d.DESCRIPCION,
+                Categoria = d.CATEGORIA_ID,
+                Estado = d.ESTADO,
+                CreadoIA = d.CREADO_IA ?? false,
+                CreateDate = d.CREATE_DATE,
+                VersionActual = d.VERSION_ACTUAL ?? 1,
+                RutaArchivo = d.RUTA_ARCHIVO
+            })
+
             .ToListAsync();
 
         return Ok(documentos);
     }
 
+    [HttpGet("titulos")]
+    public async Task<IActionResult> GetTitulosUnicos()
+    {
+        var titulos = await _context.DOCUMENTOS
+            .Select(d => d.TITULO)
+            .Distinct()
+            .ToListAsync();
+
+        return Ok(titulos);
+    }
+
     // GET: api/Documentos/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetDocumento(int id)
     {
@@ -43,6 +85,27 @@ public class DocumentosController : ControllerBase
 
         return Ok(documento);
     }
+
+
+
+    // GET: api/Documentos/version-mayor?titulo=xxx
+    [HttpGet("version-mayor")]
+    public async Task<IActionResult> GetDocumentoVersionMayor([FromQuery] string titulo)
+    {
+        if (string.IsNullOrEmpty(titulo))
+            return BadRequest("El título es requerido.");
+
+        var documento = await _context.DOCUMENTOS
+            .Where(d => d.TITULO == titulo && d.VERSION_ACTUAL != null)
+            .OrderByDescending(d => d.VERSION_ACTUAL)
+            .FirstOrDefaultAsync();
+
+        if (documento == null)
+            return NotFound();
+
+        return Ok(new { VERSION = documento.VERSION_ACTUAL });
+    }
+
 
     // POST: api/Documentos
     [HttpPost]
@@ -94,10 +157,17 @@ public class DocumentosController : ControllerBase
         }
 
         return NoContent();
+
+
     }
+
 
     private bool DocumentoExiste(int id)
     {
         return _context.DOCUMENTOS.Any(e => e.ID == id);
     }
+
+
+
+
 }
