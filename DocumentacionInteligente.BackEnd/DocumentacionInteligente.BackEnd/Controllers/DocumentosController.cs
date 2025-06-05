@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DocumentacionInteligente.BackEnd.Data;
+using System.IO;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -157,8 +158,47 @@ public class DocumentosController : ControllerBase
         }
 
         return NoContent();
+    }
 
 
+
+    [Authorize]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> EliminarDocumento(int id)
+    {
+        var documento = await _context.DOCUMENTOS.FindAsync(id);
+        if (documento == null)
+        {
+            return NotFound();
+        }
+
+        // Ruta física completa del archivo
+        var rutaArchivo = Path.Combine(Directory.GetCurrentDirectory(), documento.RUTA_ARCHIVO);
+
+        if (System.IO.File.Exists(rutaArchivo))
+        {
+            try
+            {
+                System.IO.File.Delete(rutaArchivo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al eliminar el archivo físico: {ex.Message}");
+            }
+        }
+
+        _context.DOCUMENTOS.Remove(documento);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error al eliminar el documento: {ex.Message}");
+        }
+
+        return NoContent();
     }
 
 

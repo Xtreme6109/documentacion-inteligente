@@ -18,9 +18,8 @@ namespace DocumentacionInteligente.BackEnd.Data
         public DbSet<PALABRAS_CLAVE> PALABRAS_CLAVE { get; set; }
         public DbSet<LOGS_ACCESO> LOGS_ACCESO { get; set; }
         public DbSet<ROL> ROLES { get; set; }
-
-
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public DbSet<HISTORIALDOCUMENTOSIA> HISTORIALDOCUMENTOSIA { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +31,8 @@ namespace DocumentacionInteligente.BackEnd.Data
             modelBuilder.Entity<PALABRAS_CLAVE>().ToTable("PALABRAS_CLAVE");
             modelBuilder.Entity<LOGS_ACCESO>().ToTable("LOGS_ACCESO");
             modelBuilder.Entity<ROL>().ToTable("ROLES");
+            modelBuilder.Entity<HISTORIALDOCUMENTOSIA>().ToTable("HISTORIAL_DOCUMENTOS_IA");
+
             base.OnModelCreating(modelBuilder);
         }
     }
