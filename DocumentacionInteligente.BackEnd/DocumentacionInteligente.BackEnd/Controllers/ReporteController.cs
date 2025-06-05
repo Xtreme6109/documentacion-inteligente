@@ -16,16 +16,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             _reportService = new ReporteServices();
         }
 
-        //Reporte controller documento 1
-        [HttpPost("reporte-documento")]
-        public IActionResult DescargarReporteDocumento([FromBody] DocumentoDTO documento)
-        {
-            var reportService = new ReporteServices();
-            var pdfBytes = reportService.GenerarReporteDocumento(documento);
-
-            return File(pdfBytes, "application/pdf", "Documento.pdf");
-        }
-
+        
         [HttpPost("reporte-documento2")]
         public IActionResult DescargarReporteDocumento2([FromBody] DocumentoDTO2 documento2)
         {

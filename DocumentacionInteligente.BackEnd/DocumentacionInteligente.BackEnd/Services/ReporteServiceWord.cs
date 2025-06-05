@@ -12,23 +12,68 @@
         {
             using var ms = new MemoryStream();
 
-            // Crea el documento Word
             using (var wordDocument = WordprocessingDocument.Create(ms, DocumentFormat.OpenXml.WordprocessingDocumentType.Document, true))
             {
                 var mainPart = wordDocument.AddMainDocumentPart();
                 mainPart.Document = new Document();
                 var body = new Body();
 
-                // Encabezado principal
-                body.Append(CreateHeading("Documento Institucional"));
+                // Título principal centrado
+                var titulo = CreateParagraph("Documentación inteligente", true, true);
+                body.Append(titulo);
 
-                body.Append(CreateParagraph($"Título del Documento: {doc.TítuloDelDocumento ?? "N/A"}"));
-                body.Append(CreateParagraph($"Fecha de Edición: {doc.FechaDeEdición?.ToString("dd/MM/yyyy") ?? "N/A"}"));
-                body.Append(CreateParagraph($"Versión: {doc.Version ?? "N/A"}"));
-                body.Append(CreateParagraph($"Código: {doc.CódigoDelDocumento ?? "N/A"}"));
-                body.Append(CreateParagraph($"Elaborado por: {doc.ElaboradoPor ?? "N/A"}"));
-                body.Append(CreateParagraph($"Revisado por: {doc.RevisadoPor ?? "N/A"}"));
+                // Espaciado después del título
+                body.Append(new Paragraph(new Run(new Text(""))));
 
+                // Tabla de encabezado con 2 columnas
+                var headerTable = new Table();
+
+                //Lado de la tabla
+                new TableCellVerticalAlignment { Val = TableVerticalAlignmentValues.Center };
+                // Bordes de la tabla
+                TableProperties tableProperties = new TableProperties(
+                    new TableWidth() { Width = "100%", Type = TableWidthUnitValues.Pct },
+                    new TableBorders(
+                        new TopBorder { Val = BorderValues.Single, Size = 4 },
+                        new BottomBorder { Val = BorderValues.Single, Size = 4 },
+                        new LeftBorder { Val = BorderValues.Single, Size = 4 },
+                        new RightBorder { Val = BorderValues.Single, Size = 4 },
+                        new InsideHorizontalBorder { Val = BorderValues.Single, Size = 4 },
+                        new InsideVerticalBorder { Val = BorderValues.Single, Size = 4 }
+    )
+);
+                headerTable.AppendChild(tableProperties);
+
+                void AddRow(string label, string value)
+                {
+                    var tr = new TableRow();
+
+                    var labelCell = new TableCell(new Paragraph(new Run(new Text(label))))
+                    {
+                        TableCellProperties = new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Pct })
+                    };
+
+                    var valueCell = new TableCell(new Paragraph(new Run(new Text(value ?? "N/A"))))
+                    {
+                        TableCellProperties = new TableCellProperties(new TableCellWidth { Type = TableWidthUnitValues.Pct })
+                    };
+
+                    tr.Append(labelCell, valueCell);
+                    headerTable.Append(tr);
+                }
+
+                AddRow("Fecha de Edición:", doc.FechaDeEdición?.ToString("dd/MM/yyyy") ?? "N/A");
+                AddRow("Versión:", doc.Version ?? "N/A");
+                AddRow("Código:", doc.CódigoDelDocumento ?? "N/A");
+                AddRow("Elaborado por:", doc.ElaboradoPor ?? "N/A");
+                AddRow("Revisado por:", doc.RevisadoPor ?? "N/A");
+
+                body.Append(headerTable);
+
+                // Espaciado después de la tabla
+                body.Append(new Paragraph(new Run(new Text(""))));
+
+                // Secciones del documento
                 body.Append(CreateHeading("I. Objetivo"));
                 body.Append(CreateParagraph(doc.IObjetivo ?? "N/A"));
 
@@ -71,26 +116,34 @@
             return ms.ToArray();
         }
 
-        private Paragraph CreateParagraph(string text)
+        // Párrafo genérico
+        private Paragraph CreateParagraph(string text, bool bold = false, bool center = false)
         {
-            return new Paragraph(new Run(new Text(text)));
+            var run = new Run(new Text(text));
+
+            if (bold)
+                run.RunProperties = new RunProperties(new Bold());
+
+            var para = new Paragraph(run);
+
+            if (center)
+                para.ParagraphProperties = new ParagraphProperties(new Justification { Val = JustificationValues.Center });
+
+            return para;
         }
 
+        // Encabezado con estilo de título y negrita
         private Paragraph CreateHeading(string text)
         {
-            return new Paragraph(
-                new Run(
-                    new Text(text)
-                )
-            )
+            var run = new Run(new Text(text))
             {
-                ParagraphProperties = new ParagraphProperties(
-                    new ParagraphStyleId() { Val = "Heading1" }
-                )
+                RunProperties = new RunProperties(new Bold())
             };
+
+            return new Paragraph(
+                new ParagraphProperties(new ParagraphStyleId() { Val = "Heading1" }),
+                run
+            );
         }
     };
 }
-
-        
-    
