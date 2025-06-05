@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="itext7" Version="9.2.0" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.2.0" />
+    <PackageReference Include="itext7.font-asian" Version="9.2.0" />
+    <PackageReference Include="itext7.pdfcalligraph" Version="5.0.2" />
+    <PackageReference Include="itext7.pdfhtml" Version="6.2.0" />
+    <PackageReference Include="itext7.pdfoptimizer" Version="4.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
