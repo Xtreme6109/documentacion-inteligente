@@ -35,5 +35,13 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             return File(pdfBytes, "application/pdf", "Documento.pdf");
         }
 
+        [HttpPost("reporte-documento-word")]
+        public IActionResult DescargarDocumentoWord([FromBody] DocumentoDTO documento)
+        {
+            var reportService = new ReporteServiceWord();
+            var wordBytes = reportService.GenerarDocumentoWord(documento);
+            return File(wordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Documento.docx");
+        }
+
     }
 }
