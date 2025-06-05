@@ -16,7 +16,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             _reportService = new ReporteServices();
         }
 
-        
+
         [HttpPost("reporte-documento2")]
         public IActionResult DescargarReporteDocumento2([FromBody] DocumentoDTO2 documento2)
         {
@@ -27,12 +27,11 @@ namespace DocumentacionInteligente.BackEnd.Controllers
         }
 
         [HttpPost("reporte-documento-word")]
-        public IActionResult DescargarDocumentoWord([FromBody] DocumentoDTO documento)
-        {
-            var reportService = new ReporteServiceWord();
-            var wordBytes = reportService.GenerarDocumentoWord(documento);
-            return File(wordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Documento.docx");
-        }
-
+          public IActionResult DescargarDocumentoWord([FromBody] DocumentoDTO documento)
+          {
+              var reportService = new ReporteServiceWord();
+              var wordBytes = reportService.GenerarDocumentoWord(documento);
+              return File(wordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Documento.docx");
+          }
     }
 }

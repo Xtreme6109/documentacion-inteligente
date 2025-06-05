@@ -1,8 +1,8 @@
 [
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AdminController",
-    "Method": "GetUsers",
-    "RelativePath": "api/admin/users",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.CategoriasController",
+    "Method": "GetCategorias",
+    "RelativePath": "api/Categorias",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -10,9 +10,25 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AdminController",
-    "Method": "GetUserById",
-    "RelativePath": "api/admin/users/{id}",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.CategoriasController",
+    "Method": "CreateCategoria",
+    "RelativePath": "api/Categorias",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.CategoriaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.CategoriasController",
+    "Method": "GetCategoria",
+    "RelativePath": "api/Categorias/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -26,9 +42,30 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AdminController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/admin/users/{id}",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.CategoriasController",
+    "Method": "UpdateCategoria",
+    "RelativePath": "api/Categorias/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.CategoriaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.CategoriasController",
+    "Method": "DeleteCategoria",
+    "RelativePath": "api/Categorias/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -42,83 +79,24 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.AdminController",
-    "Method": "UpdateUserRole",
-    "RelativePath": "api/admin/users/{id}/role",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "request",
-        "Type": "DocumentacionInteligente.BackEnd.Controllers.UpdateRoleRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
-    "Method": "CreateFirstAdmin",
-    "RelativePath": "api/Auth/create-first-admin",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "DocumentacionInteligente.BackEnd.Controllers.RegisterRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
-    "Method": "Login",
-    "RelativePath": "api/Auth/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "DocumentacionInteligente.BackEnd.Controllers.LoginRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
-    "Method": "Register",
-    "RelativePath": "api/Auth/register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "DocumentacionInteligente.BackEnd.Controllers.RegisterRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
-    "Method": "TestDB",
-    "RelativePath": "api/Auth/testdb",
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.CategoriasController",
+    "Method": "GetCategoriasConDocumentos",
+    "RelativePath": "api/Categorias/con-documentos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CategoriaDTO, DocumentacionInteligente.BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DocumentacionController",
@@ -194,6 +172,325 @@
       {
         "Name": "documento",
         "Type": "DOCUMENTOS",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentosController",
+    "Method": "GetAllDocuments",
+    "RelativePath": "api/Documentos/AllDocuments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[DocumentoDto, DocumentacionInteligente.BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DocumentosController",
+    "Method": "GetTitulosUnicos",
+    "RelativePath": "api/Documentos/titulos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentosController",
+    "Method": "GetDocumentoVersionMayor",
+    "RelativePath": "api/Documentos/version-mayor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "titulo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentosSubidaController",
+    "Method": "SubirDocumento",
+    "RelativePath": "api/DocumentosSubida/subir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Titulo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Descripcion",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CategoriaId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Estado",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CreadoIA",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "Archivo",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "DescargarDocumentoWord",
+    "RelativePath": "api/Reporte/reporte-documento-word",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "documento",
+        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "DescargarReporteDocumento2",
+    "RelativePath": "api/Reporte/reporte-documento2",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "documento2",
+        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO2",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.RolesController",
+    "Method": "GetRoles",
+    "RelativePath": "api/Roles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.RolesController",
+    "Method": "CrearRol",
+    "RelativePath": "api/Roles",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nuevoRol",
+        "Type": "DocumentacionInteligente.BackEnd.Models.ROL",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.RolesController",
+    "Method": "GetRol",
+    "RelativePath": "api/Roles/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.RolesController",
+    "Method": "ActualizarRol",
+    "RelativePath": "api/Roles/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "rolActualizado",
+        "Type": "DocumentacionInteligente.BackEnd.Models.ROL",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.RolesController",
+    "Method": "EliminarRol",
+    "RelativePath": "api/Roles/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "CambiarContrasena",
+    "RelativePath": "api/User/cambiar-contrasena",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.CambiarContrasenaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "CreateFirstAdmin",
+    "RelativePath": "api/User/create-first-admin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "DeleteUser",
+    "RelativePath": "api/User/delete-user/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "TestDB",
+    "RelativePath": "api/User/load-users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "Login",
+    "RelativePath": "api/User/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "GetPerfil",
+    "RelativePath": "api/User/perfil",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "Register",
+    "RelativePath": "api/User/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "UpdateUser",
+    "RelativePath": "api/User/update-user/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "DocumentacionInteligente.BackEnd.Controllers.RegisterRequest",
         "IsRequired": true
       }
     ],
