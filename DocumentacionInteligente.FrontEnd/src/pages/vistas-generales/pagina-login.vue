@@ -8,14 +8,14 @@ const password = ref('')
 const router = useRouter()
 const error = ref('')
 
-const baseURL = 'http://localhost:5168/api/User/login'
+const baseURL = 'https://localhost:5168/api/User/login'
 
 const login = async () => {
   error.value = ''
   try {
     const response = await axios.post(baseURL, {
       correo: correo.value,
-      password: password.value
+      password: password.value,
     })
 
     const token = response.data.token
@@ -42,10 +42,22 @@ const login = async () => {
     <h3>Iniciar Sesión</h3>
 
     <label for="usuario">Correo Electrónico</label>
-    <input class="login-input" type="text" placeholder="Correo o Usuario" id="usuario" v-model="correo" />
+    <input
+      class="login-input"
+      type="text"
+      placeholder="Correo o Usuario"
+      id="usuario"
+      v-model="correo"
+    />
 
     <label for="contrasegna">Contraseña</label>
-    <input class="login-input" type="password" placeholder="Contraseña" id="contrasegna" v-model="password" />
+    <input
+      class="login-input"
+      type="password"
+      placeholder="Contraseña"
+      id="contrasegna"
+      v-model="password"
+    />
 
     <button type="submit" class="login-button">Ingresar</button>
 

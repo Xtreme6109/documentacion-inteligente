@@ -116,6 +116,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:9000")
               .AllowAnyHeader()
               .AllowAnyMethod();
+              //.AllowCredentials();
     });
 });
 

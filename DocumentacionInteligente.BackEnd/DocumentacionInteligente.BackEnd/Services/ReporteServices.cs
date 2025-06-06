@@ -1,5 +1,6 @@
-﻿namespace DocumentacionInteligente.BackEnd.Services { 
-using System;
+﻿namespace DocumentacionInteligente.BackEnd.Services
+{
+    using System;
     using iText.IO.Font.Constants;
     using iText.Kernel.Colors;
     using iText.Kernel.Font;
@@ -11,9 +12,11 @@ using System;
     using iText.Layout.Borders;
     using DocumentacionInteligente.BackEnd.Models;
     using System.Text.Json;
+    using Microsoft.Data.SqlClient;
+    using Dapper;
 
     public class ReporteServices
-{
+    {
         public byte[] GenerarReporteDocumento2(DocumentoDTO2 doc)
         {
             using var ms = new MemoryStream();
@@ -131,5 +134,40 @@ using System;
             return ms.ToArray();
         }
 
+        public async Task GuardarDocumentoAsync(DocumentoDTO2 doc)
+        {
+            using var connection = new SqlConnection("DefaultConnection");
+            var sql = @"
+            INSERT INTO Documentos (
+            Titulo, FechaEdicion, Version, CodigoDocumento,
+            ElaboradoPor, RevisadoPor, IObjetivo, IIAlcance,
+            IIIResponsabilidades, IVDesarrollo, VVigencia,
+            VIReferencias, VIIHistorial, VIIIFirmas
+            )
+            VALUES (
+            @Titulo, @FechaEdicion, @Version, @CodigoDocumento,
+            @ElaboradoPor, @RevisadoPor, @IObjetivo, @IIAlcance,
+            @IIIResponsabilidades, @IVDesarrollo, @VVigencia,
+            @VIReferencias, @VIIHistorial, @VIIIFirmas
+            )";
+
+            object value = await connection.ExecuteAsync(sql, new
+            {
+                Titulo = doc.TítuloDelDocumento,
+                FechaEdicion = doc.FechaDeEdición,
+                Version = doc.Version,
+                CodigoDocumento = doc.CodigoDelDocumento,
+                ElaboradoPor = doc.ElaboradoPor,
+                RevisadoPor = doc.RevisadoPor,
+                IObjetivo = doc.IObjetivo,
+                IIAlcance = doc.IIAlcance,
+                IIIResponsabilidades = JsonSerializer.Serialize(doc.IIIResponsabilidades),
+                IVDesarrollo = JsonSerializer.Serialize(doc.IVDesarrollo),
+                VVigencia = doc.VVigencia,
+                VIReferencias = doc.VIReferenciasBibliográficas,
+                VIIHistorial = JsonSerializer.Serialize(doc.VIIHistorialDeCambioDeDocumentos),
+                VIIIFirmas = doc.VIIIFirmas
+            });
+        }
     }
 }
