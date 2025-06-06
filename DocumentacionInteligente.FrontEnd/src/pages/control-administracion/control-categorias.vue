@@ -49,7 +49,6 @@
     </q-dialog>
   </q-page>
 </template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
@@ -57,8 +56,28 @@ import axios from 'axios'
 
 const $q = useQuasar()
 
+// Configuración de Axios con interceptor
 const api = axios.create({
-  baseURL: 'http://localhost:5168/api' // Asegúrate de usar el puerto correcto
+  baseURL: 'http://localhost:5168/api'
+})
+
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem('token')
+  console.log('Token: ' + token)
+
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      console.log('Payload:', payload)
+      config.headers.Authorization = `Bearer ${token}`
+    } catch (e) {
+      console.error('Error decodificando el token:', e)
+    }
+  }
+
+  return config
+}, error => {
+  return Promise.reject(error)
 })
 
 const categorias = ref([])
@@ -142,4 +161,3 @@ onMounted(() => {
   cargarCategorias()
 })
 </script>
-

@@ -221,7 +221,8 @@ const documentosFiltrados = computed(() => {
 const categorias = [
   { label: 'Legal', value: 1 },
   { label: 'Técnico', value: 2 },
-  { label: 'Interno', value: 3 }
+  { label: 'Interno', value: 4 },
+  { label: 'Financiero', value: 5 },
 ]
 
 const estados = ['Borrador', 'Aprobado', 'Rechazado']
