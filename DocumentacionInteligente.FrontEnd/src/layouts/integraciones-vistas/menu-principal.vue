@@ -60,12 +60,12 @@ const linksList = [
     icon: 'folder_open', // Icono clásico para documentos
     link: '/mis-documentos'
   },
-  {
+  /*{
     title: 'Versiones',
     caption: 'Documentos',
     icon: 'change_history', // Representa cambios o versiones
     link: '/versiones-documento'
-  },
+  },*/
   {
     title: 'Redactar contenido',
     caption: 'Asistente GPT',
@@ -95,6 +95,12 @@ const linksList = [
     caption: 'Reportes',
     icon: 'category', // Icono de categoría
     link: '/documentos-por-categoria'
+  },
+  {
+    title: 'Reporte de consumo de Token',
+    caption: 'Reportes',
+    icon: 'token', // Icono representativo de token
+    link: '/documentos-reporte-token'
   },
   {
     title: 'Usuarios',

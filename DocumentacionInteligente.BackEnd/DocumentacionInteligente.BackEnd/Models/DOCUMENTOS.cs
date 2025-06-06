@@ -31,4 +31,6 @@ public class DOCUMENTOS
 
     [ForeignKey(nameof(VERSION_ACTUAL))]
     public virtual VERSIONES? VERSION { get; set; }
+
+    public string? VERSION_JSON { get; set; }
 }

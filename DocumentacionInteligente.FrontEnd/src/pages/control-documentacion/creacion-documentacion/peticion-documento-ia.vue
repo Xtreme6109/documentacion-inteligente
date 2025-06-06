@@ -130,6 +130,7 @@ import { ref, computed } from 'vue'
 import DocumentHeader from './cabecera-documentacion.vue'
 import HistoryChanges from './historial-cambios.vue'
 import axios from 'axios'
+import { useQuasar } from 'quasar'
 
 const documentDescription = ref('')
 const rules = [(v) => v.length <= 4096 || 'El máximo es de 4,096 caracteres']
@@ -188,18 +189,50 @@ La estructura que tomarás es la siguente:
 `;
 const cargando = ref(false)
 
+const api = axios.create({
+  baseURL: 'http://localhost:5168/api'
+})
+
+
+const $q = useQuasar()
+
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => Promise.reject(error)
+)
+
 const getInformation = async (messageText) => {
   cargando.value = true;
   try {
-    const response = await axios.post('http://localhost:5168/api/documentacion/generar', {
-      prompt: (systemMessage + "\n\n" + messageText),
+    const response = await api.post('/documentacion/generar', {
+      prompt: systemMessage + "\n\n" + messageText
     })
+
     console.log('Respuesta de la IA:', response.data.text)
-    console.log('Respuesta de la IA:', JSON.parse(response.data.text))
-    documentData.value = JSON.parse(response.data.text)
-    cargando.value = false;
+
+    const resultadoIA = JSON.parse(response.data.text)
+    documentData.value = resultadoIA
+
+    await registrarHistorial({
+      UsuarioId: getUsuarioIdFromToken(),
+      Prompt: messageText,
+      CantidadPalabrasPrompt: messageText.split(/\s+/).length,
+      TokensEntrada: messageText.split(/\s+/).length,
+      TokensSalida: JSON.stringify(resultadoIA).length,
+      Resultado: JSON.stringify(resultadoIA)
+    })
+
   } catch (error) {
     console.error('Error al generar el documento:', error)
+    $q.notify({ type: 'negative', message: 'Error al generar el documento: ' + error.message })
+  } finally {
+    cargando.value = false
   }
 }
 
@@ -210,91 +243,227 @@ const paginatedContent = computed(() => {
   const content = []
 
   for (const [key, value] of Object.entries(data)) {
-    if ((key === "IV. Desarrollo" || key === "III. Responsabilidades") && typeof value === 'object' && !Array.isArray(value)) {
-      content.push({ title: key, content: "" })
+  if ((key === "IV. Desarrollo" || key === "III. Responsabilidades") && typeof value === 'object' && !Array.isArray(value)) {
+    content.push({ title: key, content: "" });
 
-      for (const [subkey, subvalue] of Object.entries(value)) {
-        if (typeof subvalue === 'object' && subvalue !== null && !Array.isArray(subvalue)) {
-          // Estructura anidada adicional (ej. pasos numerados)
-          content.push({
-            title: subkey,
-            content: "",
-            indent: true
-          })
+    for (const [subkey, subvalue] of Object.entries(value)) {
+      if (Array.isArray(subvalue)) {
+        content.push({ title: subkey, content: "", indent: true });
 
+        subvalue.forEach((item, i) => {
+          if (typeof item === 'object' && item !== null) {
+            content.push({
+              title: `${i + 1}`,
+              content: "",
+              indent: true,
+              deeperIndent: true
+            });
+
+            for (const [itemKey, itemValue] of Object.entries(item)) {
+              if (Array.isArray(itemValue)) {
+                // Subarray dentro del objeto (ej: Subreacciones)
+                content.push({
+                  title: itemKey,
+                  content: "",
+                  indent: true,
+                  deeperIndent: true,
+                  deepestIndent: true
+                });
+
+                itemValue.forEach((subItem, j) => {
+                  if (typeof subItem === 'object' && subItem !== null) {
+                    content.push({
+                      title: `${j + 1}`,
+                      content: "",
+                      indent: true,
+                      deeperIndent: true,
+                      deepestIndent: true
+                    });
+
+                    for (const [k, v] of Object.entries(subItem)) {
+                      content.push({
+                        title: `${k}:`,
+                        content: Array.isArray(v) ? v.join(', ') : v,
+                        indent: true,
+                        deeperIndent: true,
+                        deepestIndent: true,
+                        fourthIndent: true
+                      });
+                    }
+                  }
+                });
+
+              } else {
+                content.push({
+                  title: `${itemKey}:`,
+                  content: Array.isArray(itemValue) ? itemValue.join(', ') : itemValue,
+                  indent: true,
+                  deeperIndent: true,
+                  deepestIndent: true
+                });
+              }
+            }
+
+            content.push({
+              title: "",
+              content: "",
+              indent: true,
+              deeperIndent: true,
+              deepestIndent: true
+            });
+          }
+        });
+
+      } else if (typeof subvalue === 'object' && subvalue !== null) {
+        // Subobjetos simples o anidados
+        const isObjectOfObjects = Object.values(subvalue).every(
+          v => typeof v === 'object' && v !== null && !Array.isArray(v)
+        );
+
+        content.push({ title: subkey, content: "", indent: true });
+
+        if (isObjectOfObjects) {
+          for (const [itemTitle, itemValue] of Object.entries(subvalue)) {
+            content.push({
+              title: itemTitle,
+              content: "",
+              indent: true,
+              deeperIndent: true
+            });
+
+            for (const [innerKey, innerValue] of Object.entries(itemValue)) {
+              content.push({
+                title: `${innerKey}:`,
+                content: innerValue ?? "",
+                indent: true,
+                deeperIndent: true,
+                deepestIndent: true
+              });
+            }
+          }
+        } else {
           for (const [innerKey, innerValue] of Object.entries(subvalue)) {
             content.push({
-              title: `${innerKey}.`,
+              title: `${innerKey}:`,
               content: innerValue ?? "",
               indent: true,
               deeperIndent: true
-            })
+            });
           }
-        } else {
-          // Subestructura normal
-          content.push({
-            title: subkey,
-            content: subvalue ?? "",
-            indent: true
-          })
         }
-      }
-    } else if (typeof value === 'string') {
-      content.push({ title: key, content: value ?? "" })
-    } else if (typeof value === 'object' && value !== null) {
-      content.push({ title: key, content: value })
-    } else {
-      content.push({ title: key, content: "" })
-    }
-  }
 
+      } else {
+        // Valores simples
+        content.push({
+          title: subkey,
+          content: subvalue ?? "",
+          indent: true
+        });
+      }
+    }
+
+  } else if (typeof value === 'string') {
+    content.push({ title: key, content: value ?? "" });
+
+  } else if (typeof value === 'object' && value !== null) {
+    content.push({ title: key, content: value });
+
+  } else {
+    content.push({ title: key, content: "" });
+  }
+}
+
+
+  // Paginación
   const pages = []
   let currentPage = []
   let currentHeight = 0
   const maxHeight = pageHeight - 100;
 
   content.forEach((section) => {
-    let estimatedHeight = 0;
+    let estimatedHeight = 0
 
     if (section.title === 'VII. Historial de cambio de Documentos') {
-      const historyRows = Array.isArray(section.content) ? [...section.content] : [];
-      const rowHeight = 25;
+      const historyRows = Array.isArray(section.content) ? [...section.content] : []
+      const rowHeight = 25
       while (historyRows.length) {
-        const availableSpace = Math.floor((maxHeight - currentHeight) / rowHeight);
-        const rowsToAdd = historyRows.splice(0, availableSpace);
-        if (rowsToAdd.length === 0) break;
-        currentPage.push({ title: section.title, content: rowsToAdd });
-        currentHeight += rowsToAdd.length * rowHeight;
+        const availableSpace = Math.floor((maxHeight - currentHeight) / rowHeight)
+        const rowsToAdd = historyRows.splice(0, availableSpace)
+        if (rowsToAdd.length === 0) break
+        currentPage.push({ title: section.title, content: rowsToAdd })
+        currentHeight += rowsToAdd.length * rowHeight
         if (currentHeight >= maxHeight) {
-          pages.push(currentPage);
-          currentPage = [];
-          currentHeight = 0;
+          pages.push(currentPage)
+          currentPage = []
+          currentHeight = 0
         }
       }
     } else {
       if (typeof section.content === 'string') {
-        estimatedHeight = section.content.length * 0.6;
+        estimatedHeight = section.content.length * 0.6
       } else if (Array.isArray(section.content)) {
-        estimatedHeight = section.content.length * 25;
+        estimatedHeight = section.content.length * 25
       } else {
-        estimatedHeight = 50;
+        estimatedHeight = 50
       }
 
       if (currentHeight + estimatedHeight > maxHeight) {
-        pages.push(currentPage);
-        currentPage = [];
-        currentHeight = 0;
+        pages.push(currentPage)
+        currentPage = []
+        currentHeight = 0
       }
-      currentPage.push(section);
-      currentHeight += estimatedHeight;
+      currentPage.push(section)
+      currentHeight += estimatedHeight
     }
-  });
+  })
 
   if (currentPage.length) pages.push(currentPage)
-  if (pages.length === 0) pages.push([]);
+  if (pages.length === 0) pages.push([])
 
   return pages
 })
+
+
+
+const registrarHistorial = async (datosHistorial) => {
+  try {
+    console.log('Enviando datosHistorial:', datosHistorial)
+
+    const res = await api.post('/historialdocumentos/registrar', {
+      UsuarioId: datosHistorial.UsuarioId,
+      Prompt: datosHistorial.Prompt,
+      CantidadPalabrasPrompt: datosHistorial.CantidadPalabrasPrompt,
+      TokensEntrada: datosHistorial.TokensEntrada,
+      TokensSalida: datosHistorial.TokensSalida,
+      Resultado: datosHistorial.Resultado
+    })
+
+    console.log('Respuesta del servidor:', res.data)
+
+    if (res.data.success) {
+      $q.notify({ type: 'positive', message: 'Historial registrado con ID ' + res.data.id })
+    } else {
+      $q.notify({ type: 'warning', message: 'El servidor respondió pero no con éxito.' })
+    }
+  } catch (error) {
+    console.error('Error al registrar historial:', error)
+    if (error.response) {
+      console.error('Respuesta del servidor con error:', error.response.data)
+    }
+    $q.notify({ type: 'negative', message: 'Error al registrar historial: ' + error.message })
+  }
+}
+
+function getUsuarioIdFromToken() {
+  const token = localStorage.getItem('token')
+  if (!token) return null
+
+  const payload = JSON.parse(atob(token.split('.')[1]))
+  return parseInt(payload.UsuarioId)
+}
+
+
+
 
 </script>
 
@@ -345,5 +514,18 @@ const paginatedContent = computed(() => {
   .contenido-paginas .contenido-individual {
     flex-direction: column;
   }
+}
+
+.indent-1 {
+  margin-left: 16px;
+}
+.indent-2 {
+  margin-left: 32px;
+}
+.indent-3 {
+  margin-left: 48px;
+}
+.indent-4 {
+  margin-left: 64px;
 }
 </style>

@@ -33,7 +33,13 @@
           </template>
           <template #body-cell-acciones="props">
             <q-td>
-              <q-btn dense flat icon="visibility" @click="verDocumento(props.row)" />
+              <q-btn
+                dense
+                flat
+                icon="visibility"
+                :disable="esDocx(props.row.rutaArchivo)"
+                @click="verDocumento(props.row)"
+              />
               <q-btn dense flat icon="edit" @click="abrirModal(props.row)" />
               <q-btn dense flat icon="download" @click="descargarArchivo(props.row)" />
               <q-btn dense flat icon="delete" color="negative" @click="eliminarDocumento(props.row)" />
@@ -187,6 +193,13 @@ const filtros = ref({
   creadoIA: false
 })
 
+function esDocx(rutaArchivo) {
+  console.log(rutaArchivo)
+  if (!rutaArchivo) return false
+  const ext = rutaArchivo.split('.').pop().toLowerCase()
+  return ext === 'docx'
+}
+
 const documentosFiltrados = computed(() => {
   return documentos.value.filter(doc => {
     if (filtros.value.titulo && !doc.titulo.toLowerCase().includes(filtros.value.titulo.toLowerCase())) {
@@ -232,9 +245,6 @@ const doc = ref({})
 async function fetchDocumentos() {
   try {
     const res = await api.get('/Documentos/AllDocuments')
-    res.data.forEach(d => {
-      console.log('Valor de d.categoria:', d.categoria)
-    })
     documentos.value = res.data.map(d => ({
       ...d,
       CATEGORIA_LABEL: obtenerNombreCategoria(d.categoria)
@@ -329,20 +339,35 @@ async function verDocumento(doc) {
 
 
 function descargarArchivo(doc) {
-  $q.notify({ message: `Descargando ${doc.TITULO}`, color: 'info' })
+  if (!doc.rutaArchivo) {
+    $q.notify({ type: 'negative', message: 'No hay archivo para descargar.' })
+    return
+  }
+  const url = `http://localhost:5168/${doc.rutaArchivo}`
+
+  window.open(url, '_blank')
 }
 
-function eliminarDocumento(doc) {
+
+
+async function eliminarDocumento(doc) {
+  console.log(doc)
   $q.dialog({
     title: 'Confirmar',
-    message: `¿Eliminar "${doc.TITULO}"?`,
+    message: `¿Eliminar "${doc.titulo}"?`,
     cancel: true,
     persistent: true
-  }).onOk(() => {
-    documentos.value = documentos.value.filter(d => d.ID !== doc.ID)
-    $q.notify({ message: 'Eliminado', color: 'negative' })
+  }).onOk(async () => {
+    try {
+      await api.delete(`/Documentos/${doc.id}`)
+      documentos.value = documentos.value.filter(d => d.id !== doc.id)
+      $q.notify({ message: 'Documento eliminado', color: 'negative' })
+    } catch (error) {
+      $q.notify({ type: 'negative', message: 'Error al eliminar: ' + error.message })
+    }
   })
 }
+
 
 onMounted(() => {
   fetchDocumentos()
