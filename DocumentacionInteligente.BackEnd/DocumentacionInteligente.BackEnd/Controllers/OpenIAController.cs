@@ -64,7 +64,6 @@ public class DocumentacionController : ControllerBase
         }
     }
 
-
     public class PromptRequest
     {
         public required string Prompt { get; set; }

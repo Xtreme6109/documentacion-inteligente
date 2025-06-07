@@ -8,7 +8,7 @@ const password = ref('')
 const router = useRouter()
 const error = ref('')
 
-const baseURL = 'https://localhost:5168/api/User/login'
+const baseURL = 'http://localhost:5168/api/User/login'
 
 const login = async () => {
   error.value = ''

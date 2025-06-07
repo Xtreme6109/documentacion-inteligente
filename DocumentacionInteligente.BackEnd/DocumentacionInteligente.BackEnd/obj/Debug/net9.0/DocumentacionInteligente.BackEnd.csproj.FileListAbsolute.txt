@@ -542,3 +542,12 @@ C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\Documentaci
 C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\obj\Debug\net9.0\ref\DocumentacionInteligente.BackEnd.dll
 C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Dapper.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\SkiaSharp.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.Document.NET.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.Drawing.NET.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.PDF.NET.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.Words.NET.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\osx\native\libSkiaSharp.dylib
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\win-arm64\native\libSkiaSharp.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\win-x64\native\libSkiaSharp.dll
+C:\xampp1\documentacion-inteligente\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\win-x86\native\libSkiaSharp.dll

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Dapper;
+using DocumentFormat.OpenXml.InkML;
 
 namespace DocumentacionInteligente.BackEnd.Controllers
 {
@@ -16,10 +17,13 @@ namespace DocumentacionInteligente.BackEnd.Controllers
     {
 
         private readonly ReporteServices _reportService;
+       // private readonly AppDbContext _context;
 
         public ReporteController()
         {
+            // _context = context;
             _reportService = new ReporteServices();
+
         }
 
 
@@ -40,44 +44,40 @@ namespace DocumentacionInteligente.BackEnd.Controllers
               return File(wordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Documento.docx");
           }
 
-        [HttpPost("reportenuevo")]
-        public async Task<IActionResult> GuardarDocumentoAsync([FromBody] DocumentoDTO2 documento)
+        [HttpPost("reporteconsumotokens")]
+        public IActionResult Tokens([FromBody] List<HISTORIALDOCUMENTOSIA> historialIA)
         {
             var reportService = new ReporteServices();
-            await reportService.GuardarDocumentoAsync(documento);
+            var pdfBytes = reportService.GenerarReporteConsumoTokens(historialIA);
 
-            return Ok("Documento guardado correctamente");
+            return File(pdfBytes, "application/pdf", "TokensGenerado.pdf");
         }
 
-        [HttpPost("reportenuevoWord")]
-        public async Task<IActionResult> GuardarYDescargarDocumentoWord([FromBody] DocumentoDTO2 documento)
+        [HttpPost("reportexcategoria")]
+        public IActionResult ReportePorCategoria([FromBody] CATEGORIAS dto)
         {
-            using var memoryStream = new MemoryStream();
-            using var doc = DocX.Create(memoryStream);
+            var documentos = _context.DOCUMENTOS
+                .Where(d => d.CATEGORIA_ID == dto.ID)
+                .ToList();
 
-            doc.InsertParagraph("Documento Generado").FontSize(18).Bold().Alignment = Aligment.center;
-            doc.InsertParagraph($"Título: {documento.TítuloDelDocumento}");
-            doc.InsertParagraph($"Fecha de Edición: {documento.FechaDeEdición}");
-            doc.InsertParagraph($"Versión: {documento.Version}");
-            doc.InsertParagraph($"Código: {documento.CodigoDelDocumento}");
-            doc.InsertParagraph($"Elaborado por: {documento.ElaboradoPor}");
-            doc.InsertParagraph($"Revisado por: {documento.RevisadoPor}");
-            doc.InsertParagraph($"I. Objetivo: {documento.IObjetivo}");
-            doc.InsertParagraph($"II. Alcance: {documento.IIAlcance}");
-            doc.InsertParagraph($"III. Responsabilidades: {JsonSerializer.Serialize(documento.IIIResponsabilidades)}");
-            doc.InsertParagraph($"IV. Desarrollo: {JsonSerializer.Serialize(documento.IVDesarrollo)}");
-            doc.InsertParagraph($"V. Vigencia: {documento.VVigencia}");
-            doc.InsertParagraph($"VI. Referencias: {documento.VIReferenciasBibliográficas}");
-            doc.InsertParagraph($"VII. Historial de cambios: {JsonSerializer.Serialize(documento.VIIHistorialDeCambioDeDocumentos)}");
-            doc.InsertParagraph($"VIII. Firmas: {documento.VIIIFirmas}");
+            var pdf = _reportService.GenerarReportexCategoria(documentos, dto.NOMBRE);
 
-            doc.Save();
-
-            // Retorna el documento Word como descarga
-            return File(memoryStream.ToArray(),
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                        "DocumentoGenerado.docx");
+            return File(pdf, "application/pdf", $"Reporte_Categoria_{dto.NOMBRE}.pdf");
         }
+
+        [HttpPost("reportexusuario")]
+        public IActionResult ReportePorUsuario([FromBody] int USUARIO_ID)
+        {
+            var documentos = _reportService.GenerarReportexUsuario(USUARIO_ID);
+            /*    .Where(d => d.USUARIO_ID == USUARIO_ID)
+                .ToList();*/
+
+            var pdf = _reportService.GenerarReportexUsuario(documentos, USUARIO_ID);
+
+            return File(pdf, "application/pdf", $"Reporte_Usuario_{USUARIO_ID}.pdf");
+        }
+
+
 
 
     }

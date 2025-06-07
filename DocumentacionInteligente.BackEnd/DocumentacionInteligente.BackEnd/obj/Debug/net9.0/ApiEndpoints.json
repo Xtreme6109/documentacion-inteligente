@@ -330,15 +330,15 @@
   },
   {
     "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
-    "Method": "GuardarDocumentoAsync",
-    "RelativePath": "api/Reporte/reportenuevo",
+    "Method": "Tokens",
+    "RelativePath": "api/Reporte/reporteconsumotokens",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "documento",
-        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO2",
+        "Name": "historialIA",
+        "Type": "System.Collections.Generic.List\u00601[[HISTORIALDOCUMENTOSIA, DocumentacionInteligente.BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
