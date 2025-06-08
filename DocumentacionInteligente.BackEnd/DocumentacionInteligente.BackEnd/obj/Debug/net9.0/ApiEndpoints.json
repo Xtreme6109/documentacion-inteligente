@@ -179,6 +179,22 @@
   },
   {
     "ContainingType": "DocumentosController",
+    "Method": "EliminarDocumento",
+    "RelativePath": "api/Documentos/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentosController",
     "Method": "GetAllDocuments",
     "RelativePath": "api/Documentos/AllDocuments",
     "HttpMethod": "GET",
@@ -265,6 +281,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "HistorialDocumentosController",
+    "Method": "RegistrarHistorial",
+    "RelativePath": "api/HistorialDocumentos/registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "HistorialDocumentoCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
     "Method": "DescargarDocumentoWord",
     "RelativePath": "api/Reporte/reporte-documento-word",
@@ -291,6 +323,22 @@
       {
         "Name": "documento2",
         "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO2",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "Tokens",
+    "RelativePath": "api/Reporte/reporteconsumotokens",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "historialIA",
+        "Type": "System.Collections.Generic.List\u00601[[HISTORIALDOCUMENTOSIA, DocumentacionInteligente.BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],

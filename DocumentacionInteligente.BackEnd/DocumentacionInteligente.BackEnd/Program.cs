@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Cors;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -19,13 +21,14 @@ Console.WriteLine($"[DEBUG] SecretKey: {secretKey}");
 Console.WriteLine($"[DEBUG] Issuer: {issuer}");
 Console.WriteLine($"[DEBUG] Audience: {audience}");
 
+//Cadena conexión.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                       "Server=(localdb)\\DESKTOP-NFDMETJ\\MSSQLSERVER26;Database=DocumentacionInteligente;Trusted_Connection=True;MultipleActiveResultSets=true";
 
 // Verificamos si la clave secreta es v�lida
 if (string.IsNullOrEmpty(secretKey))
     throw new Exception("La clave secreta JWT no est� definida en appsettings.json (JwtSettings:SecretKey)");
 
-// Leer la cadena de conexi�n de appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Configurar autenticaci�n JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -115,7 +118,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:9000")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -127,14 +131,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseStaticFiles();
+/*app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), "Documentos")),
     RequestPath = "/Documentos"
 });
-app.UseHttpsRedirection();
+app.UseHttpsRedirection();*/
 
 
 app.UseCors("AllowVueApp");
