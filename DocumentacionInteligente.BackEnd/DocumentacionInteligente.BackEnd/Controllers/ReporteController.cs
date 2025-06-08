@@ -53,17 +53,23 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             return File(pdfBytes, "application/pdf", "TokensGenerado.pdf");
         }
 
-        [HttpPost("reportexcategoria")]
-        public IActionResult ReportePorCategoria([FromBody] CATEGORIAS dto)
+        [HttpGet("descargar-por-categoria")]
+        public IActionResult DescargarReportePorCategoria(string nombreCategoria)
         {
-            var documentos = _context.DOCUMENTOS
-                .Where(d => d.CATEGORIA_ID == dto.ID)
+            var categoria = _reportServices.CATEGORIAS.FirstOrDefault(c => c.NOMBRE == nombreCategoria);
+            if (categoria == null) return NotFound("Categoría no encontrada");
+
+            var documentos = _reportServices.DOCUMENTOS
+                .Include(d => d.CATEGORIA)
+                .Include(d => d.VERSION)
+                .Where(d => d.CATEGORIA_ID == categoria.ID)
                 .ToList();
 
-            var pdf = _reportService.GenerarReportexCategoria(documentos, dto.NOMBRE);
+            byte[] pdfBytes = _reportService.GenerarReportexCategoria(documentos, nombreCategoria);
 
-            return File(pdf, "application/pdf", $"Reporte_Categoria_{dto.NOMBRE}.pdf");
+            return File(pdfBytes, "application/pdf", $"ReporteCategoria_{nombreCategoria}.pdf");
         }
+
 
         [HttpPost("reportexusuario")]
         public IActionResult ReportePorUsuario([FromBody] int USUARIO_ID)

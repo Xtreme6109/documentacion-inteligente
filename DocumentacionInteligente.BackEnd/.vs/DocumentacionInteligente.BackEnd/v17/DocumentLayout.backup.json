@@ -7,10 +7,6 @@
       "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\reportecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\services\\reporteservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\services\\reporteservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -105,24 +101,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\AppDbContext.cs",
-              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\AppDbContext.cs*",
-              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\AppDbContext.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-07T22:28:30.598Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "ReporteServices.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
@@ -135,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "ReporteServiceWord.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
@@ -148,7 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "DocumentoDTO2.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO2.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO2.cs",
@@ -167,14 +150,14 @@
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
               "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAAADIAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAowEcAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T00:43:29.936Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "HISTORIALDOCUMENTOIA.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\HISTORIALDOCUMENTOIA.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\HISTORIALDOCUMENTOIA.cs",
@@ -187,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "DOCUMENTOS.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
@@ -200,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "DocumentosController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
@@ -213,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "USUARIOS.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
@@ -226,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "OpenIAController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\OpenIAController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\OpenIAController.cs",
@@ -239,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Program.cs",
@@ -252,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "LoginDto.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
@@ -265,7 +248,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
@@ -278,7 +261,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\appsettings.json",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\appsettings.json",
@@ -291,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 16,
               "Title": "LOGS_ACCESO.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
@@ -304,7 +287,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 14,
               "Title": "DocumentoDTO.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO.cs",
@@ -317,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 13,
               "Title": "WeatherForecast.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\WeatherForecast.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\WeatherForecast.cs",
@@ -330,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 15,
               "Title": "DocumentacionInteligente.BackEnd.http",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.http",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.http",
@@ -343,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 21,
               "Title": "IA_PROCESAMIENTOS.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
@@ -356,7 +339,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 17,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\appsettings.json",
               "RelativeDocumentMoniker": "..\\..\\..\\Users\\kchavez\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\appsettings.json",
@@ -367,7 +350,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 20,
               "Title": "PALABRAS_CLAVE.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
@@ -380,7 +363,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 19,
               "Title": "VERSIONES.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
@@ -393,7 +376,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 22,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
@@ -406,7 +389,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 18,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",

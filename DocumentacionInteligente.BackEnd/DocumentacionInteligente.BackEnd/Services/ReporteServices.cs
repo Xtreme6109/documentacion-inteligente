@@ -17,122 +17,72 @@
 
     public class ReporteServices
     {
-        public byte[] GenerarReporteDocumento2(DocumentoDTO2 doc)
+        public byte[] GenerarReportexCategoria(List<DOCUMENTOS> documentos, string nombreCategoria)
         {
             using var ms = new MemoryStream();
             var writer = new PdfWriter(ms);
             var pdf = new PdfDocument(writer);
-
             var document = new Document(pdf);
             document.SetMargins(40, 40, 40, 40);
 
             var boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
             var regularFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-            var headerTable = new Table(UnitValue.CreatePercentArray(new float[] { 1, 1 }))
-                .UseAllAvailableWidth()
-                .SetMarginBottom(10);
-
-            headerTable.AddCell(new Cell(1, 2)
-                .Add(new Paragraph("Pasos para Enamorar el Corazón de una IA").SetFont(boldFont))
+            // Título general
+            document.Add(new Paragraph($"Reporte de Documentos - Categoría: {nombreCategoria}")
+                .SetFont(boldFont)
+                .SetFontSize(14)
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetBorder(Border.NO_BORDER));
+                .SetMarginBottom(20));
 
-            headerTable.AddCell(new Cell().Add(new Paragraph("Fecha Edición:").SetFont(boldFont)).SetBorder(new SolidBorder(1)));
-            headerTable.AddCell(new Cell().Add(new Paragraph($"{doc.FechaDeEdición?.ToString("yyyy-MM-dd") ?? "N/A"}")).SetBorder(new SolidBorder(1)));
-
-            headerTable.AddCell(new Cell().Add(new Paragraph("Versión:").SetFont(boldFont)).SetBorder(new SolidBorder(1)));
-            headerTable.AddCell(new Cell().Add(new Paragraph($"{doc.Version ?? "N/A"}")).SetBorder(new SolidBorder(1)));
-
-            headerTable.AddCell(new Cell().Add(new Paragraph("Código:").SetFont(boldFont)).SetBorder(new SolidBorder(1)));
-            headerTable.AddCell(new Cell().Add(new Paragraph($"{doc.CodigoDelDocumento ?? "N/A"}")).SetBorder(new SolidBorder(1)));
-
-            headerTable.AddCell(new Cell().Add(new Paragraph("Elaboró:").SetFont(boldFont)).SetBorder(new SolidBorder(1)));
-            headerTable.AddCell(new Cell().Add(new Paragraph($"{doc.ElaboradoPor ?? "N/A"}")).SetBorder(new SolidBorder(1)));
-
-            headerTable.AddCell(new Cell().Add(new Paragraph("Revisó:").SetFont(boldFont)).SetBorder(new SolidBorder(1)));
-            headerTable.AddCell(new Cell().Add(new Paragraph($"{doc.RevisadoPor ?? "N/A"}")).SetBorder(new SolidBorder(1)));
-
-            document.Add(headerTable);
-
-            document.Add(new Paragraph("\nI. Objetivo").SetFont(boldFont));
-            document.Add(new Paragraph(doc.IObjetivo ?? "N/A").SetFont(regularFont));
-
-            document.Add(new Paragraph("\nII. Alcance").SetFont(boldFont));
-            document.Add(new Paragraph(doc.IIAlcance ?? "N/A").SetFont(regularFont));
-
-            document.Add(new Paragraph("\nIII. Responsabilidades").SetFont(boldFont));
-            if (doc.IIIResponsabilidades is JsonElement element && element.ValueKind == JsonValueKind.Object)
+            foreach (var doc in documentos)
             {
-                foreach (var propiedad in element.EnumerateObject())
-                {
-                    document.Add(new Paragraph($"{propiedad.Name}: {propiedad.Value.ToString()}").SetFont(regularFont));
-                }
+                // Sección por documento
+                var docTable = new Table(UnitValue.CreatePercentArray(new float[] { 1, 2 }))
+                    .UseAllAvailableWidth()
+                    .SetMarginBottom(10);
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Título").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.TITULO).SetFont(regularFont)));
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Descripción").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.DESCRIPCION).SetFont(regularFont)));
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Usuario").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.USUARIO_ID.ToString()).SetFont(regularFont))); // Reemplaza por nombre real si lo incluyes con Include
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Categoría").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.CATEGORIA?.NOMBRE ?? "N/A").SetFont(regularFont)));
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Fecha creación").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.CREATE_DATE.ToString("yyyy-MM-dd")).SetFont(regularFont)));
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Estado").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.ESTADO).SetFont(regularFont)));
+
+                docTable.AddCell(new Cell().Add(new Paragraph("Ruta archivo").SetFont(boldFont)));
+                docTable.AddCell(new Cell().Add(new Paragraph(doc.RUTA_ARCHIVO).SetFont(regularFont)));
+
+                document.Add(docTable);
+                document.Add(new Paragraph("\n").SetFontSize(6)); // Espaciado
             }
-            else
-            {
-                document.Add(new Paragraph(doc.IIIResponsabilidades?.ToString() ?? "N/A").SetFont(regularFont));
-            }
-
-            document.Add(new Paragraph("\nIV. Desarrollo").SetFont(boldFont));
-            if (doc.IVDesarrollo != null && doc.IVDesarrollo.Any())
-            {
-                foreach (var subtema in doc.IVDesarrollo)
-                {
-                    document.Add(new Paragraph($"- {subtema.Key}").SetFont(boldFont));
-
-                    foreach (var paso in subtema.Value)
-                    {
-                        document.Add(new Paragraph($"    {paso.Key}. {paso.Value}").SetFont(regularFont));
-                    }
-                }
-            }
-            else
-            {
-                document.Add(new Paragraph("N/A").SetFont(regularFont));
-            }
-
-            document.Add(new Paragraph("\nV. Vigencia").SetFont(boldFont));
-            document.Add(new Paragraph(doc.VVigencia ?? "N/A").SetFont(regularFont));
-
-            document.Add(new Paragraph("\nVI. Referencias Bibliográficas").SetFont(boldFont));
-            document.Add(new Paragraph(doc.VIReferenciasBibliográficas ?? "N/A").SetFont(regularFont));
-
-            document.Add(new Paragraph("\nVII. Historial de Cambios").SetFont(boldFont));
-            if (doc.VIIHistorialDeCambioDeDocumentos != null && doc.VIIHistorialDeCambioDeDocumentos.Any())
-            {
-                var table = new Table(3).UseAllAvailableWidth();
-                table.AddHeaderCell("N°").AddHeaderCell("Fecha").AddHeaderCell("Descripción");
-
-                foreach (var cambio in doc.VIIHistorialDeCambioDeDocumentos)
-                {
-                    table.AddCell(cambio.Number?.ToString() ?? "N/A");
-                    table.AddCell(cambio.Date?.ToString("dd/MM/yyyy") ?? "N/A");
-                    table.AddCell(cambio.Description ?? "N/A");
-                }
-                document.Add(table);
-            }
-            else
-            {
-                document.Add(new Paragraph("Sin historial.").SetFont(regularFont));
-            }
-
-            document.Add(new Paragraph("\nVIII. Firmas").SetFont(boldFont));
-            document.Add(new Paragraph(doc.VIIIFirmas ?? "N/A").SetFont(regularFont));
 
             int pageCount = pdf.GetNumberOfPages();
             for (int i = 1; i <= pageCount; i++)
             {
                 var page = pdf.GetPage(i);
                 var canvas = new PdfCanvas(page.NewContentStreamAfter(), page.GetResources(), pdf);
-                var pageText = $"Página {i} de {pageCount}";
+                var footer = $"Página {i} de {pageCount}";
                 new Canvas(canvas, page.GetPageSize())
-                .ShowTextAligned(new Paragraph(pageText), 520, 20, TextAlignment.RIGHT);
+                    .ShowTextAligned(new Paragraph(footer).SetFont(regularFont).SetFontSize(8),
+                        520, 20, TextAlignment.RIGHT);
             }
 
             document.Close();
             return ms.ToArray();
         }
+
+
 
         public byte[] GenerarReporteConsumoTokens(List<HISTORIALDOCUMENTOSIA> historialIA)
         {
