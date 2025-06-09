@@ -14,6 +14,8 @@ namespace DocumentacionInteligente.BackEnd.Controllers
     {
         private readonly ReporteServices _reportService;
         private readonly ReporteUsuarioService _reporteUsuarioService;
+        private readonly ReporteConsumoTokens _reporteConsumoTokens;
+
         private readonly AppDbContext _context;
 
         public ReporteController(AppDbContext context)
@@ -21,6 +23,10 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             _context = context;
             _reportService = new ReporteServices();
             _reporteUsuarioService = new ReporteUsuarioService();
+            _reporteConsumoTokens = new ReporteConsumoTokens();
+
+
+
         }
 
         [HttpPost("reporte-documento")]
@@ -149,6 +155,42 @@ public IActionResult GenerarReporteCategoria([FromBody] FiltroReporteCategoriaDT
     return File(pdf, "application/pdf", "ReporteDocumentosCategoria.pdf");
 }
 
+
+[HttpPost("reporte-consumo-tokens")]
+public IActionResult GenerarReporteConsumoTokens([FromBody] FiltroReporteTokensDTO filtro)
+{
+    // Validar rol Admin desde las claims del usuario autenticado
+    var rol = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Rol")?.Value;
+    if (rol != "Admin")
+    {
+        return Forbid("Solo los administradores pueden generar este reporte.");
     }
+
+    if (filtro.UsuarioId <= 0 || !filtro.FechaInicio.HasValue || !filtro.FechaFin.HasValue)
+    {
+        return BadRequest("Debe completar usuario, fecha de inicio y fecha de fin.");
+    }
+
+    var usuario = _context.USUARIOS.FirstOrDefault(u => u.ID == filtro.UsuarioId);
+    if (usuario == null)
+    {
+        return NotFound("Usuario no encontrado.");
+    }
+
+    var historialTokens = _context.HISTORIALDOCUMENTOSIA
+        .Where(h => h.USUARIO_ID == filtro.UsuarioId
+                    && h.FECHA_GENERACION >= filtro.FechaInicio.Value
+                    && h.FECHA_GENERACION <= filtro.FechaFin.Value)
+        .OrderBy(h => h.FECHA_GENERACION)
+        .ToList();
+
+    var pdf = _reporteConsumoTokens.GenerarReporteConsumoTokens(historialTokens, usuario.NOMBRE);
+
+    return File(pdf, "application/pdf", $"ReporteTokens_{usuario.NOMBRE}_{DateTime.Now:yyyyMMdd}.pdf");
+}
+
+    }
+
+    
 
 }
