@@ -94,13 +94,13 @@ const routes = [
     ],
   },
   {
-    path: '/resumir-documento',
+    path: '/puntos-clave-gpt',
     component: menuComponent,
     children: [
       {
         path: '',
         component: () =>
-          import('src/pages/asistente-gpt/resumir-documento.vue'),
+          import('src/pages/asistente-gpt/puntos-clave-gpt.vue'),
       },
     ],
   },

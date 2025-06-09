@@ -371,59 +371,62 @@ const getInformation = async (messageText) => {
     cargando.value = false
   }
 }
-function mapearPropiedadesDinamicas(obj) {
-  const resultado = {};
-  Object.keys(obj).forEach((key) => {
-    const valor = obj[key];
-    if (typeof valor === "object" && valor !== null) {
-      resultado[key] = Object.entries(valor)
-        .map(([subKey, subVal]) => `${subKey}: ${subVal}`)
-        .join(". ");
-    } else {
-      resultado[key] = valor;
-    }
-  });
-  return resultado;
+function conversionEspecifica(valor) {
+  if (Array.isArray(valor)) {
+    return JSON.stringify(valor);
+  } else if (typeof valor === 'object' && valor !== null) {
+    return JSON.stringify(valor);
+  } else {
+    return valor ?? '';
+  }
 }
 
 function transformarDocumento(original) {
   return {
-      títuloDelDocumento: original["Título del Documento"] || "",
-      fechaDeEdición: original["Fecha de Edición"] ? new Date(original["Fecha de Edición"]).toISOString() : new Date().toISOString(),
-      version: original["Versión"] || "",
-      códigoDelDocumento: original["Código del Documento"] || "",
-      elaboradoPor: original["Elaborado por"] || "",
-      revisadoPor: original["Revisado por"] || "",
-      iObjetivo: original["I. Objetivo"] || "",
-      iiAlcance: original["II. Alcance"] || "",
-      iiiResponsabilidades: mapearPropiedadesDinamicas(original["III. Responsabilidades"] || {}),
-      ivDesarrollo: mapearPropiedadesDinamicas(original["IV. Desarrollo"] || {}),
-      vVigencia: original["V. Vigencia"] || "",
-      viReferenciasBibliográficas: original["VI. Referencias Bibliográficas"] || "",
-      viiHistorialDeCambioDeDocumentos: (original["VII. Historial de cambio de Documentos"] || []).map(h => ({
-        number: h.number || 0,
-        date: h.date ? new Date(h.date).toISOString() : new Date().toISOString(),
-        description: h.description || ""
-      })),
-      viiiFirmas: original["VIII. Firmas"] || "",
+    títuloDelDocumento: conversionEspecifica(original["Título del Documento"]),
+    fechaDeEdición: new Date(original["Fecha de Edición"]).toISOString(),
+    version: conversionEspecifica(original["Versión"]),
+    códigoDelDocumento: conversionEspecifica(original["Código del Documento"]),
+    elaboradoPor: conversionEspecifica(original["Elaborado por"]),
+    revisadoPor: conversionEspecifica(original["Revisado por"]),
+    iObjetivo: conversionEspecifica(original["I. Objetivo"]),
+    iiAlcance: conversionEspecifica(original["II. Alcance"]),
 
-      // Campos adicionales obligatorios
-      titulo: original["Título del Documento"] || "",
-      hoja: 0,
-      totalHojas: 0,
-      autorizadoPor: original["Autorizado por"] || "string",
-      fechaDivulgacion: new Date().toISOString(),
+    iiiResponsabilidades: typeof original["III. Responsabilidades"] === 'object' && !Array.isArray(original["III. Responsabilidades"])
+      ? original["III. Responsabilidades"]
+      : {},
 
-      categoria: original["Categoria"] || 0,
-      nombreCategoria: original["Nombre Categoria"] || "string",
-      usuarioCreadorId: original["Usuario Creador Id"] || 0,
-      usuarioId: original["Usuario Id"] || 0,
-      fechaInicio: original["Fecha Inicio"] ? new Date(original["Fecha Inicio"]).toISOString() : new Date().toISOString(),
-      fechaFin: original["Fecha Fin"] ? new Date(original["Fecha Fin"]).toISOString() : new Date().toISOString(),
-      nombreUsuarioCreador: original["Nombre Usuario Creador"] || "string",
+    ivDesarrollo: typeof original["IV. Desarrollo"] === 'object' && !Array.isArray(original["IV. Desarrollo"])
+      ? original["IV. Desarrollo"]
+      : {},
+
+    vVigencia: conversionEspecifica(original["V. Vigencia"]),
+
+    viReferenciasBibliográficas: conversionEspecifica(original["VI. Referencias Bibliográficas"]),
+
+    viiHistorialDeCambioDeDocumentos: Array.isArray(original["VII. Historial de cambio de Documentos"])
+      ? original["VII. Historial de cambio de Documentos"].map(item => ({
+          number: Number(item.number) || 0,
+          date: item.date ? new Date(item.date).toISOString() : new Date().toISOString(),
+          description: conversionEspecifica(item.description)
+        }))
+      : [],
+
+    viiiFirmas: conversionEspecifica(original["VIII. Firmas"]),
+    titulo: conversionEspecifica(original["Título"]),
+    hoja: Number(original["Hoja"]) || 0,
+    totalHojas: Number(original["Total de Hojas"]) || 0,
+    autorizadoPor: conversionEspecifica(original["Autorizado por"]),
+    fechaDivulgacion: new Date().toISOString(),
+    categoria: Number(original["Categoría"]) || 0,
+    nombreCategoria: conversionEspecifica(original["Nombre de Categoría"]),
+    usuarioCreadorId: Number(original["Usuario Creador ID"]) || 0,
+    usuarioId: Number(original["Usuario ID"]) || 0,
+    fechaInicio: original["Fecha Inicio"] ? new Date(original["Fecha Inicio"]).toISOString() : new Date().toISOString(),
+    fechaFin: original["Fecha Fin"] ? new Date(original["Fecha Fin"]).toISOString() : new Date().toISOString(),
+    nombreUsuarioCreador: conversionEspecifica(original["Nombre de Usuario Creador"]),
   };
 }
-
 
 
 const downloadWordDocument = async () => {
@@ -433,7 +436,7 @@ const downloadWordDocument = async () => {
     return;
   }
 
-
+console.log(JSON.stringify(data))
   try {
     const response = await fetch('http://localhost:5168/api/reporte/reporte-documento-word', {
       method: 'POST',

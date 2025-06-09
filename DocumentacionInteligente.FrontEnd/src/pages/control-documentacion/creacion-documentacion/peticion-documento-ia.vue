@@ -299,6 +299,7 @@ const downloadWordDocument = async () => {
     return;
   }
 
+  console.log(JSON.stringify(data))
   try {
     const response = await fetch('http://localhost:5168/api/reporte/reporte-documento-word', {
       method: 'POST',

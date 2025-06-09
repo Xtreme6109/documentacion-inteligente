@@ -56,7 +56,9 @@ public class DocumentosController : ControllerBase
                 CreadoIA = d.CREADO_IA ?? false,
                 CreateDate = d.CREATE_DATE,
                 VersionActual = d.VERSION_ACTUAL ?? 1,
-                RutaArchivo = d.RUTA_ARCHIVO
+                RutaArchivo = d.RUTA_ARCHIVO,
+                UsuarioCreadorId = d.UsuarioCreadorId,
+                NombreCategoria = d.CATEGORIA != null ? d.CATEGORIA.NOMBRE : "Desconocido"
             })
 
             .ToListAsync();

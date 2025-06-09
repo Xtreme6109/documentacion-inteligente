@@ -73,10 +73,10 @@ const linksList = [
     link: '/redactar-contenido'
   },
   {
-    title: 'Resumir documento',
+    title: 'Puntos Clave de Documento',
     caption: 'Asistente GPT',
     icon: 'summarize', // Icono específico para resumen
-    link: '/resumir-documento'
+    link: '/puntos-clave-gpt'
   },
   /*{
     title: 'Clasificar por tema',
