@@ -139,6 +139,17 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/reporte-consumo-tokens',
+    component: menuComponent,
+    children: [
+      {
+        path: '',
+        component: () =>
+          import('src/pages/control-reportes/reporte-tokens.vue'),
+      },
+    ],
+  },
 
   //CONTROL DE ADMINITRACIÓN
   {

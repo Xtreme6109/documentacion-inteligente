@@ -38,6 +38,14 @@
             :loading="cargando"
             @click="getInformation(documentDescription)"
         />
+        <q-btn
+          label="Descargar documento generado"
+          icon="download"
+          color="secondary"
+          class="q-ml-sm"
+          :disable="Object.keys(documentData).length === 0"
+          @click="downloadWordDocument"
+        />
 
 
         <div class="contenido-paginas q-mt-xl" v-if="paginatedContent.length > 0">
@@ -235,6 +243,102 @@ const getInformation = async (messageText) => {
     cargando.value = false
   }
 }
+function mapearPropiedadesDinamicas(obj) {
+  const resultado = {};
+  Object.keys(obj).forEach((key) => {
+    resultado[key] = obj[key];
+  });
+  return resultado;
+}
+
+function transformarDocumento(original) {
+  return {
+    títuloDelDocumento: original["Título del Documento"] || "",
+    fechaDeEdición: original["Fecha de Edición"] ? new Date(original["Fecha de Edición"]).toISOString() : new Date().toISOString(),
+    version: original["Versión"] || "",
+    códigoDelDocumento: original["Código del Documento"] || "",
+    elaboradoPor: original["Elaborado por"] || "",
+    revisadoPor: original["Revisado por"] || "",
+    iObjetivo: original["I. Objetivo"] || "",
+    iiAlcance: original["II. Alcance"] || "",
+    iiiResponsabilidades: mapearPropiedadesDinamicas(original["III. Responsabilidades"] || {}),
+    ivDesarrollo: mapearPropiedadesDinamicas(original["IV. Desarrollo"] || {}),
+    vVigencia: original["V. Vigencia"] || "",
+    viReferenciasBibliográficas: original["VI. Referencias Bibliográficas"] || "",
+    viiHistorialDeCambioDeDocumentos: (original["VII. Historial de cambio de Documentos"] || []).map(h => ({
+      number: h.number || 0,
+      date: h.date ? new Date(h.date).toISOString() : new Date().toISOString(),
+      description: h.description || ""
+    })),
+    viiiFirmas: original["VIII. Firmas"] || "",
+
+    // Campos adicionales obligatorios
+    titulo: original["Título del Documento"] || "",
+    hoja: 0,
+    totalHojas: 0,
+    autorizadoPor: original["Autorizado por"] || "string", // completar adecuadamente
+    fechaDivulgacion: new Date().toISOString(),
+
+    // Campos que faltaban en tu función
+    categoria: original["Categoria"] || 0,
+    nombreCategoria: original["Nombre Categoria"] || "string",
+    usuarioCreadorId: original["Usuario Creador Id"] || 0,
+    usuarioId: original["Usuario Id"] || 0,
+    fechaInicio: original["Fecha Inicio"] ? new Date(original["Fecha Inicio"]).toISOString() : new Date().toISOString(),
+    fechaFin: original["Fecha Fin"] ? new Date(original["Fecha Fin"]).toISOString() : new Date().toISOString(),
+    nombreUsuarioCreador: original["Nombre Usuario Creador"] || "string",
+  };
+}
+
+
+
+const downloadWordDocument = async () => {
+  let data = transformarDocumento(documentData.value);
+  console.log(transformarDocumento)
+  console.log(documentData.value)
+  if (!data || Object.keys(data).length === 0) {
+    $q.notify({ type: 'warning', message: 'No hay documento para descargar' });
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:5168/api/reporte/reporte-documento-word', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error en la petición: ${response.status} ${response.statusText}`);
+    }
+
+    // Recibir el blob del archivo Word
+    const blob = await response.blob();
+
+    // Crear enlace de descarga
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+
+    // Nombre para el archivo .docx (puedes ajustar el nombre)
+    const fileName = (documentData.value.títuloDelDocumento || 'documento') + '.docx';
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+
+    // Limpieza
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error(error);
+    $q.notify({ type: 'negative', message: 'Error al descargar el documento: ' + error.message });
+  }
+}
+
+
 
 const paginatedContent = computed(() => {
   const data = documentData.value
@@ -334,7 +438,7 @@ const paginatedContent = computed(() => {
             for (const [innerKey, innerValue] of Object.entries(itemValue)) {
               content.push({
                 title: `${innerKey}:`,
-                content: innerValue ?? "",
+                content: Array.isArray(innerValue) ? innerValue.join(', ') : innerValue ?? "",
                 indent: true,
                 deeperIndent: true,
                 deepestIndent: true
@@ -345,7 +449,7 @@ const paginatedContent = computed(() => {
           for (const [innerKey, innerValue] of Object.entries(subvalue)) {
             content.push({
               title: `${innerKey}:`,
-              content: innerValue ?? "",
+              content: Array.isArray(innerValue) ? innerValue.join(', ') : innerValue ?? "",
               indent: true,
               deeperIndent: true
             });

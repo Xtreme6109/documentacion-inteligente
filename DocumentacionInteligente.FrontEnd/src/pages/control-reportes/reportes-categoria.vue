@@ -2,7 +2,6 @@
   <div class="q-pa-md">
     <div class="text-h5 q-mb-md">Reportes por Categoría</div>
 
-    <!-- Filtro de selección usando divs y clases flexbox -->
     <div class="flex flex-wrap q-gutter-md">
       <!-- Categoría -->
       <div class="q-mb-md col-12 col-md col-sm">
@@ -11,24 +10,11 @@
           :options="categorias"
           label="Seleccionar Categoría"
           option-label="nombre"
-          option-value="nombre"
+          option-value="id" 
           outlined
           emit-value
           map-options
-        />
-      </div>
-
-      <!-- Usuario -->
-      <div class="q-mb-md col-12 col-md col-sm">
-        <q-select
-          v-model="usuarioSeleccionado"
-          :options="usuarios"
-          label="Seleccionar Usuario"
-          option-label="nombre"
-          option-value="id"
-          outlined
-          emit-value
-          map-options
+          :disable="!categorias.length"
         />
       </div>
 
@@ -53,27 +39,25 @@
       </div>
     </div>
 
-    <!-- Botón para generar el reporte -->
     <q-btn
       color="primary"
       label="Generar Reporte"
       @click="generarReporte"
       class="q-mt-md full-width"
+      :disable="!categoriaSeleccionada || !fechaInicio || !fechaFin"
     />
 
-    <!-- Modal para mostrar detalles de reporte -->
     <q-dialog v-model="dialogVisible">
       <q-card style="min-width: 350px">
         <q-card-section>
-          <div class="text-h6">Reporte de {{ categoriaSeleccionada }}</div>
+          <div class="text-h6">Reporte de {{ nombreCategoriaSeleccionada }}</div>
         </q-card-section>
 
         <q-separator />
 
         <q-card-section>
           <div class="text-body2">
-            <p><strong>Categoría:</strong> {{ categoriaSeleccionada }}</p>
-            <p><strong>Usuario:</strong> {{ usuarioSeleccionado }}</p>
+            <p><strong>Categoría:</strong> {{ nombreCategoriaSeleccionada }}</p>
             <p><strong>Fecha de Inicio:</strong> {{ fechaInicio }}</p>
             <p><strong>Fecha de Fin:</strong> {{ fechaFin }}</p>
           </div>
@@ -90,47 +74,79 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { jsPDF } from 'jspdf'
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
 
-const categorias = ref([
-  { nombre: 'Ventas', descripcion: 'Reportes relacionados con las ventas' },
-  { nombre: 'Inventarios', descripcion: 'Reportes sobre el estado del inventario' },
-  { nombre: 'Finanzas', descripcion: 'Reportes de estados financieros' }
-])
+import { useQuasar } from 'quasar'
 
-const usuarios = ref([
-  { id: 1, nombre: 'Juan Pérez' },
-  { id: 2, nombre: 'Ana Gómez' },
-  { id: 3, nombre: 'Luis Rodríguez' }
-])
+const $q = useQuasar()
 
+const categorias = ref([])
 const categoriaSeleccionada = ref(null)
-const usuarioSeleccionado = ref(null)
 const fechaInicio = ref('')
 const fechaFin = ref('')
 const dialogVisible = ref(false)
 
+// Computed para mostrar el nombre legible en el diálogo
+const nombreCategoriaSeleccionada = computed(() => {
+  const cat = categorias.value.find(c => c.id === categoriaSeleccionada.value)
+  return cat ? cat.nombre : ''
+})
+
+
+// Crear instancia axios con baseURL
+const api = axios.create({
+  baseURL: 'http://localhost:5168/api'
+})
+
+// Agregar interceptor para agregar el token en el header Authorization
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => Promise.reject(error)
+)
+
+
+async function cargarCategorias() {
+  try {
+    const resp = await api.get('/Categorias')  // Ruta correcta con mayúscula
+    categorias.value = resp.data
+  } catch (error) {
+    console.error('Error al cargar categorías:', error.response?.data || error.message)
+    // Opcional: mostrar mensaje de error con Quasar
+    $q.notify({ type: 'negative', message: 'Error al cargar categorías' })
+  }
+}
 function generarReporte() {
-  // Validar que los campos necesarios estén seleccionados
-  if (!categoriaSeleccionada.value || !usuarioSeleccionado.value || !fechaInicio.value || !fechaFin.value) {
+  if (!categoriaSeleccionada.value || !fechaInicio.value || !fechaFin.value) {
     alert("Por favor, complete todos los campos.")
     return
   }
 
-  // Crear el PDF de preueba nada más aqui es con asp
-  const doc = new jsPDF()
-
-  doc.text('Reporte de ' + categoriaSeleccionada.value, 10, 10)
-  doc.text('Usuario: ' + usuarioSeleccionado.value, 10, 20)
-  doc.text('Fecha de Inicio: ' + fechaInicio.value, 10, 30)
-  doc.text('Fecha de Fin: ' + fechaFin.value, 10, 40)
-
-  // Generar el archivo PDF
-  doc.save('reporte.pdf')
+  api.post('/reporte/reporte-categoria', {
+    Categoria: categoriaSeleccionada.value,
+    FechaInicio: fechaInicio.value,
+    FechaFin: fechaFin.value
+  }, { responseType: 'blob' })
+    .then(response => {
+      // Crear un URL blob para el PDF
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
+      // Abrir en nueva pestaña
+      window.open(url, '_blank')
+    })
+    .catch(err => {
+      alert('Error al generar reporte: ' + err.message)
+    })
 }
+
+
+
+onMounted(() => {
+  cargarCategorias()
+})
 </script>
-
-<style scoped>
-
-</style>

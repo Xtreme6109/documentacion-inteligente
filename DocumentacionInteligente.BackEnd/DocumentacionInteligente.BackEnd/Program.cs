@@ -83,19 +83,20 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Documentacion Inteligente API",
         Version = "v1",
-        Description = "API para la gesti�n de documentos y usuarios"
+        Description = "API para la gestión de documentos y usuarios"
     });
 
-    // esquema de seguridad para JWT para Swagger
+    // Configuración de seguridad JWT para Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Ingrese 'Bearer' [espacio] y luego su token JWT",
         Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Ingrese el token JWT con el prefijo 'Bearer '"
     });
 
-    // requerimiento de seguridad para Swagger
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
@@ -107,10 +108,11 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
+
 
 builder.Services.AddCors(options =>
 {
@@ -131,14 +133,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-/*app.UseStaticFiles();
+app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), "Documentos")),
     RequestPath = "/Documentos"
 });
-app.UseHttpsRedirection();*/
+app.UseHttpsRedirection();
 
 
 app.UseCors("AllowVueApp");

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DocumentacionInteligente.BackEnd.Models;
 
 public class USUARIOS
 {
@@ -16,5 +17,6 @@ public class USUARIOS
     public string ROL { get; set; } = string.Empty;
 
     public DateTime CREATE_DATE { get; set; }
+
 }
 

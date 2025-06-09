@@ -254,10 +254,13 @@ watch(() => formData.value.titulo, async (nuevoTitulo) => {
     })
 
     const doc = response.data
+    console.log(doc)
+
+    console.log(formData)
 
     if (doc) {
       console.log('Documento encontrado:', doc)
-      formData.value.version = doc.versioN_ACTUAL ? (doc.versioN_ACTUAL + 1).toString() : '1'
+      formData.value.version = doc.version ? (doc.version + 1).toString() : '1'
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {

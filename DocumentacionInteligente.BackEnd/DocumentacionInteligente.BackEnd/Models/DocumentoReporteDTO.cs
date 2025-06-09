@@ -1,6 +1,6 @@
 ﻿namespace DocumentacionInteligente.BackEnd.Models
 {
-    public class DocumentoDTO2
+    public class DocumentoReporteDTO
     {
         public class HistorialCambio2
         {

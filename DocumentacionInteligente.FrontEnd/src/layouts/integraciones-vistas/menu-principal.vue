@@ -78,12 +78,12 @@ const linksList = [
     icon: 'summarize', // Icono específico para resumen
     link: '/resumir-documento'
   },
-  {
+  /*{
     title: 'Clasificar por tema',
     caption: 'Asistente GPT',
     icon: 'label', // Representa clasificación o etiquetas
     link: '/clasificar-por-tema'
-  },
+  },*/
   {
     title: 'Documentos por usuario',
     caption: 'Reportes',
@@ -100,7 +100,7 @@ const linksList = [
     title: 'Reporte de consumo de Token',
     caption: 'Reportes',
     icon: 'token', // Icono representativo de token
-    link: '/documentos-reporte-token'
+    link: '/reporte-consumo-tokens'
   },
   {
     title: 'Usuarios',

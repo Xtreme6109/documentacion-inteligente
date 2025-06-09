@@ -1,12 +1,11 @@
 <template>
   <div class="q-pa-md">
     <div class="text-h5 q-mb-md">
-      Reportes por Usuario
+      Reporte de Consumo de Tokens por Usuario
     </div>
 
-    <!-- Filtro de selección usando divs y clases flexbox -->
     <div class="flex flex-wrap q-gutter-md">
-      <!-- Usuario -->
+      <!-- Selector Usuario -->
       <div class="q-mb-md col-12 col-sm col-md">
         <q-select
           v-model="usuarioSeleccionado"
@@ -20,7 +19,7 @@
         />
       </div>
 
-      <!-- Fecha de Inicio -->
+      <!-- Fecha Inicio -->
       <div class="q-mb-md col-12 col-sm col-md">
         <q-input
           v-model="fechaInicio"
@@ -30,7 +29,7 @@
         />
       </div>
 
-      <!-- Fecha de Fin -->
+      <!-- Fecha Fin -->
       <div class="q-mb-md col-12 col-sm col-md">
         <q-input
           v-model="fechaFin"
@@ -41,7 +40,6 @@
       </div>
     </div>
 
-    <!-- Botón para generar el reporte -->
     <q-btn
       color="primary"
       label="Generar Reporte"
@@ -66,7 +64,7 @@ api.interceptors.request.use(
   config => {
     const token = localStorage.getItem('token')
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`  // Esto es correcto
+      config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },
@@ -82,7 +80,6 @@ async function cargarUsuarios() {
   try {
     const res = await api.get('/User/usuarios-por-rol')
     usuarios.value = res.data
-    // Si solo hay un usuario (normal), seleccionarlo automáticamente
     if (usuarios.value.length === 1) {
       usuarioSeleccionado.value = usuarios.value[0].id
     }
@@ -98,59 +95,28 @@ onMounted(() => {
 
 async function generarReporte() {
   if (!usuarioSeleccionado.value) {
-    $q.notify({ type: 'negative', message: 'Por favor, seleccione un usuario.' });
-    return;
+    $q.notify({ type: 'negative', message: 'Por favor, seleccione un usuario.' })
+    return
   }
-
   if (!fechaInicio.value || !fechaFin.value) {
-    $q.notify({ type: 'negative', message: 'Por favor, seleccione fechas de inicio y fin.' });
-    return;
+    $q.notify({ type: 'negative', message: 'Por favor, seleccione fechas de inicio y fin.' })
+    return
   }
-
-  // Construir objeto con todas las propiedades (aunque vacías)
-  const payload = {
-    títuloDelDocumento: "",
-    fechaDeEdición: new Date().toISOString(),
-    version: "",
-    códigoDelDocumento: "",
-    elaboradoPor: "",
-    revisadoPor: "",
-    iObjetivo: "",
-    iiAlcance: "",
-    iiiResponsabilidades: {},
-    ivDesarrollo: {},
-    vVigencia: "",
-    viReferenciasBibliográficas: "",
-    viiHistorialDeCambioDeDocumentos: [],
-    viiiFirmas: "",
-    titulo: "",
-    hoja: 0,
-    totalHojas: 0,
-    autorizadoPor: "",
-    fechaDivulgacion: new Date().toISOString(),
-    categoria: 0,
-    nombreCategoria: "",
-    usuarioCreadorId: 0,
-    usuarioId: usuarioSeleccionado.value,
-    fechaInicio: fechaInicio.value,
-    fechaFin: fechaFin.value,
-    nombreUsuarioCreador: "string"
-  };
 
   try {
-    const response = await api.post('/Reporte/reporte-usuario', payload, {
-      responseType: 'blob'
-    });
+    const response = await api.post('/Reporte/reporte-consumo-tokens', {
+      UsuarioId: usuarioSeleccionado.value,
+      FechaInicio: fechaInicio.value,
+      FechaFin: fechaFin.value
+    }, { responseType: 'blob' })
 
-    const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    window.open(pdfUrl, '_blank');
-    URL.revokeObjectURL(pdfUrl);
+    const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
+    window.open(url, '_blank')
+    window.URL.revokeObjectURL(url)
 
   } catch (error) {
-    console.error('Error al generar reporte:', error);
-    $q.notify({ type: 'negative', message: 'Error al generar reporte.' });
+    console.error('Error al generar reporte:', error)
+    $q.notify({ type: 'negative', message: 'Error al generar reporte.' })
   }
 }
-
 </script>

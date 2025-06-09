@@ -23,6 +23,54 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             _config = config;
         }
 
+        [Authorize]
+        [HttpGet("usuarios-por-rol")]
+        public IActionResult GetUsuariosPorRol()
+        {
+            try
+            {
+                var correo = User.Claims.FirstOrDefault(c => c.Type == "Correo")?.Value;
+                if (string.IsNullOrEmpty(correo))
+                    return Unauthorized();
+
+                var usuario = _context.USUARIOS.FirstOrDefault(u => u.CORREO == correo);
+                if (usuario == null)
+                    return NotFound("Usuario no encontrado");
+
+                // Usuario especial con ID = 9 puede ver todos
+                if (usuario.ID == 9)
+                {
+                    var todos = _context.USUARIOS.Select(u => new {
+                        u.ID,
+                        u.NOMBRE
+                    }).ToList();
+                    return Ok(todos);
+                }
+
+                // Rol Admin puede ver todos
+                if (usuario.ROL == "Admin")
+                {
+                    var todos = _context.USUARIOS.Select(u => new {
+                        u.ID,
+                        u.NOMBRE
+                    }).ToList();
+
+                    return Ok(todos);
+                }
+                else
+                {
+                    // Usuario normal solo ve sus datos
+                    return Ok(new[] { new { usuario.ID, usuario.NOMBRE } });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
+
+
         // endpoint para iniciar sesión
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)

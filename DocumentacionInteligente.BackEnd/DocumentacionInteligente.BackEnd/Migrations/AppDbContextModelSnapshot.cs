@@ -170,38 +170,38 @@ namespace DocumentacionInteligente.BackEnd.Migrations
                 });
 
             modelBuilder.Entity("USUARIOS", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+{
+    b.Property<int>("ID")
+        .ValueGeneratedOnAdd()
+        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CORREO")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+    b.Property<string>("CORREO")
+        .IsRequired()
+        .HasMaxLength(150)
+        .HasColumnType("nvarchar(150)");
 
-                    b.Property<DateTime>("CREATE_DATE")
-                        .HasColumnType("datetime2");
+    b.Property<DateTime>("CREATE_DATE")
+        .HasColumnType("datetime2");
 
-                    b.Property<string>("NOMBRE")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+    b.Property<string>("NOMBRE")
+        .IsRequired()
+        .HasMaxLength(100)
+        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PASSWORD_HASH")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+    b.Property<string>("PASSWORD_HASH")
+        .IsRequired()
+        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ROL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+    b.Property<string>("ROL")
+        .IsRequired()
+        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+    b.HasKey("ID");
 
-                    b.ToTable("USUARIOS", (string)null);
-                });
+    b.ToTable("USUARIOS", (string)null);
+});
 
             modelBuilder.Entity("VERSIONES", b =>
                 {

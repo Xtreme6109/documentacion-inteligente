@@ -40,7 +40,6 @@
                 :disable="esDocx(props.row.rutaArchivo)"
                 @click="verDocumento(props.row)"
               />
-              <q-btn dense flat icon="edit" @click="abrirModal(props.row)" />
               <q-btn dense flat icon="download" @click="descargarArchivo(props.row)" />
               <q-btn dense flat icon="delete" color="negative" @click="eliminarDocumento(props.row)" />
             </q-td>
@@ -246,6 +245,7 @@ const doc = ref({})
 async function fetchDocumentos() {
   try {
     const res = await api.get('/Documentos/AllDocuments')
+    console.log(res)
     documentos.value = res.data.map(d => ({
       ...d,
       CATEGORIA_LABEL: obtenerNombreCategoria(d.categoria)
@@ -264,18 +264,6 @@ function buscar() {
   $q.notify({ message: 'Filtrado (simulado)', color: 'primary' })
 }
 
-function abrirModal(documento = null) {
-  doc.value = documento
-    ? { ...documento }
-    : {
-        TITULO: '',
-        DESCRIPCION: '',
-        CATEGORIA: null,
-        ESTADO: '',
-        CREADO_IA: false
-      }
-  modalAbierto.value = true
-}
 
 function obtenerURLVisualizacion(ruta) {
   const base = `http://localhost:5168/${ruta}`

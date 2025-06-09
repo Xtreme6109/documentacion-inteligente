@@ -11,4 +11,17 @@ public class DocumentoDto
     public DateTime CreateDate { get; set; }
     public int VersionActual { get; set; }
     public string? RutaArchivo { get; set; } // Si quieres mostrar un botón de descarga
+
+
+    public int UsuarioCreadorId { get; set; } 
+    public int UsuarioId { get; set; }
+    public string NombreCategoria { get; set; } = string.Empty; 
+    public DateTime? FechaInicio { get; set; }
+    public DateTime? FechaFin { get; set; }
+
+    public string NombreUsuarioCreador { get; set; }
+
+
+    
 }
+

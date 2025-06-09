@@ -322,7 +322,7 @@
     "Parameters": [
       {
         "Name": "documento2",
-        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO2",
+        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoReporteDTO",
         "IsRequired": true
       }
     ],

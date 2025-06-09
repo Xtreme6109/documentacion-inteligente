@@ -33,4 +33,11 @@ public class DOCUMENTOS
     public virtual VERSIONES? VERSION { get; set; }
 
     public string? VERSION_JSON { get; set; }
+    [NotMapped]
+    public int UsuarioCreadorId { get; set; }
+
+    [NotMapped]
+    public int UsuarioId { get; set; }
+
+
 }

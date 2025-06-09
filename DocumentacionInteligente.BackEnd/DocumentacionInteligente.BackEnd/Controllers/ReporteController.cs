@@ -1,13 +1,10 @@
 ﻿using DocumentacionInteligente.BackEnd.Models;
 using DocumentacionInteligente.BackEnd.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Dapper;
-using DocumentFormat.OpenXml.InkML;
+using DocumentacionInteligente.BackEnd.Data;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocumentacionInteligente.BackEnd.Controllers
 {
@@ -15,70 +12,143 @@ namespace DocumentacionInteligente.BackEnd.Controllers
     [Route("api/[controller]")]
     public class ReporteController : ControllerBase
     {
-
         private readonly ReporteServices _reportService;
-       // private readonly AppDbContext _context;
+        private readonly ReporteUsuarioService _reporteUsuarioService;
+        private readonly AppDbContext _context;
 
-        public ReporteController()
+        public ReporteController(AppDbContext context)
         {
-            // _context = context;
+            _context = context;
             _reportService = new ReporteServices();
-
+            _reporteUsuarioService = new ReporteUsuarioService();
         }
 
-
-        [HttpPost("reporte-documento2")]
-        public IActionResult DescargarReporteDocumento2([FromBody] DocumentoDTO2 documento2)
+        [HttpPost("reporte-documento")]
+        public IActionResult DescargarReporteDocumento([FromBody] DocumentoDTO documento)
         {
-            var reportService = new ReporteServices();
-            var pdfBytes = reportService.GenerarReporteDocumento2(documento2);
+            // Aquí debes convertir documento a DocumentoDto si necesitas
+            var documentos = new List<DocumentoDto>(); // ejemplo vacío
+            var pdfBytes = _reporteUsuarioService.GenerarReporteDocumentosPorUsuario(documentos, "NombreUsuario");
 
             return File(pdfBytes, "application/pdf", "Documento.pdf");
         }
 
         [HttpPost("reporte-documento-word")]
-          public IActionResult DescargarDocumentoWord([FromBody] DocumentoDTO documento)
-          {
-              var reportService = new ReporteServiceWord();
-              var wordBytes = reportService.GenerarDocumentoWord(documento);
-              return File(wordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Documento.docx");
-          }
-
-        [HttpPost("reporteconsumotokens")]
-        public IActionResult Tokens([FromBody] List<HISTORIALDOCUMENTOSIA> historialIA)
+        public IActionResult DescargarDocumentoWord([FromBody] DocumentoDTO documento)
         {
-            var reportService = new ReporteServices();
-            var pdfBytes = reportService.GenerarReporteConsumoTokens(historialIA);
-
-            return File(pdfBytes, "application/pdf", "TokensGenerado.pdf");
+            var reportService = new ReporteServiceWord();
+            var wordBytes = reportService.GenerarDocumentoWord(documento);
+            return File(wordBytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Documento.docx");
         }
 
-        [HttpPost("reportexcategoria")]
-        public IActionResult ReportePorCategoria([FromBody] CATEGORIAS dto)
+        [HttpPost("reporte-usuario")]
+        public IActionResult GenerarReporteUsuario([FromBody] DocumentoDTO documentoDto)
         {
-            var documentos = _context.DOCUMENTOS
-                .Where(d => d.CATEGORIA_ID == dto.ID)
+            int userIdInt = documentoDto.UsuarioId;
+
+            if (userIdInt <= 0)
+            {
+                return BadRequest("ID de usuario inválido");
+            }
+
+            var usuario = _context.USUARIOS.FirstOrDefault(u => u.ID == userIdInt);
+            if (usuario == null)
+            {
+                return NotFound("Usuario no encontrado");
+            }
+
+            // Ajustar el filtrado por fechas si vienen valores válidos
+            var documentosDelUsuarioQuery = _context.DOCUMENTOS
+                .Include(d => d.CATEGORIA)
+                .Where(d => d.USUARIO_ID == userIdInt);
+
+            if (documentoDto.FechaInicio.HasValue)
+            {
+                documentosDelUsuarioQuery = documentosDelUsuarioQuery.Where(d => d.CREATE_DATE >= documentoDto.FechaInicio.Value);
+            }
+            if (documentoDto.FechaFin.HasValue)
+            {
+                documentosDelUsuarioQuery = documentosDelUsuarioQuery.Where(d => d.CREATE_DATE <= documentoDto.FechaFin.Value);
+            }
+
+            var documentosDelUsuario = documentosDelUsuarioQuery
+                .Select(d => new DocumentoDto
+                {
+                    Id = d.ID,
+                    Titulo = d.TITULO,
+                    Descripcion = d.DESCRIPCION,
+                    Categoria = d.CATEGORIA_ID,
+                    NombreCategoria = d.CATEGORIA != null ? d.CATEGORIA.NOMBRE : "Sin categoría",
+                    Estado = d.ESTADO,
+                    CreadoIA = d.CREADO_IA ?? false,
+                    CreateDate = d.CREATE_DATE,
+                    VersionActual = d.VERSION_ACTUAL ?? 0,
+                    RutaArchivo = d.RUTA_ARCHIVO,
+                    UsuarioCreadorId = d.USUARIO_ID
+                })
                 .ToList();
 
-            var pdf = _reportService.GenerarReportexCategoria(documentos, dto.NOMBRE);
+            var pdf = _reporteUsuarioService.GenerarReporteDocumentosPorUsuario(documentosDelUsuario, $"Usuario: {usuario.NOMBRE}");
 
-            return File(pdf, "application/pdf", $"Reporte_Categoria_{dto.NOMBRE}.pdf");
+            return File(pdf, "application/pdf", "ReporteDocumentosUsuario.pdf");
         }
 
-        [HttpPost("reportexusuario")]
-        public IActionResult ReportePorUsuario([FromBody] int USUARIO_ID)
-        {
-            var documentos = _reportService.GenerarReportexUsuario(USUARIO_ID);
-            /*    .Where(d => d.USUARIO_ID == USUARIO_ID)
-                .ToList();*/
+      [HttpPost("reporte-categoria")]
+public IActionResult GenerarReporteCategoria([FromBody] FiltroReporteCategoriaDTO filtro)
+{
+    // Validar que venga categoría y fechas
+    if (filtro.Categoria <= 0 || !filtro.FechaInicio.HasValue || !filtro.FechaFin.HasValue)
+    {
+        return BadRequest("Debe completar categoría, fecha de inicio y fecha de fin.");
+    }
 
-            var pdf = _reportService.GenerarReportexUsuario(documentos, USUARIO_ID);
+    // Ya no validar rol ni hacer autorizaciones especiales
+    //var claims = HttpContext.User.Claims;
+    //var rol = claims.FirstOrDefault(c => c.Type == "Rol")?.Value;
 
-            return File(pdf, "application/pdf", $"Reporte_Usuario_{USUARIO_ID}.pdf");
-        }
+    //if (string.IsNullOrEmpty(rol))
+    //{
+    //    return Unauthorized("No se encontró rol en el token.");
+    //}
 
+    //if (rol != "Admin")
+    //{
+    //    return StatusCode(403, "Solo los administradores pueden generar reportes por categoría.");
+    //}
 
+    var categoria = _context.CATEGORIAS.FirstOrDefault(c => c.ID == filtro.Categoria);
+    if (categoria == null)
+    {
+        return NotFound("Categoría no encontrada.");
+    }
 
+    var documentos = (from d in _context.DOCUMENTOS
+                      join u in _context.USUARIOS on d.USUARIO_ID equals u.ID into joined
+                      from u in joined.DefaultIfEmpty()
+                      where d.CATEGORIA_ID == filtro.Categoria
+                          && d.CREATE_DATE >= filtro.FechaInicio.Value
+                          && d.CREATE_DATE <= filtro.FechaFin.Value
+                      select new DocumentoDto
+                      {
+                          Id = d.ID,
+                          Titulo = d.TITULO,
+                          Descripcion = d.DESCRIPCION,
+                          Categoria = d.CATEGORIA_ID,
+                          NombreCategoria = d.CATEGORIA != null ? d.CATEGORIA.NOMBRE : "Sin categoría",
+                          Estado = d.ESTADO,
+                          CreadoIA = d.CREADO_IA ?? false,
+                          CreateDate = d.CREATE_DATE,
+                          VersionActual = d.VERSION_ACTUAL ?? 0,
+                          RutaArchivo = d.RUTA_ARCHIVO,
+                          UsuarioCreadorId = d.USUARIO_ID,
+                          NombreUsuarioCreador = u != null ? u.NOMBRE : "Desconocido"
+                      }).ToList();
+
+    var pdf = _reporteUsuarioService.GenerarReporteDocumentosPorUsuario(documentos, $"Categoría: {categoria.NOMBRE}");
+
+    return File(pdf, "application/pdf", "ReporteDocumentosCategoria.pdf");
+}
 
     }
+
 }

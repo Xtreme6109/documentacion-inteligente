@@ -19,8 +19,8 @@
       "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\services\\reporteserviceword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\documentodto2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\documentodto2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\DocumentoReporteDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\DocumentoReporteDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\documentos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -149,11 +149,11 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "DocumentoDTO2.cs",
-              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO2.cs",
-              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO2.cs",
-              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO2.cs",
-              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO2.cs",
+              "Title": "DocumentoReporteDTO.cs",
+              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
+              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAQwAQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T00:23:14.68Z",

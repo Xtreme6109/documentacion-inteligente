@@ -55,6 +55,11 @@ public class DocumentosController : ControllerBase
 
             .ToListAsync();
 
+            
+Console.WriteLine($"Cantidad documentos: {documentos.Count}");
+foreach(var doc in documentos)
+    Console.WriteLine($"ID: {doc.Id}, Titulo: {doc.Titulo}");
+
         return Ok(documentos);
     }
 
