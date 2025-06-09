@@ -164,7 +164,7 @@
 
 
 
-       
+
 
 </template>
 
@@ -192,9 +192,6 @@ const datos = ref({
 
 const documentDescription = ref('')
 
-setInterval(() => {
-  console.log(documentDescription.value)
-}, 7000);
 
 // Observa cambios en "datos" para actualizar documentDescription
 watch(datos, (newVal) => {
@@ -233,6 +230,8 @@ Requisitos:
 - La longitud máxima del texto es de 25000 caracteres.
 - La longitud mínima del texto es de 15000 caracteres.
 - En el historial de cambios, en el apartado de fecha, utiliza esta fecha exacta: "${today}".
+- ¡IMPORTANTE! NO USES ETIQUETAS DE HTML O ETIQUETAS FUERA DE TEXTO PLANO CON LA ESTRUCTURA DEL OBJETO A CONTINUACIÓN, LOS DATOS SE PASARÁN EN UN OBJETO POR COMODIDAD PARA EL PROMPT
+PERO NO DEBES HACER NADA FUERA DE LA SIGUIENTE ESTRUCTURA, NO MÁS DE 2 PROFUNDIDADES EN EL OBJETO DEL III Y IV
 La estructura que tomarás es la siguente:
 {
   "Título del Documento": null,
@@ -375,47 +374,53 @@ const getInformation = async (messageText) => {
 function mapearPropiedadesDinamicas(obj) {
   const resultado = {};
   Object.keys(obj).forEach((key) => {
-    resultado[key] = obj[key];
+    const valor = obj[key];
+    if (typeof valor === "object" && valor !== null) {
+      resultado[key] = Object.entries(valor)
+        .map(([subKey, subVal]) => `${subKey}: ${subVal}`)
+        .join(". ");
+    } else {
+      resultado[key] = valor;
+    }
   });
   return resultado;
 }
 
 function transformarDocumento(original) {
   return {
-    títuloDelDocumento: original["Título del Documento"] || "",
-    fechaDeEdición: original["Fecha de Edición"] ? new Date(original["Fecha de Edición"]).toISOString() : new Date().toISOString(),
-    version: original["Versión"] || "",
-    códigoDelDocumento: original["Código del Documento"] || "",
-    elaboradoPor: original["Elaborado por"] || "",
-    revisadoPor: original["Revisado por"] || "",
-    iObjetivo: original["I. Objetivo"] || "",
-    iiAlcance: original["II. Alcance"] || "",
-    iiiResponsabilidades: mapearPropiedadesDinamicas(original["III. Responsabilidades"] || {}),
-    ivDesarrollo: mapearPropiedadesDinamicas(original["IV. Desarrollo"] || {}),
-    vVigencia: original["V. Vigencia"] || "",
-    viReferenciasBibliográficas: original["VI. Referencias Bibliográficas"] || "",
-    viiHistorialDeCambioDeDocumentos: (original["VII. Historial de cambio de Documentos"] || []).map(h => ({
-      number: h.number || 0,
-      date: h.date ? new Date(h.date).toISOString() : new Date().toISOString(),
-      description: h.description || ""
-    })),
-    viiiFirmas: original["VIII. Firmas"] || "",
+      títuloDelDocumento: original["Título del Documento"] || "",
+      fechaDeEdición: original["Fecha de Edición"] ? new Date(original["Fecha de Edición"]).toISOString() : new Date().toISOString(),
+      version: original["Versión"] || "",
+      códigoDelDocumento: original["Código del Documento"] || "",
+      elaboradoPor: original["Elaborado por"] || "",
+      revisadoPor: original["Revisado por"] || "",
+      iObjetivo: original["I. Objetivo"] || "",
+      iiAlcance: original["II. Alcance"] || "",
+      iiiResponsabilidades: mapearPropiedadesDinamicas(original["III. Responsabilidades"] || {}),
+      ivDesarrollo: mapearPropiedadesDinamicas(original["IV. Desarrollo"] || {}),
+      vVigencia: original["V. Vigencia"] || "",
+      viReferenciasBibliográficas: original["VI. Referencias Bibliográficas"] || "",
+      viiHistorialDeCambioDeDocumentos: (original["VII. Historial de cambio de Documentos"] || []).map(h => ({
+        number: h.number || 0,
+        date: h.date ? new Date(h.date).toISOString() : new Date().toISOString(),
+        description: h.description || ""
+      })),
+      viiiFirmas: original["VIII. Firmas"] || "",
 
-    // Campos adicionales obligatorios
-    titulo: original["Título del Documento"] || "",
-    hoja: 0,
-    totalHojas: 0,
-    autorizadoPor: original["Autorizado por"] || "string", // completar adecuadamente
-    fechaDivulgacion: new Date().toISOString(),
+      // Campos adicionales obligatorios
+      titulo: original["Título del Documento"] || "",
+      hoja: 0,
+      totalHojas: 0,
+      autorizadoPor: original["Autorizado por"] || "string",
+      fechaDivulgacion: new Date().toISOString(),
 
-    // Campos que faltaban en tu función
-    categoria: original["Categoria"] || 0,
-    nombreCategoria: original["Nombre Categoria"] || "string",
-    usuarioCreadorId: original["Usuario Creador Id"] || 0,
-    usuarioId: original["Usuario Id"] || 0,
-    fechaInicio: original["Fecha Inicio"] ? new Date(original["Fecha Inicio"]).toISOString() : new Date().toISOString(),
-    fechaFin: original["Fecha Fin"] ? new Date(original["Fecha Fin"]).toISOString() : new Date().toISOString(),
-    nombreUsuarioCreador: original["Nombre Usuario Creador"] || "string",
+      categoria: original["Categoria"] || 0,
+      nombreCategoria: original["Nombre Categoria"] || "string",
+      usuarioCreadorId: original["Usuario Creador Id"] || 0,
+      usuarioId: original["Usuario Id"] || 0,
+      fechaInicio: original["Fecha Inicio"] ? new Date(original["Fecha Inicio"]).toISOString() : new Date().toISOString(),
+      fechaFin: original["Fecha Fin"] ? new Date(original["Fecha Fin"]).toISOString() : new Date().toISOString(),
+      nombreUsuarioCreador: original["Nombre Usuario Creador"] || "string",
   };
 }
 
@@ -423,12 +428,11 @@ function transformarDocumento(original) {
 
 const downloadWordDocument = async () => {
   let data = transformarDocumento(documentData.value);
-  console.log("Estructura:" + transformarDocumento())
-  console.log(documentData.value)
   if (!data || Object.keys(data).length === 0) {
     $q.notify({ type: 'warning', message: 'No hay documento para descargar' });
     return;
   }
+
 
   try {
     const response = await fetch('http://localhost:5168/api/reporte/reporte-documento-word', {
@@ -694,10 +698,6 @@ function getUsuarioIdFromToken() {
   const payload = JSON.parse(atob(token.split('.')[1]))
   return parseInt(payload.UsuarioId)
 }
-
-
-
-
 </script>
 
 <style scoped lang="scss">

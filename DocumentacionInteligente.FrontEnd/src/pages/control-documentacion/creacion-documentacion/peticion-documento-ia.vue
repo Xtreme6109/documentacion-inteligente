@@ -184,7 +184,7 @@ La estructura que tomarás es la siguente:
     "...": null
   },
   "V. Vigencia": null,
-  "VI. Referencias Bibliográficas": null,
+  "VI. Referencias Bibliográficas": 'DEVUELVEME DATOS PLANOS, NADA DE ARREGLOS U OBJETOS',
   "VII. Historial de cambio de Documentos": [
     {
       "number": null,
@@ -192,7 +192,7 @@ La estructura que tomarás es la siguente:
       "description": null
     }
   ],
-  "VIII. Firmas": null
+  "VIII. Firmas": 'SIEMRPE DEBE IR NULL'
 }
 `;
 const cargando = ref(false)
@@ -294,8 +294,6 @@ function transformarDocumento(original) {
 
 const downloadWordDocument = async () => {
   let data = transformarDocumento(documentData.value);
-  console.log(transformarDocumento)
-  console.log(documentData.value)
   if (!data || Object.keys(data).length === 0) {
     $q.notify({ type: 'warning', message: 'No hay documento para descargar' });
     return;

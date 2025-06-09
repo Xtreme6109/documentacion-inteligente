@@ -586,3 +586,38 @@ C:\DPWA\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\obj\De
 C:\DPWA\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\obj\Debug\net9.0\DocumentacionInteligente.BackEnd.pdb
 C:\DPWA\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\obj\Debug\net9.0\DocumentacionInteligente.BackEnd.genruntimeconfig.cache
 C:\DPWA\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\obj\Debug\net9.0\ref\DocumentacionInteligente.BackEnd.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Dapper.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\DocumentFormat.OpenXml.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.barcodes.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.bouncy-castle-connector.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.forms.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.io.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.kernel.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.layout.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.pdfa.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.pdfua.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.sign.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.styledxmlparser.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.svg.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.bouncy-castle-adapter.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.commons.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.font_asian.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.licensing.base.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\ICU4N.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\J2N.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.typography.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.html2pdf.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\itext.pdfoptimizer.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\SkiaSharp.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\System.IO.Packaging.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.Document.NET.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.Drawing.NET.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.PDF.NET.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\Xceed.Words.NET.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\osx\native\libSkiaSharp.dylib
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\win-arm64\native\libSkiaSharp.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\win-x64\native\libSkiaSharp.dll
+C:\Users\IT\Desktop\Main\David\ITCA\Ingenieria\Ciclo 3\DPWA\Proyecto Final\DocumentacionInteligente.BackEnd\DocumentacionInteligente.BackEnd\bin\Debug\net9.0\runtimes\win-x86\native\libSkiaSharp.dll

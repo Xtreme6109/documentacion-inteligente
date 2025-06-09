@@ -19,7 +19,7 @@ public class DocumentoDto
     public DateTime? FechaInicio { get; set; }
     public DateTime? FechaFin { get; set; }
 
-    public string NombreUsuarioCreador { get; set; }
+    public string? NombreUsuarioCreador { get; set; }
 
 
     
