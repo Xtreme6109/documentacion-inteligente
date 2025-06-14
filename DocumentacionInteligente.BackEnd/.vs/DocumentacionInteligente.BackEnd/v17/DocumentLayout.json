@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\reportecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\reportecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -15,8 +23,8 @@
       "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\services\\reporteserviceword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\DocumentoReporteDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\DocumentoReporteDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\documentoreportedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\models\\documentoreportedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\documentos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,14 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\openiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\openiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|solutionrelative:documentacioninteligente.backend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2F87F97-5200-49C7-9D4E-14BF5116685F}|DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.csproj|c:\\xampp1\\documentacion-inteligente\\documentacioninteligente.backend\\documentacioninteligente.backend\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -101,37 +101,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReporteServices.cs",
-              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
-              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
-              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
-              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
-              "ViewState": "AgIAAMAAAAAAAAAAAAAAAMAAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T00:25:51.385Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ReporteServiceWord.cs",
-              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
-              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
-              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
-              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAwwBoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T01:43:04.608Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "DocumentoReporteDTO.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
@@ -139,25 +113,24 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\DocumentoReporteDTO.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAQwAQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T00:23:14.68Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-05T00:23:14.68Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ReporteController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
               "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\ReporteController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAowEcAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAowEcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-05T00:43:29.936Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "HISTORIALDOCUMENTOIA.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\HISTORIALDOCUMENTOIA.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\HISTORIALDOCUMENTOIA.cs",
@@ -165,12 +138,61 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\HISTORIALDOCUMENTOIA.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-07T21:27:56.139Z",
+              "WhenOpened": "2025-06-07T21:27:56.139Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Program.cs",
+              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Program.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAwwJwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T21:22:10.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAMwE0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T16:16:29.626Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "ReporteServiceWord.cs",
+              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
+              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Services\\ReporteServiceWord.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAwwBoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T01:43:04.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReporteServices.cs",
+              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
+              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
+              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
+              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Services\\ReporteServices.cs",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAAMAAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T00:25:51.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "DOCUMENTOS.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
@@ -178,12 +200,11 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\DOCUMENTOS.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T17:41:10.825Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T17:41:10.825Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "DocumentosController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
@@ -191,12 +212,11 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\DocumentosController.cs",
               "ViewState": "AgIAACkAAAAAAAAAAAAwwAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T16:38:38.502Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T16:38:38.502Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "USUARIOS.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
@@ -204,12 +224,11 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\USUARIOS.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T23:57:46.005Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-14T23:57:46.005Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "OpenIAController.cs",
               "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\OpenIAController.cs",
               "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\OpenIAController.cs",
@@ -217,21 +236,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\OpenIAController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T22:03:45.231Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
-              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Program.cs",
-              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Program.cs",
-              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Program.cs",
-              "ViewState": "AgIAAH0AAAAAAAAAAAAwwIYAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T21:22:10.222Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-06T22:03:45.231Z"
             },
             {
               "$type": "Document",
@@ -243,21 +248,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\LoginDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T17:35:01.551Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
-              "ToolTip": "C:\\xampp1\\documentacion-inteligente\\DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
-              "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\UserController.cs",
-              "ViewState": "AgIAALcAAAAAAAAAAAAowMUAAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T16:16:29.626Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T17:35:01.551Z"
             },
             {
               "$type": "Document",
@@ -269,8 +260,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-05T16:14:42.12Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-05T16:14:42.12Z"
             },
             {
               "$type": "Document",
@@ -282,8 +272,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\LOGS_ACCESO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T17:35:12.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T17:35:12.951Z"
             },
             {
               "$type": "Document",
@@ -295,8 +284,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\DocumentoDTO.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAywAgAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T00:22:12.241Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-05T00:22:12.241Z"
             },
             {
               "$type": "Document",
@@ -308,8 +296,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\WeatherForecast.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAiwA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T18:34:32.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-06T18:34:32.539Z"
             },
             {
               "$type": "Document",
@@ -321,8 +308,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\DocumentacionInteligente.BackEnd.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-06-05T16:14:40.12Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-05T16:14:40.12Z"
             },
             {
               "$type": "Document",
@@ -334,8 +320,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\IA_PROCESAMIENTOS.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T17:34:50.903Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T17:34:50.903Z"
             },
             {
               "$type": "Document",
@@ -358,8 +343,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\PALABRAS_CLAVE.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T17:35:24.845Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T17:35:24.845Z"
             },
             {
               "$type": "Document",
@@ -371,8 +355,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Models\\VERSIONES.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-17T17:35:44.65Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-17T17:35:44.65Z"
             },
             {
               "$type": "Document",
@@ -384,8 +367,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Controllers\\AdminController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAACBjwAsAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T22:41:23.722Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-14T22:41:23.722Z"
             },
             {
               "$type": "Document",
@@ -397,8 +379,7 @@
               "RelativeToolTip": "DocumentacionInteligente.BackEnd\\Data\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T22:36:21.096Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-13T22:36:21.096Z"
             }
           ]
         }

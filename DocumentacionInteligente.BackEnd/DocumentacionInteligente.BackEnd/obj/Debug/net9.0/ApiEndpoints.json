@@ -215,6 +215,22 @@
   },
   {
     "ContainingType": "DocumentosController",
+    "Method": "ObtenerTextoDocumento",
+    "RelativePath": "api/Documentos/TextoDocumento/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentosController",
     "Method": "GetTitulosUnicos",
     "RelativePath": "api/Documentos/titulos",
     "HttpMethod": "GET",
@@ -297,6 +313,70 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PuntosClaveController",
+    "Method": "ExtraerPuntosClave",
+    "RelativePath": "api/PuntosClave/extraer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PuntosClaveController\u002BTextoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "GenerarReporteCategoria",
+    "RelativePath": "api/Reporte/reporte-categoria",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "FiltroReporteCategoriaDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "GenerarReporteConsumoTokens",
+    "RelativePath": "api/Reporte/reporte-consumo-tokens",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "FiltroReporteTokensDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "DescargarReporteDocumento",
+    "RelativePath": "api/Reporte/reporte-documento",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "documento",
+        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
     "Method": "DescargarDocumentoWord",
     "RelativePath": "api/Reporte/reporte-documento-word",
@@ -314,15 +394,15 @@
   },
   {
     "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
-    "Method": "DescargarReporteDocumento2",
-    "RelativePath": "api/Reporte/reporte-documento2",
+    "Method": "GenerarReporteUsuario",
+    "RelativePath": "api/Reporte/reporte-usuario",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "documento2",
-        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoReporteDTO",
+        "Name": "documentoDto",
+        "Type": "DocumentacionInteligente.BackEnd.Models.DocumentoDTO",
         "IsRequired": true
       }
     ],
@@ -330,18 +410,12 @@
   },
   {
     "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
-    "Method": "Tokens",
-    "RelativePath": "api/Reporte/reporteconsumotokens",
-    "HttpMethod": "POST",
+    "Method": "GetTokensPorUsuario",
+    "RelativePath": "api/Reporte/TokensPorUsuario",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "historialIA",
-        "Type": "System.Collections.Generic.List\u00601[[HISTORIALDOCUMENTOSIA, DocumentacionInteligente.BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -542,6 +616,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.Usercontroller",
+    "Method": "GetUsuariosPorRol",
+    "RelativePath": "api/User/usuarios-por-rol",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
