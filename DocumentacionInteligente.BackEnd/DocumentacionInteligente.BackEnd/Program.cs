@@ -125,6 +125,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configurar middleware
@@ -151,6 +152,29 @@ app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapControllers();
+app.UseRouting();
+
+app.UseCors("AllowVueApp");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Configurar endpoints para API, Razor y Vue
+app.UseEndpoints(endpoints =>
+{
+    // API REST
+    endpoints.MapControllers();
+
+    endpoints.MapControllerRoute(
+        name: "razor",
+        pattern: "{controller}/{action}/{id?}");
+
+
+    // Vue SPA fallback (solo si sirves Vue desde wwwroot)
+    endpoints.MapFallbackToFile("index.html");
+});
 
 app.Run();

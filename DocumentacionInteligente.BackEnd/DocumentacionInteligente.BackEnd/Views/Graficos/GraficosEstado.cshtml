@@ -1,0 +1,321 @@
+@{
+    ViewData["Title"] = "Documentos por Estado";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  main {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+.chart-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* Alturas más específicas para cada gráfico */
+#barChart {
+  max-height: 350px;
+}
+
+#donutChart {
+  max-height: 300px;
+}
+
+#stackedAreaChart {
+  max-height: 400px;
+}
+
+  /* Tabla con scroll y alto limitado */
+  .table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+
+</style>
+
+<!-- Navbar fijo arriba -->
+<nav class="navbar navbar-dark bg-primary sticky-top">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-outline-light" onclick="volverVue()">
+      ← Volver a la Página Principal
+    </button>
+    <span class="navbar-brand mx-auto text-center">Documentos por Estado<br>Informe Micro</span>
+    <div style="width: 120px;"></div> 
+  </div>
+</nav>
+
+<main class="container-fluid">
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="chart-container border rounded shadow-sm p-3 bg-white">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="chart-container border rounded shadow-sm p-3 bg-white">
+        <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="chart-container border rounded shadow-sm p-3 bg-white">
+        <canvas id="stackedAreaChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="mb-3">Tabla de Documentos</h4>
+  <div class="table-responsive border rounded shadow-sm bg-white">
+    <table id="docTable" class="table table-striped table-bordered mb-0">
+      <thead class="table-primary sticky-top">
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Estado</th>
+          <th>Creado IA</th>
+          <th>Fecha Creación</th>
+          <th>Versión</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Sección de detalles extra tipo dashboard -->
+  <section class="mt-5 p-4 border rounded shadow-sm bg-light">
+    <h5>Información adicional</h5>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="p-3 bg-white rounded shadow-sm">
+          <h6>Total Documentos</h6>
+          <p id="totalDocs" class="fs-3 fw-bold">0</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 bg-white rounded shadow-sm">
+          <h6>Categorías distintas</h6>
+          <p id="totalCategories" class="fs-3 fw-bold">0</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 bg-white rounded shadow-sm">
+          <h6>Documentos IA</h6>
+          <p id="totalIA" class="fs-3 fw-bold">0</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function volverVue() {
+    // Cambia la ruta según cómo manejas Vue, puede ser un router push o un href normal:
+    window.location.href = 'http://localhost:9000/#/inicio'; 
+  }
+
+  function agruparPorEstado(documentos) {
+     const conteo = {};
+      for (const doc of documentos) {
+        const key = (doc.estado || 'Sin Estado');
+        conteo[key] = (conteo[key] || 0) + 1;
+      }
+      return conteo;
+  }
+
+  async function fetchDocumentos() {
+    const response = await fetch('/api/Documentos/AllDocuments');
+    if (!response.ok) {
+      alert('Error al cargar documentos');
+      return [];
+    }
+    return await response.json();
+  }
+
+  function renderTable(documentos) {
+    const tbody = document.querySelector('#docTable tbody');
+    tbody.innerHTML = '';
+    documentos.forEach(doc => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${doc.id}</td>
+        <td>${doc.titulo}</td>
+        <td>${doc.nombreCategoria}</td>
+        <td>${doc.estado}</td>
+        <td>${doc.creadoIA ? 'Sí' : 'No'}</td>
+        <td>${new Date(doc.createDate).toLocaleDateString()}</td>
+        <td>${doc.versionActual}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+function createBarChart(ctx, labels, data) {
+  return new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Documentos por Estado',
+        data,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y', // ← hace que sea horizontal
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Documentos por Estado (Barras Horizontales)'
+        },
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+
+function createDonutChart(ctx, labels, data) {
+  return new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: [
+          '#4e79a7', '#f28e2b', '#e15759',
+          '#76b7b2', '#59a14f', '#edc949',
+          '#af7aa1', '#ff9da7', '#9c755f', '#bab0ac'
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Distribución Proporcional por Estado'
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+}
+
+function createStackedAreaChart(ctx, documentos) {
+  const grouped = {};
+  documentos.forEach(doc => {
+    const fecha = new Date(doc.createDate).toISOString().slice(0, 10);
+    const estado = doc.estado || 'Sin Estado';
+    if (!grouped[fecha]) grouped[fecha] = {};
+    grouped[fecha][estado] = (grouped[fecha][estado] || 0) + 1;
+  });
+
+  const fechas = Object.keys(grouped).sort();
+  const estadosUnicos = [...new Set(documentos.map(d => d.estado || 'Sin Estado'))];
+
+  const datasets = estadosUnicos.map(estado => {
+    return {
+      label: estado,
+      data: fechas.map(f => grouped[f]?.[estado] || 0),
+      fill: true,
+      borderColor: getRandomColor(),
+      backgroundColor: getRandomColor(0.3),
+      tension: 0.3
+    };
+  });
+
+  return new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: fechas,
+      datasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      stacked: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Evolución de Documentos por Estado (Stacked)'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+// Función auxiliar para generar colores aleatorios
+function getRandomColor(alpha = 1) {
+  const r = Math.floor(Math.random() * 200);
+  const g = Math.floor(Math.random() * 200);
+  const b = Math.floor(Math.random() * 200);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+  async function main() {
+    const documentos = await fetchDocumentos();
+    if (!documentos.length) return;
+
+    renderTable(documentos);
+
+    const conteoEstados = agruparPorEstado(documentos);
+    const labels = Object.keys(conteoEstados);
+    const data = Object.values(conteoEstados);
+
+    document.getElementById('totalDocs').innerText = documentos.length;
+    document.getElementById('totalCategories').innerText = labels.length;
+    document.getElementById('totalIA').innerText = documentos.filter(d => d.creadoIA).length;
+
+    createBarChart(document.getElementById('barChart').getContext('2d'), labels, data);
+    createDonutChart(document.getElementById('donutChart').getContext('2d'), labels, data);
+    createStackedAreaChart(document.getElementById('stackedAreaChart').getContext('2d'), documentos);
+
+  }
+
+  main();
+</script>

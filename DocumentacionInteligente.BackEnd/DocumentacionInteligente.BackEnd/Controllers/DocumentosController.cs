@@ -42,6 +42,7 @@ public class DocumentosController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet("AllDocuments")]
     public async Task<ActionResult<List<DocumentoDto>>> GetAllDocuments()
     {

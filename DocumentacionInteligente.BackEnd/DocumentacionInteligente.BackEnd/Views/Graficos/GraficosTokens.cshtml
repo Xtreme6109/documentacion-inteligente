@@ -1,0 +1,287 @@
+@{
+    ViewData["Title"] = "Reporte de Consumo de Tokens";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/dist/date-fns.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    main {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        padding: 1rem;
+    }
+
+    .chart-container {
+        position: relative;
+        width: 100%;
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .table-responsive {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    canvas {
+        max-height: 400px;
+    }
+</style>
+
+<nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <span class="navbar-brand mx-auto text-center">Reporte de Consumo de Tokens</span>
+    </div>
+</nav>
+
+<main class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="chart-container border rounded shadow-sm bg-white">
+                <canvas id="lineTokensPorDia"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-container border rounded shadow-sm bg-white">
+                <canvas id="barTokensEntradaSalida"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="chart-container border rounded shadow-sm bg-white">
+                <canvas id="polarTokensUsuarios"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Detalle de Consumo de Tokens</h4>
+    <div class="table-responsive border rounded shadow-sm bg-white">
+        <table class="table table-striped table-bordered mb-0">
+            <thead class="table-dark sticky-top">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Tokens Entrada</th>
+                    <th>Tokens Salida</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="tokenTable"></tbody>
+        </table>
+    </div>
+
+    <section class="mt-5 p-4 border rounded shadow-sm bg-light">
+        <h5>Indicadores Clave</h5>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="p-3 bg-white rounded shadow-sm">
+                    <h6>Total Tokens</h6>
+                    <p id="totalTokens" class="fs-3 fw-bold text-primary">0</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="p-3 bg-white rounded shadow-sm">
+                    <h6>Tokens Entrada</h6>
+                    <p id="tokensEntrada" class="fs-3 fw-bold text-success">0</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="p-3 bg-white rounded shadow-sm">
+                    <h6>Tokens Salida</h6>
+                    <p id="tokensSalida" class="fs-3 fw-bold text-danger">0</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    async function getConsumoTokens() {
+        const res = await fetch('/api/Reporte/TokensPorUsuario');
+        if (!res.ok) {
+            alert('Error cargando tokens');
+            return [];
+        }
+        return await res.json();
+    }
+
+    function renderKpis(data) {
+        const entrada = data.reduce((sum, d) => sum + (d.tokensEntrada || 0), 0);
+        const salida = data.reduce((sum, d) => sum + (d.tokensSalida || 0), 0);
+        document.getElementById("totalTokens").innerText = entrada + salida;
+        document.getElementById("tokensEntrada").innerText = entrada;
+        document.getElementById("tokensSalida").innerText = salida;
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById("tokenTable");
+        tbody.innerHTML = '';
+        data.forEach(d => {
+            const row = `
+                <tr>
+                    <td>${new Date(d.fecha).toLocaleDateString()}</td>
+                    <td>${d.tokensEntrada}</td>
+                    <td>${d.tokensSalida}</td>
+                    <td>${d.tokensEntrada + d.tokensSalida}</td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+
+    function lineChart(ctx, data) {
+        const fechas = data.map(d => new Date(d.fecha));
+        const totalTokens = data.map(d => d.tokensEntrada + d.tokensSalida);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Total Tokens por Día',
+                    data: totalTokens,
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                scales: {
+                    x: { type: 'time', time: { unit: 'day' } },
+                    y: { beginAtZero: true }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Consumo Diario de Tokens'
+                    }
+                }
+            }
+        });
+    }
+
+    function barChart(ctx, data) {
+        const fechas = data.map(d => new Date(d.fecha).toISOString().split('T')[0]);
+        const entrada = data.map(d => d.tokensEntrada);
+        const salida = data.map(d => d.tokensSalida);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: fechas,
+                datasets: [
+                    {
+                        label: 'Tokens Entrada',
+                        data: entrada,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                    },
+                    {
+                        label: 'Tokens Salida',
+                        data: salida,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Tokens de Entrada vs Salida por Día'
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true, beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    function polarChart(ctx, usuarios) {
+    const nombres = usuarios.map(u => u.nombreUsuario);
+    const tokens = usuarios.map(u => u.tokensTotales);
+
+    const colors = [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)'
+    ];
+
+    new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: nombres,
+            datasets: [{
+                label: 'Tokens Totales',
+                data: tokens,
+                backgroundColor: colors.slice(0, usuarios.length),
+                borderColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Tokens por Usuario'
+                },
+                legend: {
+                    position: 'right'
+                }
+            },
+            scales: {
+                r: {
+                    ticks: {
+                        backdropColor: 'transparent',
+                        color: '#333'
+                    }
+                }
+            }
+        }
+    });
+}
+
+    async function getTokensPorDia() {
+        const res = await fetch('/api/Reporte/TokensPorDia');
+        if (!res.ok) {
+            alert('Error cargando datos por día');
+            return [];
+        }
+        return await res.json();
+    }
+
+        async function main() {
+        const tokensData = await getTokensPorDia();
+        const usuariosData = await getConsumoTokens();
+
+        renderKpis(tokensData);
+        renderTable(tokensData);
+        lineChart(document.getElementById('lineTokensPorDia'), tokensData);
+        barChart(document.getElementById('barTokensEntradaSalida'), tokensData);
+        polarChart(document.getElementById('polarTokensUsuarios'), usuariosData);
+    }
+
+    main();
+</script>

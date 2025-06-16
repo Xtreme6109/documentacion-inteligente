@@ -37,6 +37,7 @@
             color="primary"
             :loading="cargando"
             @click="getInformation(documentDescription)"
+            :disable="documentDescription.length < 10"
         />
         <q-btn
           label="Descargar documento generado"
@@ -146,8 +147,9 @@ const documentData = ref({})
 const pageHeight = 770;
 const today = new Date().toISOString().split('T')[0];
 const systemMessage = `
-Eres una herramienta para crear documentación inteligente.
-Debes devolver siempre únicamente JSON puro, sin ningún texto adicional, sin comentarios, sin encabezados ni bloques de código.
+Eres un asistente experto en generación de documentación profesional para una empresa dedicada a la forja y fabricación de piezas aeroespaciales de alta precisión. No cuentas con información previa, por lo que debes crear contenido completo y coherente desde cero, incluyendo nombres de proyectos, procesos, materiales y áreas, siempre relacionados con la industria aeroespacial.
+Tu objetivo es generar documentos detallados y específicos para los siguientes roles: Gerencia, Departamento Técnico, Finanzas, Contabilidad, Marketing, Recursos Humanos, Legal y Soporte.
+Para cada petición, crea toda la información necesaria para que el documento sea útil y contextualizado, inventando detalles técnicos y organizativos propios del sector aeroespacial.
 No incluyas explicaciones, ni etiquetas, ni texto fuera del JSON.
 El JSON debe tener formato válido y correcto para poder parsearse sin errores.
 Si algún campo no tiene información, usa null.
@@ -155,7 +157,8 @@ Nunca devuelvas fragmentos de código o ejemplos que no sean JSON.
 Reemplaza todos los valores 'null' o '...' por texto completo y apropiado para el contexto, utilizando formato clave-valor.
 Si el campo se refiere a fechas, usa la fecha actual "${today}".
 Si el campo es una versión y no se indica ninguna, usa la versión "1.0".
-Si un campo requiere una lista o subestructura, inclúyela completa.
+No uses listas ni objetos anidados dentro de "III. Responsabilidades" ni dentro de "IV. Desarrollo".
+En estas dos secciones, debes devolver un objeto plano con claves representando roles o nombres de etapas (según corresponda al documento) y valores tipo texto plano describiendo responsabilidades o pasos/desarrollos.
 Requisitos:
 - Todos los campos deben contener datos válidos y completos.
 - El contenido debe estar redactado de forma técnica y educativa.
@@ -167,7 +170,10 @@ Requisitos:
 - La longitud máxima del texto es de 25000 caracteres.
 - La longitud mínima del texto es de 15000 caracteres.
 - En el historial de cambios, en el apartado de fecha, utiliza esta fecha exacta: "${today}".
-La estructura que tomarás es la siguente:
+- El campo "VI. Referencias Bibliográficas" debe ser texto plano (string), no lista ni objetos.
+- El campo "VIII. Firmas" siempre debe ser null.
+La estructura que tomarás es la siguiente:
+
 {
   "Título del Documento": null,
   "Fecha de Edición": null,
@@ -177,14 +183,30 @@ La estructura que tomarás es la siguente:
   "Revisado por": null,
   "I. Objetivo": null,
   "II. Alcance": null,
-  "III. Responsabilidades":  {
-    "...": null
+  "III. Responsabilidades": {
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa",
+    "Rol o título": "Descripción de la responsabilidad completa"
   },
   "IV. Desarrollo": {
-    "...": null
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa",
+    "Nombre etapa o paso": "Descripción completa del paso o etapa"
   },
   "V. Vigencia": null,
-  "VI. Referencias Bibliográficas": 'DEVUELVEME DATOS PLANOS, NADA DE ARREGLOS U OBJETOS',
+  "VI. Referencias Bibliográficas": null,
   "VII. Historial de cambio de Documentos": [
     {
       "number": null,
@@ -192,9 +214,10 @@ La estructura que tomarás es la siguente:
       "description": null
     }
   ],
-  "VIII. Firmas": 'SIEMRPE DEBE IR NULL'
+  "VIII. Firmas": null
 }
 `;
+
 const cargando = ref(false)
 
 const api = axios.create({
@@ -215,8 +238,10 @@ api.interceptors.request.use(
   error => Promise.reject(error)
 )
 
-const getInformation = async (messageText) => {
-  cargando.value = true;
+const MAX_RETRIES = 3
+
+const getInformation = async (messageText, attempt = 1) => {
+  cargando.value = true
   try {
     const response = await api.post('/documentacion/generar', {
       prompt: systemMessage + "\n\n" + messageText
@@ -237,19 +262,48 @@ const getInformation = async (messageText) => {
     })
 
   } catch (error) {
-    console.error('Error al generar el documento:', error)
-    $q.notify({ type: 'negative', message: 'Error al generar el documento: ' + error.message })
+    console.error(`Error al generar el documento (intento ${attempt}):`, error)
+
+    if (attempt < MAX_RETRIES) {
+      console.log(`Reintentando... intento ${attempt + 1}`)
+      await new Promise(res => setTimeout(res, 1000))
+      return getInformation(messageText, attempt + 1)
+    } else {
+      $q.notify({ type: 'negative', message: 'Error al generar el documento después de varios intentos: ' + error.message })
+    }
   } finally {
     cargando.value = false
   }
 }
-function mapearPropiedadesDinamicas(obj) {
-  const resultado = {};
-  Object.keys(obj).forEach((key) => {
-    resultado[key] = obj[key];
-  });
-  return resultado;
+
+
+function mapearPropiedadesDinamicas(original) {
+  let texto = "";
+  const lista = [];
+  const objeto = {};
+
+  if (typeof original === "string") {
+    texto = original;
+  } else if (Array.isArray(original)) {
+    texto = "Lista con elementos";
+    for (const item of original) {
+      lista.push(mapearPropiedadesDinamicas(item));
+    }
+  } else if (typeof original === "object" && original !== null) {
+    // En lugar de texto fijo, poner un resumen dinámico:
+    texto = `Objeto con propiedades: ${Object.keys(original).join(", ")}`;
+    for (const [key, value] of Object.entries(original)) {
+      objeto[key] = mapearPropiedadesDinamicas(value);
+      lista.push(mapearPropiedadesDinamicas(value));
+    }
+  } else {
+    texto = String(original);
+  }
+
+  return { texto, lista, objeto };
 }
+
+
 
 function transformarDocumento(original) {
   return {
@@ -266,20 +320,18 @@ function transformarDocumento(original) {
     vVigencia: original["V. Vigencia"] || "",
     viReferenciasBibliográficas: original["VI. Referencias Bibliográficas"] || "",
     viiHistorialDeCambioDeDocumentos: (original["VII. Historial de cambio de Documentos"] || []).map(h => ({
-      number: h.number || 0,
+      number: Number(h.number) || 0,
       date: h.date ? new Date(h.date).toISOString() : new Date().toISOString(),
       description: h.description || ""
     })),
     viiiFirmas: original["VIII. Firmas"] || "",
 
-    // Campos adicionales obligatorios
     titulo: original["Título del Documento"] || "",
     hoja: 0,
     totalHojas: 0,
-    autorizadoPor: original["Autorizado por"] || "string", // completar adecuadamente
+    autorizadoPor: original["Autorizado por"] || "string",
     fechaDivulgacion: new Date().toISOString(),
 
-    // Campos que faltaban en tu función
     categoria: original["Categoria"] || 0,
     nombreCategoria: original["Nombre Categoria"] || "string",
     usuarioCreadorId: original["Usuario Creador Id"] || 0,
@@ -289,6 +341,7 @@ function transformarDocumento(original) {
     nombreUsuarioCreador: original["Nombre Usuario Creador"] || "string",
   };
 }
+
 
 
 

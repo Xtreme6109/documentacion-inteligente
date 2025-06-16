@@ -208,6 +208,24 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             return Ok(tokensPorUsuario);
         }
 
+        [HttpGet("TokensPorDia")]
+        public IActionResult GetTokensPorDia()
+        {
+            var datosPorDia = _context.HISTORIALDOCUMENTOSIA
+                .GroupBy(h => h.FECHA_GENERACION.Date)
+                .Select(g => new
+                {
+                    fecha = g.Key,
+                    tokensEntrada = g.Sum(x => x.TOKENS_ENTRADA),
+                    tokensSalida = g.Sum(x => x.TOKENS_SALIDA)
+                })
+                .OrderBy(d => d.fecha)
+                .ToList();
+
+            return Ok(datosPorDia);
+        }
+
+
     }
 
 

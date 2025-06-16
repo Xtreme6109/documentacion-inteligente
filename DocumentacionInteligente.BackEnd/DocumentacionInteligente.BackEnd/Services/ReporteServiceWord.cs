@@ -225,22 +225,32 @@
                 body.Append(CreateParagraph(doc.IIAlcance ?? "N/A"));
 
                 body.Append(CreateHeading("III. Responsabilidades"));
-                if (doc.IIIResponsabilidades != null && doc.IIIResponsabilidades.Any())
+                if (doc.IIIResponsabilidades != null && doc.IIIResponsabilidades.EsObjeto)
                 {
-                    foreach (var item in doc.IIIResponsabilidades)
+                    foreach (var item in doc.IIIResponsabilidades.Objeto)
                     {
-                        body.Append(CreateBulletParagraph(item.Key, item.Value, 1)); // Usa ID 1
+                        body.Append(CreateBulletParagraph(item.Key, NodoTextoAString(item.Value), 1)); // Usa texto plano
                     }
+                }
+                else
+                {
+                    body.Append(CreateBulletParagraph("III. Responsabilidades", "N/A", 1));
                 }
 
 
+
                 body.Append(CreateHeading("IV. Desarrollo"));
-                if (doc.IVDesarrollo != null && doc.IVDesarrollo.Any())
+
+                if (doc.IVDesarrollo != null && doc.IVDesarrollo.EsObjeto)
                 {
-                    foreach (var item in doc.IVDesarrollo)
+                    foreach (var item in doc.IVDesarrollo.Objeto)
                     {
-                        body.Append(CreateBulletParagraph(item.Key, item.Value, 2)); // Usa ID 2
+                        body.Append(CreateBulletParagraph(item.Key, NodoTextoAString(item.Value), 2)); // Usa texto plano
                     }
+                }
+                else
+                {
+                    body.Append(CreateBulletParagraph("IV. Desarrollo", "N/A", 2));
                 }
 
 
@@ -359,6 +369,62 @@
                 new Run(new Text(content))
             );
         }
+
+        private static string NodoTextoAString(NodoTexto nodo)
+        {
+            if (nodo == null)
+                return "N/A";
+
+            if (nodo.EsTexto)
+                return nodo.Texto;
+
+            if (nodo.EsLista)
+                return string.Join("; ", nodo.Lista.Select(sub => NodoTextoAString(sub)));
+
+            if (nodo.EsObjeto)
+                return string.Join("; ", nodo.Objeto.Select(kvp => $"{kvp.Key}: {NodoTextoAString(kvp.Value)}"));
+
+            return string.Empty;
+        }
+
+
+
+
+        private static void AgregarNodoTextoRecursivo(Paragraph parent, NodoTexto nodo)
+        {
+            if (nodo == null)
+                return;
+
+            // Siempre imprime el texto base del nodo, si existe y no sea ese texto genérico
+            if (!string.IsNullOrWhiteSpace(nodo.Texto) && 
+                nodo.Texto != "Lista con elementos" && 
+                !nodo.Texto.StartsWith("Objeto con propiedades"))
+            {
+                parent.AppendChild(new Run(new Text(nodo.Texto)));
+                parent.AppendChild(new Run(new Break())); // salto de línea para separar
+            }
+
+            if (nodo.EsLista)
+            {
+                foreach (var item in nodo.Lista)
+                {
+                    AgregarNodoTextoRecursivo(parent, item);
+                }
+            }
+            else if (nodo.EsObjeto)
+            {
+                foreach (var kvp in nodo.Objeto)
+                {
+                    // Puedes mostrar la clave para que se vea el nombre del campo
+                    parent.AppendChild(new Run(new Text(kvp.Key + ": ")));
+                    AgregarNodoTextoRecursivo(parent, kvp.Value);
+                    parent.AppendChild(new Run(new Break())); // salto para separar objetos
+                }
+            }
+        }
+
+        // Agrega un pie de página con el número de página
+
 
        private void AddFooterWithPageNumber(MainDocumentPart mainPart)
         {
