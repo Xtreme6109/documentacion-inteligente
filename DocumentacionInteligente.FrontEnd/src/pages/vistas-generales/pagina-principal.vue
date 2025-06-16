@@ -10,19 +10,19 @@
         </q-card-section>
       </q-card>
 
-      <q-card class="q-pa-md">
+      <q-card class="q-pa-md" @click="GraficosTokenLink">
         <q-card-section>
           <canvas ref="chart4" style="height: 250px;"></canvas>
         </q-card-section>
       </q-card>
 
-      <q-card class="q-pa-md">
+      <q-card class="q-pa-md" @click="GraficosFechaLink">
         <q-card-section>
           <canvas ref="chart3" style="height: 250px;"></canvas>
         </q-card-section>
       </q-card>
 
-      <q-card class="q-pa-md">
+      <q-card class="q-pa-md" @click="GraficosEstadoLink">
         <q-card-section>
           <canvas ref="chart2" style="height: 100px;"></canvas>
         </q-card-section>
@@ -163,5 +163,17 @@ onMounted(async () => {
 
 function GraficosCategoriaLink(){
   window.location.href = 'http://localhost:5168/Graficos/GraficosCategoria';
+}
+
+function GraficosEstadoLink(){
+  window.location.href = 'http://localhost:5168/Graficos/GraficosEstado';
+}
+
+function GraficosFechaLink(){
+  window.location.href = 'http://localhost:5168/Graficos/GraficosFecha';
+}
+
+function GraficosTokenLink(){
+  window.location.href = 'http://localhost:5168/Graficos/GraficosTokens';
 }
 </script>

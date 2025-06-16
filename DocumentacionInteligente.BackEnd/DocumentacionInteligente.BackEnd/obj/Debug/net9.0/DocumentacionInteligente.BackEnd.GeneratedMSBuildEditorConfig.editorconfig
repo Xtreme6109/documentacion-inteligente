@@ -31,3 +31,15 @@ build_property.EnableCodeStyleSeverity =
 [C:/DPWA/DocumentacionInteligente.BackEnd/DocumentacionInteligente.BackEnd/Views/Graficos/GraficosCategoria.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZmljb3NcR3JhZmljb3NDYXRlZ29yaWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/DPWA/DocumentacionInteligente.BackEnd/DocumentacionInteligente.BackEnd/Views/Graficos/GraficosEstado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZmljb3NcR3JhZmljb3NFc3RhZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/DPWA/DocumentacionInteligente.BackEnd/DocumentacionInteligente.BackEnd/Views/Graficos/GraficosFecha.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZmljb3NcR3JhZmljb3NGZWNoYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/DPWA/DocumentacionInteligente.BackEnd/DocumentacionInteligente.BackEnd/Views/Graficos/GraficosTokens.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZmljb3NcR3JhZmljb3NUb2tlbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

@@ -6,4 +6,19 @@ public class GraficosController : Controller
     {
         return View(); 
     }
+
+    public IActionResult GraficosEstado()
+    {
+        return View(); 
+    }
+
+    public IActionResult GraficosFecha()
+    {
+        return View(); 
+    }
+
+    public IActionResult GraficosTokens()
+    {
+        return View(); 
+    }
 }
