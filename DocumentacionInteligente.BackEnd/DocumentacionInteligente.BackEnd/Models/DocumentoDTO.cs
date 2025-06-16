@@ -18,8 +18,8 @@
         public string RevisadoPor { get; set; }
         public string IObjetivo { get; set; }
         public string IIAlcance { get; set; }
-        public Dictionary<string, string> IIIResponsabilidades { get; set; }
-        public Dictionary<string, string> IVDesarrollo { get; set; }
+        public NodoTexto IIIResponsabilidades { get; set; }
+        public NodoTexto IVDesarrollo { get; set; }
         public string VVigencia { get; set; }
         public string VIReferenciasBibliográficas { get; set; }
         public List<HistorialCambio> VIIHistorialDeCambioDeDocumentos { get; set; }

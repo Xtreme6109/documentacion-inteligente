@@ -4,7 +4,7 @@
       class="grid-container"
       style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; height: 70vh;"
     >
-      <q-card class="q-pa-md">
+      <q-card class="q-pa-md" @click="GraficosCategoriaLink">
         <q-card-section>
           <canvas ref="chart1" style="height: 250px;"></canvas>
         </q-card-section>
@@ -160,4 +160,8 @@ onMounted(async () => {
     $q.notify({ type: 'negative', message: 'Error al cargar gráficos' })
   }
 })
+
+function GraficosCategoriaLink(){
+  window.location.href = 'http://localhost:5168/Graficos/GraficosCategoria';
+}
 </script>

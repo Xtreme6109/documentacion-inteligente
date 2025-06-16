@@ -129,23 +129,53 @@ namespace DocumentacionInteligente.BackEnd.Services
 
             if (doc.IIIResponsabilidades != null)
             {
-                var list = new iText.Layout.Element.List()
-                    .SetSymbolIndent(15)
-                    .SetListSymbol("\u2022")
-                    .SetMarginLeft(20);
-
-                foreach (var item in doc.IIIResponsabilidades)
+                // Mostrar Texto
+                if (!string.IsNullOrEmpty(doc.IIIResponsabilidades.Texto))
                 {
-                    var content = new Paragraph()
-                        .Add(new Text($"{item.Key}: ").SetFont(boldFont))
-                        .Add(new Text(item.Value).SetFont(normalFont));
-
-                    var listItem = new ListItem();
-                    listItem.Add(content);
-                    list.Add(listItem);
+                    document.Add(new Paragraph(doc.IIIResponsabilidades.Texto).SetMarginLeft(20));
                 }
 
-                document.Add(list);
+                // Mostrar Lista
+                if (doc.IIIResponsabilidades.Lista != null && doc.IIIResponsabilidades.Lista.Any())
+                {
+                    var list = new iText.Layout.Element.List()
+                        .SetSymbolIndent(15)
+                        .SetListSymbol("\u2022")
+                        .SetMarginLeft(20);
+
+                    foreach (var item in doc.IIIResponsabilidades.Lista)
+                    {
+                        var listItemParagraph = new Paragraph();
+                        AgregarNodoTextoRecursivo(listItemParagraph, item, normalFont, boldFont);
+
+                        var listItem = new ListItem();
+                        listItem.Add(listItemParagraph);
+                        list.Add(listItem);
+                    }
+                    document.Add(list);
+                }
+
+                // Mostrar Objeto
+                if (doc.IIIResponsabilidades.Objeto != null && doc.IIIResponsabilidades.Objeto.Any())
+                {
+                    var list = new iText.Layout.Element.List()
+                        .SetSymbolIndent(15)
+                        .SetListSymbol("\u2022")
+                        .SetMarginLeft(20);
+
+                    foreach (var item in doc.IIIResponsabilidades.Objeto)
+                    {
+                        var content = new Paragraph()
+                            .Add(new Text($"{item.Key}: ").SetFont(boldFont));
+
+                        AgregarNodoTextoRecursivo(content, item.Value, normalFont, boldFont);
+
+                        var listItem = new ListItem();
+                        listItem.Add(content);
+                        list.Add(listItem);
+                    }
+                    document.Add(list);
+                }
             }
             else
             {
@@ -160,23 +190,53 @@ namespace DocumentacionInteligente.BackEnd.Services
 
             if (doc.IVDesarrollo != null)
             {
-                var list = new iText.Layout.Element.List()
-                    .SetSymbolIndent(15)
-                    .SetListSymbol("\u2022")
-                    .SetMarginLeft(20);
-
-                foreach (var item in doc.IVDesarrollo)
+                // Mostrar Texto
+                if (!string.IsNullOrEmpty(doc.IVDesarrollo.Texto))
                 {
-                    var content = new Paragraph()
-                        .Add(new Text($"{item.Key}: ").SetFont(boldFont))
-                        .Add(new Text(item.Value).SetFont(normalFont));
-
-                    var listItem = new ListItem();
-                    listItem.Add(content);
-                    list.Add(listItem);
+                    document.Add(new Paragraph(doc.IVDesarrollo.Texto).SetMarginLeft(20));
                 }
 
-                document.Add(list);
+                // Mostrar Lista
+                if (doc.IVDesarrollo.Lista != null && doc.IVDesarrollo.Lista.Any())
+                {
+                    var list = new iText.Layout.Element.List()
+                        .SetSymbolIndent(15)
+                        .SetListSymbol("\u2022")
+                        .SetMarginLeft(20);
+
+                    foreach (var item in doc.IVDesarrollo.Lista)
+                    {
+                        var listItemParagraph = new Paragraph();
+                        AgregarNodoTextoRecursivo(listItemParagraph, item, normalFont, boldFont);
+
+                        var listItem = new ListItem();
+                        listItem.Add(listItemParagraph);
+                        list.Add(listItem);
+                    }
+                    document.Add(list);
+                }
+
+                // Mostrar Objeto
+                if (doc.IVDesarrollo.Objeto != null && doc.IVDesarrollo.Objeto.Any())
+                {
+                    var list = new iText.Layout.Element.List()
+                        .SetSymbolIndent(15)
+                        .SetListSymbol("\u2022")
+                        .SetMarginLeft(20);
+
+                    foreach (var item in doc.IVDesarrollo.Objeto)
+                    {
+                        var content = new Paragraph()
+                            .Add(new Text($"{item.Key}: ").SetFont(boldFont));
+
+                        AgregarNodoTextoRecursivo(content, item.Value, normalFont, boldFont);
+
+                        var listItem = new ListItem();
+                        listItem.Add(content);
+                        list.Add(listItem);
+                    }
+                    document.Add(list);
+                }
             }
             else
             {
@@ -225,5 +285,59 @@ namespace DocumentacionInteligente.BackEnd.Services
 
             return ms.ToArray();
         }
+
+        void AgregarNodoTextoRecursivo(Paragraph paragraph, NodoTexto nodo, PdfFont normalFont, PdfFont boldFont)
+        {
+            if (!string.IsNullOrEmpty(nodo.Texto))
+            {
+                paragraph.Add(new Text(nodo.Texto).SetFont(normalFont));
+            }
+
+            if (nodo.Lista != null && nodo.Lista.Any())
+            {
+                var sublist = new iText.Layout.Element.List()
+                    .SetSymbolIndent(15)
+                    .SetListSymbol("\u2022")
+                    .SetMarginLeft(20);
+
+                foreach (var subitem in nodo.Lista)
+                {
+                    var listItemParagraph = new Paragraph();
+                    AgregarNodoTextoRecursivo(listItemParagraph, subitem, normalFont, boldFont);
+
+                    var listItem = new ListItem();
+                    listItem.Add(listItemParagraph);
+                    sublist.Add(listItem);
+                }
+
+
+                paragraph.Add(sublist);
+            }
+
+            if (nodo.Objeto != null && nodo.Objeto.Any())
+            {
+                var objList = new iText.Layout.Element.List()
+                    .SetSymbolIndent(15)
+                    .SetListSymbol("\u2022")
+                    .SetMarginLeft(20);
+
+                foreach (var keyValue in nodo.Objeto)
+                {
+                    var content = new Paragraph()
+                        .Add(new Text($"{keyValue.Key}: ").SetFont(boldFont));
+
+                    AgregarNodoTextoRecursivo(content, keyValue.Value, normalFont, boldFont);
+
+                    var listItem = new ListItem();
+                    listItem.Add(content);
+                    objList.Add(listItem);
+                }
+
+                paragraph.Add(objList);
+            }
+        }
+
+
     }
+    
 }

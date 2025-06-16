@@ -45,7 +45,11 @@
             label="Rol"
             outlined
             dense
-            :options="['Admin', 'User']"
+            :options="rolesOptions"
+            option-label="nombre"
+            option-value="nombre"
+            emit-value
+            map-options
           />
           <q-input
             v-if="!usuario.id"
@@ -73,8 +77,24 @@ import axios from 'axios'
 
 const $q = useQuasar()
 
+// Crear instancia axios con interceptor
+const api = axios.create({
+  baseURL: 'http://localhost:5168/api'
+})
+
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => Promise.reject(error)
+)
 
 const usuarios = ref([])
+const rolesOptions = ref([])
 const cargando = ref(false)
 const modalAbierto = ref(false)
 
@@ -93,15 +113,12 @@ const columnas = [
   { name: 'acciones', label: 'Acciones', align: 'center' }
 ]
 
-
-
 function cargarUsuarios() {
   cargando.value = true
-  axios.get('http://localhost:5168/api/User/load-users') 
+  api.get('/User/load-users')
     .then(res => {
-      console.log(res.data)
       usuarios.value = res.data.map(u => ({
-        id: u.id,                
+        id: u.id,
         nombre: u.nombre,
         correo: u.correo,
         rol: u.rol
@@ -116,6 +133,18 @@ function cargarUsuarios() {
     })
 }
 
+function cargarRoles() {
+  api.get('/roles')
+    .then(res => {
+      rolesOptions.value = res.data
+        .filter(r => r.estado === true)
+        .map(r => ({ id: r.id, nombre: r.nombre }))
+    })
+    .catch(err => {
+      console.error(err)
+      $q.notify({ type: 'negative', message: 'Error cargando roles' })
+    })
+}
 
 function abrirModal(usuarioExistente = null) {
   if (usuarioExistente) {
@@ -138,7 +167,6 @@ function guardarUsuario() {
     return;
   }
 
-  // Si es creación, la contraseña es obligatoria
   if (!usuario.value.id && !usuario.value.password) {
     $q.notify({ type: 'negative', message: 'La contraseña es obligatoria para crear usuario' });
     return;
@@ -149,26 +177,24 @@ function guardarUsuario() {
     Correo: usuario.value.correo,
     Password: usuario.value.password,
     Rol: usuario.value.rol
-  }  // Solo si la API lo acepta (en el backend tendrías que modificar para leerlo)  };
+  }
 
   if (usuario.value.id) {
-    // Actualizar usuario
-    axios.put(`http://localhost:5168/api/User/update-user/${usuario.value.id}`, payload)
+    api.put(`/User/update-user/${usuario.value.id}`, payload)
       .then(() => {
-        $q.notify({ type: 'positive', message: 'Usuario actualizado' });
-        cargarUsuarios();
-        modalAbierto.value = false;
+        $q.notify({ type: 'positive', message: 'Usuario actualizado' })
+        cargarUsuarios()
+        modalAbierto.value = false
       })
-      .catch(() => $q.notify({ type: 'negative', message: 'Error al actualizar usuario' }));
+      .catch(() => $q.notify({ type: 'negative', message: 'Error al actualizar usuario' }))
   } else {
-    // Crear usuario
-    axios.post('http://localhost:5168/api/User/register', payload)
+    api.post('/User/register', payload)
       .then(() => {
-        $q.notify({ type: 'positive', message: 'Usuario creado' });
-        cargarUsuarios();
-        modalAbierto.value = false;
+        $q.notify({ type: 'positive', message: 'Usuario creado' })
+        cargarUsuarios()
+        modalAbierto.value = false
       })
-      .catch(() => $q.notify({ type: 'negative', message: 'Error al crear usuario' }));
+      .catch(() => $q.notify({ type: 'negative', message: 'Error al crear usuario' }))
   }
 }
 
@@ -179,16 +205,18 @@ function confirmarEliminar(u) {
     cancel: true,
     persistent: true
   }).onOk(() => {
-    // axios.delete(`/api/usuarios/${u.id}`)
-    //   .then(() => {
-    //     $q.notify({ type: 'positive', message: 'Usuario eliminado' })
-    //     cargarUsuarios()
-    //   })
-    //   .catch(() => $q.notify({ type: 'negative', message: 'Error al eliminar' }))
+    api.delete(`/User/delete-user/${u.id}`)
+      .then(() => {
+        $q.notify({ type: 'positive', message: 'Usuario eliminado' })
+        cargarUsuarios()
+      })
+      .catch(() => $q.notify({ type: 'negative', message: 'Error al eliminar usuario' }))
   })
 }
 
+
 onMounted(() => {
   cargarUsuarios()
+  cargarRoles()
 })
 </script>

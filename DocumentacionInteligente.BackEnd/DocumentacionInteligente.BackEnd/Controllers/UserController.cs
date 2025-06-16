@@ -102,8 +102,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             if (_context.USUARIOS.Any(u => u.CORREO == request.Correo))
                 return BadRequest("Ya existe un usuario con este correo.");
 
-            // Aquí por seguridad solo permitimos rol "User" en registro estándar
-            var rolPermitido = "User";
+            var rolPermitido = request.Rol; 
 
             var nuevoUsuario = new USUARIOS
             {
@@ -176,11 +175,9 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             if (!string.IsNullOrWhiteSpace(request.Password))
                 usuario.PASSWORD_HASH = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-            // Para el rol, solo permitir "User" o "Admin" (puedes ajustar según permisos)
-            if (request.Rol == "User" || request.Rol == "Admin")
-                usuario.ROL = request.Rol;
-            else
-                usuario.ROL = "User"; // Rol por defecto o lanzar error si prefieres
+
+            usuario.ROL = request.Rol;
+
 
             _context.SaveChanges();
 

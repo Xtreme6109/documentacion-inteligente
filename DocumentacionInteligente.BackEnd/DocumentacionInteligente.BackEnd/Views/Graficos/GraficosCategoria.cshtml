@@ -1,0 +1,333 @@
+@{
+    ViewData["Title"] = "Documentos por Categoría";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  main {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 250px; /* fija la altura para que Chart.js pueda dimensionar bien */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Tabla con scroll y alto limitado */
+  .table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+
+<!-- Navbar fijo arriba -->
+<nav class="navbar navbar-dark bg-primary sticky-top">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-outline-light" onclick="volverVue()">
+      ← Volver a la Página Principal
+    </button>
+    <span class="navbar-brand mx-auto text-center">Documentos por Categoría<br>Informe Micro</span>
+    <div style="width: 120px;"></div> 
+  </div>
+</nav>
+
+<main class="container-fluid">
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-8">
+      <div class="chart-container border rounded shadow-sm p-3 bg-white">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="chart-container border rounded shadow-sm p-3 bg-white">
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="chart-container border rounded shadow-sm p-3 bg-white">
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="mb-3">Tabla de Documentos</h4>
+  <div class="table-responsive border rounded shadow-sm bg-white">
+    <table id="docTable" class="table table-striped table-bordered mb-0">
+      <thead class="table-primary sticky-top">
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Estado</th>
+          <th>Creado IA</th>
+          <th>Fecha Creación</th>
+          <th>Versión</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Sección de detalles extra tipo dashboard -->
+  <section class="mt-5 p-4 border rounded shadow-sm bg-light">
+    <h5>Información adicional</h5>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <div class="p-3 bg-white rounded shadow-sm">
+          <h6>Total Documentos</h6>
+          <p id="totalDocs" class="fs-3 fw-bold">0</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 bg-white rounded shadow-sm">
+          <h6>Categorías distintas</h6>
+          <p id="totalCategories" class="fs-3 fw-bold">0</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="p-3 bg-white rounded shadow-sm">
+          <h6>Documentos IA</h6>
+          <p id="totalIA" class="fs-3 fw-bold">0</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function volverVue() {
+    // Cambia la ruta según cómo manejas Vue, puede ser un router push o un href normal:
+    window.location.href = 'http://localhost:9000/#/inicio'; 
+  }
+
+  function agruparPorCategoria(documentos) {
+    const conteo = {};
+    for (const doc of documentos) {
+      const key = (doc.nombreCategoria || 'Desconocida');
+      conteo[key] = (conteo[key] || 0) + 1;
+    }
+    return conteo;
+  }
+
+  async function fetchDocumentos() {
+    const response = await fetch('/api/Documentos/AllDocuments');
+    if (!response.ok) {
+      alert('Error al cargar documentos');
+      return [];
+    }
+    return await response.json();
+  }
+
+  function renderTable(documentos) {
+    const tbody = document.querySelector('#docTable tbody');
+    tbody.innerHTML = '';
+    documentos.forEach(doc => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${doc.id}</td>
+        <td>${doc.titulo}</td>
+        <td>${doc.nombreCategoria}</td>
+        <td>${doc.estado}</td>
+        <td>${doc.creadoIA ? 'Sí' : 'No'}</td>
+        <td>${new Date(doc.createDate).toLocaleDateString()}</td>
+        <td>${doc.versionActual}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function createBarChart(ctx, labels, data) {
+    return new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Cantidad de Documentos',
+          data,
+          backgroundColor: 'rgba(54, 162, 235, 0.7)'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, precision: 0 }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      },
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    title: {
+      display: true,
+      text: 'Documentos por Categoría',
+      font: {
+        size: 16,
+        weight: 'bold'
+      },
+      padding: {
+        top: 10,
+        bottom: 20
+      }
+    },
+    legend: {
+      display: false
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      precision: 0
+    }
+  }
+}
+
+    });
+  }
+
+  function createPieChart(ctx, labels, data) {
+    return new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: [
+            '#4e79a7', '#f28e2b', '#e15759',
+            '#76b7b2', '#59a14f', '#edc949',
+            '#af7aa1', '#ff9da7', '#9c755f', '#bab0ac'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+            display: true,
+            text: 'Distribución por Categoría',
+            font: {
+                size: 16,
+                weight: 'bold'
+            },
+            padding: {
+                top: 10,
+                bottom: 20
+            }
+            },
+            legend: {
+            display: true,
+            position: 'top'
+            }
+        }
+        }
+
+    });
+  }
+
+  function createLineChart(ctx, documentos) {
+    const fechas = {};
+    documentos.forEach(doc => {
+      const fecha = new Date(doc.createDate).toISOString().slice(0, 10);
+      fechas[fecha] = (fechas[fecha] || 0) + 1;
+    });
+    const sortedFechas = Object.keys(fechas).sort();
+    let acumulado = 0;
+    const acumulados = sortedFechas.map(fecha => {
+      acumulado += fechas[fecha];
+      return acumulado;
+    });
+
+    return new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: sortedFechas,
+        datasets: [{
+          label: 'Documentos acumulados',
+          data: acumulados,
+          borderColor: 'rgba(255, 99, 132, 0.8)',
+          backgroundColor: 'rgba(255, 99, 132, 0.3)',
+          fill: true,
+          tension: 0.2,
+          pointRadius: 3
+        }]
+      },
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      beginAtZero: true,
+      precision: 0
+    }
+  },
+  plugins: {
+    title: {
+      display: true,
+      text: 'Documentos Acumulados por Fecha',
+      font: {
+        size: 16,
+        weight: 'bold'
+      },
+      padding: {
+        top: 10,
+        bottom: 20
+      }
+    }
+  }
+}
+
+    });
+  }
+
+  async function main() {
+    const documentos = await fetchDocumentos();
+    if (!documentos.length) return;
+
+    renderTable(documentos);
+
+    const conteoCategorias = agruparPorCategoria(documentos);
+    const labels = Object.keys(conteoCategorias);
+    const data = Object.values(conteoCategorias);
+
+    document.getElementById('totalDocs').innerText = documentos.length;
+    document.getElementById('totalCategories').innerText = labels.length;
+    document.getElementById('totalIA').innerText = documentos.filter(d => d.creadoIA).length;
+
+    createBarChart(document.getElementById('barChart').getContext('2d'), labels, data);
+    createPieChart(document.getElementById('pieChart').getContext('2d'), labels, data);
+    createLineChart(document.getElementById('lineChart').getContext('2d'), documentos);
+  }
+
+  main();
+</script>
