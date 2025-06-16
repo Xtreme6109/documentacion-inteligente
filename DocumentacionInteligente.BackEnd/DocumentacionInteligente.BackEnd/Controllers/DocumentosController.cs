@@ -3,17 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DocumentacionInteligente.BackEnd.Data;
 using System.IO;
+using System.Text;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
 public class DocumentosController : ControllerBase
 {
+    private readonly IWebHostEnvironment _env;
     private readonly AppDbContext _context;
 
-    public DocumentosController(AppDbContext context)
+    public DocumentosController(AppDbContext context, IWebHostEnvironment env)
     {
         _context = context;
+        _env = env;
     }
 
     // GET: api/Documentos
@@ -50,15 +56,17 @@ public class DocumentosController : ControllerBase
                 CreadoIA = d.CREADO_IA ?? false,
                 CreateDate = d.CREATE_DATE,
                 VersionActual = d.VERSION_ACTUAL ?? 1,
-                RutaArchivo = d.RUTA_ARCHIVO
+                RutaArchivo = d.RUTA_ARCHIVO,
+                UsuarioCreadorId = d.UsuarioCreadorId,
+                NombreCategoria = d.CATEGORIA != null ? d.CATEGORIA.NOMBRE : "Desconocido"
             })
 
             .ToListAsync();
 
-            
-Console.WriteLine($"Cantidad documentos: {documentos.Count}");
-foreach(var doc in documentos)
-    Console.WriteLine($"ID: {doc.Id}, Titulo: {doc.Titulo}");
+
+        Console.WriteLine($"Cantidad documentos: {documentos.Count}");
+        foreach (var doc in documentos)
+            Console.WriteLine($"ID: {doc.Id}, Titulo: {doc.Titulo}");
 
         return Ok(documentos);
     }
@@ -212,6 +220,65 @@ foreach(var doc in documentos)
         return _context.DOCUMENTOS.Any(e => e.ID == id);
     }
 
+    [HttpGet("TextoDocumento/{id}")]
+    public IActionResult ObtenerTextoDocumento(int id)
+    {
+        var documento = _context.DOCUMENTOS.Find(id);
+        if (documento == null)
+            return NotFound("Documento no encontrado");
+
+        string carpetaBase = Path.Combine(Directory.GetCurrentDirectory());
+        Console.WriteLine($"Carpeta base para archivos: {carpetaBase}");
+
+        string rutaRelativaCorregida = documento.RUTA_ARCHIVO.Replace('/', Path.DirectorySeparatorChar);
+        Console.WriteLine($"Ruta corregida: {rutaRelativaCorregida}");
+
+        string rutaCompleta = Path.Combine(carpetaBase, rutaRelativaCorregida);
+        Console.WriteLine($"Ruta completa corregida: {rutaCompleta}");
+
+        if (!System.IO.File.Exists(rutaCompleta))
+        {
+            Console.WriteLine("Archivo no encontrado en el sistema de archivos");
+            return NotFound("Archivo no encontrado");
+        }
+
+        var extension = Path.GetExtension(rutaCompleta).ToLowerInvariant();
+
+        if (extension == ".pdf")
+        {
+            try
+            {
+                var textoPdf = ExtraerTextoDePdf(rutaCompleta);
+                return Content(textoPdf, "text/plain");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error leyendo PDF: {ex.Message}");
+                return StatusCode(500, "Error al procesar el archivo PDF.");
+            }
+        }
+        else
+        {
+            return BadRequest("Solo se soportan archivos PDF para extracción de texto.");
+        }
+    }
+
+    private string ExtraerTextoDePdf(string ruta)
+    {
+        var sb = new StringBuilder();
+
+        using var pdfReader = new PdfReader(ruta);
+        using var pdfDoc = new PdfDocument(pdfReader);
+
+        for (int i = 1; i <= pdfDoc.GetNumberOfPages(); i++)
+        {
+            var page = pdfDoc.GetPage(i);
+            var texto = PdfTextExtractor.GetTextFromPage(page);
+            sb.AppendLine(texto);
+        }
+
+        return sb.ToString();
+    }
 
 
 
