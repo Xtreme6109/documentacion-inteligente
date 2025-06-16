@@ -5,7 +5,6 @@
         <div class="text-h5 q-mb-lg">Subir Documento Manualmente</div>
 
         <div class="q-gutter-md">
-
           <!-- Selector / input híbrido para título -->
           <q-select
             v-model="formData.titulo"
@@ -15,13 +14,11 @@
             input-debounce="300"
             :options="titulos"
             clearable
-            :rules="desactivarRules ? [] : [val => !!val || 'El título es requerido']"
+            :rules="desactivarRules ? [] : [(val) => !!val || 'El título es requerido']"
             :hide-dropdown-icon="false"
             @new-value="agregarTituloNuevo"
             new-value-mode="add"
           />
-
-
 
           <!-- Campo para versión -->
           <q-input
@@ -29,7 +26,7 @@
             label="Versión del documento"
             outlined
             clearable
-            :rules="desactivarRules ? [] : [val => !!val || 'La versión es requerida']"
+            :rules="desactivarRules ? [] : [(val) => !!val || 'La versión es requerida']"
           />
 
           <q-file
@@ -37,7 +34,7 @@
             label="Seleccionar archivo"
             outlined
             use-chips
-            :rules="desactivarRules ? [] : [val => !!val || 'Debe seleccionar un archivo']"
+            :rules="desactivarRules ? [] : [(val) => !!val || 'Debe seleccionar un archivo']"
           />
 
           <q-input
@@ -46,7 +43,7 @@
             type="textarea"
             outlined
             autogrow
-            :rules="desactivarRules ? [] : [val => !!val || 'La descripción es requerida']"
+            :rules="desactivarRules ? [] : [(val) => !!val || 'La descripción es requerida']"
           />
 
           <q-select
@@ -56,7 +53,7 @@
             :options="categorias"
             emit-value
             map-options
-            :rules="desactivarRules ? [] : [val => !!val || 'Seleccione una categoría']"
+            :rules="desactivarRules ? [] : [(val) => !!val || 'Seleccione una categoría']"
           />
 
           <q-select
@@ -66,13 +63,10 @@
             :options="estados"
             emit-value
             map-options
-            :rules="desactivarRules ? [] : [val => !!val || 'Seleccione un estado']"
+            :rules="desactivarRules ? [] : [(val) => !!val || 'Seleccione un estado']"
           />
 
-          <q-checkbox
-            v-model="formData.creadoIA"
-            label="Documento creado por IA"
-          />
+          <q-checkbox v-model="formData.creadoIA" label="Documento creado por IA" />
 
           <div class="row justify-end">
             <q-btn
@@ -98,18 +92,21 @@ import { watch } from 'vue'
 const $q = useQuasar()
 
 const api = axios.create({
-  baseURL: 'http://localhost:5168/api'
+  baseURL: 'http://localhost:5168/api',
 })
 
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-}, error => {
-  return Promise.reject(error)
-})
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
 
 const subiendo = ref(false)
 const desactivarRules = ref(false)
@@ -122,7 +119,7 @@ const formData = ref({
   descripcion: '',
   categoria: null,
   estado: null,
-  creadoIA: false
+  creadoIA: false,
 })
 
 const categorias = [
@@ -130,12 +127,14 @@ const categorias = [
   { label: 'Interno', value: 2 },
   { label: 'Técnico ', value: 4 },
   { label: 'Financiero ', value: 5 },
+  { label: 'Contabilidad ', value: 6 },
+  { label: 'Soporte ', value: 7 },
 ]
 
 const estados = [
   { label: 'Borrador', value: 'Borrador' },
   { label: 'Aprobado', value: 'Aprobado' },
-  { label: 'Rechazado', value: 'Rechazado' }
+  { label: 'Rechazado', value: 'Rechazado' },
 ]
 
 async function subirDocumento() {
@@ -178,10 +177,13 @@ async function subirDocumento() {
     payload.append('creadoIA', formData.value.creadoIA ? 'true' : 'false')
 
     const response = await api.post('/DocumentosSubida/subir', payload, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
     })
 
-    $q.notify({ type: 'positive', message: response.data.mensaje || 'Documento subido exitosamente' })
+    $q.notify({
+      type: 'positive',
+      message: response.data.mensaje || 'Documento subido exitosamente',
+    })
 
     desactivarRules.value = true
     // Resetear formulario
@@ -192,7 +194,7 @@ async function subirDocumento() {
       descripcion: '',
       categoria: null,
       estado: null,
-      creadoIA: false
+      creadoIA: false,
     }
 
     setTimeout(() => {
@@ -200,7 +202,10 @@ async function subirDocumento() {
     }, 200)
   } catch (error) {
     console.error(error)
-    $q.notify({ type: 'negative', message: 'Error al subir documento: ' + (error.response?.data || error.message) })
+    $q.notify({
+      type: 'negative',
+      message: 'Error al subir documento: ' + (error.response?.data || error.message),
+    })
   } finally {
     subiendo.value = false
   }
@@ -228,48 +233,50 @@ function agregarTituloNuevo(val, done) {
     return
   }
 
-  if (!titulos.value.some(t => t.toLowerCase() === nuevoTitulo.toLowerCase())) {
+  if (!titulos.value.some((t) => t.toLowerCase() === nuevoTitulo.toLowerCase())) {
     titulos.value.push(nuevoTitulo)
   }
 
   done(nuevoTitulo)
 }
 
-
 onMounted(() => {
   cargarTitulos()
 })
 
-watch(() => formData.value.titulo, async (nuevoTitulo) => {
-  if (!nuevoTitulo) {
-    // Limpiar versión y demás si título vacío
-    formData.value.version = ''
-    // puedes limpiar más campos si quieres
-    return
-  }
-
-  try {
-    const response = await api.get('/Documentos/version-mayor', {
-      params: { titulo: nuevoTitulo }
-    })
-
-    const doc = response.data
-    console.log(doc)
-
-    console.log(formData)
-
-    if (doc) {
-      console.log('Documento encontrado:', doc)
-      formData.value.version = doc.version ? (doc.version + 1).toString() : '1'
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      // No existe documento con ese título, limpiar versión
+watch(
+  () => formData.value.titulo,
+  async (nuevoTitulo) => {
+    if (!nuevoTitulo) {
+      // Limpiar versión y demás si título vacío
       formData.value.version = ''
-    } else {
-      console.error('Error al obtener versión mayor:', error)
-      $q.notify({ type: 'negative', message: 'Error al consultar documento' })
+      // puedes limpiar más campos si quieres
+      return
     }
-  }
-})
+
+    try {
+      const response = await api.get('/Documentos/version-mayor', {
+        params: { titulo: nuevoTitulo },
+      })
+
+      const doc = response.data
+      console.log(doc)
+
+      console.log(formData)
+
+      if (doc) {
+        console.log('Documento encontrado:', doc)
+        formData.value.version = doc.version ? (doc.version + 1).toString() : '1'
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        // No existe documento con ese título, limpiar versión
+        formData.value.version = ''
+      } else {
+        console.error('Error al obtener versión mayor:', error)
+        $q.notify({ type: 'negative', message: 'Error al consultar documento' })
+      }
+    }
+  },
+)
 </script>

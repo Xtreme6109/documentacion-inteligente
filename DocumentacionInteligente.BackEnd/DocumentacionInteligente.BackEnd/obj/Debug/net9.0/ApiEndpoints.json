@@ -410,6 +410,16 @@
   },
   {
     "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
+    "Method": "GetTokensPorDia",
+    "RelativePath": "api/Reporte/TokensPorDia",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DocumentacionInteligente.BackEnd.Controllers.ReporteController",
     "Method": "GetTokensPorUsuario",
     "RelativePath": "api/Reporte/TokensPorUsuario",
     "HttpMethod": "GET",

@@ -140,8 +140,8 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), "Documentos")),
     RequestPath = "/Documentos"
-});*/
-app.UseHttpsRedirection();
+});
+app.UseHttpsRedirection();*/
 
 
 app.UseCors("AllowVueApp");
