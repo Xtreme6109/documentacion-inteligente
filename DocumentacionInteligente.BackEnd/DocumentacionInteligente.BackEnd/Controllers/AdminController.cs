@@ -8,7 +8,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
 {
     [ApiController]
     [Route("api/admin/users")]
-    [Authorize(Policy = "Admin")] // Solo los usuarios con la política "Admin" podrán acceder
+    [Authorize(Policy = "Administrador")] // Solo los usuarios con la política "Admin" podrán acceder
     public class AdminController : ControllerBase
     {
         private readonly AppDbContext _context;

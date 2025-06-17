@@ -124,7 +124,7 @@ public class DocumentosController : ControllerBase
 
     // POST: api/Documentos
     [HttpPost]
-    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = "Administrador")]
     public async Task<IActionResult> CrearDocumento([FromBody] DOCUMENTOS documento)
     {
         if (!ModelState.IsValid)
@@ -140,7 +140,7 @@ public class DocumentosController : ControllerBase
 
     // PUT: api/Documentos/5
     [HttpPut("{id}")]
-    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = "Administrador")]
     public async Task<IActionResult> EditarDocumento(int id, [FromBody] DOCUMENTOS documento)
     {
         if (id != documento.ID)

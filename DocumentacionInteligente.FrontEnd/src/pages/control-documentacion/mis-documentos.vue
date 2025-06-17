@@ -28,9 +28,26 @@
           dense
           :filter="filtros.titulo"
         >
+          <!-- Título con texto largo -->
+          <template #body-cell-titulo="props">
+            <q-td class="celda-expandible">
+              {{ props.row.titulo }}
+            </q-td>
+          </template>
+
+          <!-- Descripción con texto largo -->
+          <template #body-cell-descripcion="props">
+            <q-td class="celda-expandible">
+              {{ props.row.descripcion }}
+            </q-td>
+          </template>
+
+          <!-- Campo creado por IA -->
           <template #body-cell-CREADO_IA="props">
             <q-td>{{ props.row.CREADO_IA ? 'Sí' : 'No' }}</q-td>
           </template>
+
+          <!-- Acciones -->
           <template #body-cell-acciones="props">
             <q-td>
               <q-btn
@@ -41,7 +58,14 @@
                 @click="verDocumento(props.row)"
               />
               <q-btn dense flat icon="download" @click="descargarArchivo(props.row)" />
-              <q-btn dense flat icon="delete" color="negative" @click="eliminarDocumento(props.row)" />
+              <q-btn
+                v-if="esAdmin"
+                dense
+                flat
+                icon="delete"
+                color="negative"
+                @click="eliminarDocumento(props.row)"
+              />
             </q-td>
           </template>
         </q-table>
@@ -94,7 +118,7 @@
 
           <q-separator spaced class="col-12" />
 
-          <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
+          <div class="q-mb-xs col-xs-12 col-sm-12 col-md-12">
             <q-badge color="primary" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
               Descripción
             </q-badge>
@@ -105,7 +129,7 @@
             <q-badge color="secondary" class="q-mr-sm text-subtitle2 q-pa-sm rounded-borders">
               Categoría
             </q-badge>
-            <span class="text-body1">{{ obtenerNombreCategoria(documentoSeleccionado?.categoria_id) || '-' }}</span>
+            <span class="text-body1">{{ obtenerNombreCategoria(documentoSeleccionado?.categoriA_ID) || '-' }}</span>
           </div>
 
           <div class="q-mb-xs col-xs-12 col-sm-6 col-md-4">
@@ -163,6 +187,9 @@
 import { ref, computed,onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import axios from 'axios'
+const esAdmin = ref(false)
+import { jwtDecode } from 'jwt-decode'
+const rolUsuario = ref(null)
 
 const $q = useQuasar()
 const modalVisible = ref(false)
@@ -219,8 +246,8 @@ const documentosFiltrados = computed(() => {
 
 const categorias = [
   { label: 'Legal', value: 1 },
-  { label: 'Técnico', value: 2 },
-  { label: 'Interno', value: 4 },
+  { label: 'Técnico', value: 4 },
+  { label: 'Interno', value: 2 },
   { label: 'Financiero', value: 5 },
 ]
 
@@ -229,7 +256,7 @@ const estados = ['Borrador', 'Aprobado', 'Rechazado']
 const columnas = [
   { name: 'titulo', label: 'Título', field: 'titulo', sortable: true },
   { name: 'descripcion', label: 'Descripción', field: 'descripcion' },
-  { name: 'categoriaLabel', label: 'Categoría', field: 'categoriaLabel' },
+  { name: 'categoriaLabel', label: 'Categoría', field: 'CATEGORIA_LABEL' },
   { name: 'createDate', label: 'Creado el', field: 'createDate', format: val => new Date(val).toLocaleDateString() },
   { name: 'estado', label: 'Estado', field: 'estado' },
   { name: 'versionActual', label: 'Versión', field: 'versionActual' },
@@ -280,7 +307,7 @@ function obtenerURLVisualizacion(ruta) {
 }
 
 function guardarDocumento() {
-  if (!doc.value.TITULO || !doc.value.DESCRIPCION || !doc.value.CATEGORIA || !doc.value.ESTADO) {
+  if (!doc.value.TITULO || !doc.value.DESCRIPCION || !doc.value.categoria || !doc.value.ESTADO) {
     $q.notify({ type: 'negative', message: 'Faltan campos requeridos' })
     return
   }
@@ -291,7 +318,7 @@ function guardarDocumento() {
     if (index !== -1) {
       documentos.value[index] = {
         ...doc.value,
-        CATEGORIA_LABEL: obtenerNombreCategoria(doc.value.CATEGORIA)
+        CATEGORIA_LABEL: obtenerNombreCategoria(doc.value.categoria)
       }
     }
     $q.notify({ message: 'Documento actualizado', color: 'positive' })
@@ -301,7 +328,7 @@ function guardarDocumento() {
     doc.value.VERSION_ACTUAL = 1
     documentos.value.push({
       ...doc.value,
-      CATEGORIA_LABEL: obtenerNombreCategoria(doc.value.CATEGORIA)
+      CATEGORIA_LABEL: obtenerNombreCategoria(doc.value.categoria)
     })
     $q.notify({ message: 'Documento creado', color: 'positive' })
   }
@@ -360,5 +387,26 @@ async function eliminarDocumento(doc) {
 
 onMounted(() => {
   fetchDocumentos()
+   const token = localStorage.getItem('token')
+  if (token) {
+    try {
+      const decoded = jwtDecode(token)
+      console.log('Token decodificado:', decoded)
+      rolUsuario.value = decoded.role || decoded.Rol || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      esAdmin.value = rolUsuario.value === 'Administrador' || rolUsuario.value === 'Gerencia'
+      console.log('Rol del usuario:', rolUsuario.value)
+      console.log('Es administrador:', esAdmin.value)
+    } catch (e) {
+      console.error('Error al decodificar token:', e)
+    }
+  }
 })
 </script>
+<style scoped lang="scss">
+.celda-expandible {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4em;
+  padding: 8px;
+}
+</style>

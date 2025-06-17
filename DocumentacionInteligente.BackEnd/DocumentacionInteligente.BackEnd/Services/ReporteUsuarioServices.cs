@@ -40,7 +40,7 @@ namespace DocumentacionInteligente.BackEnd.Services
                 .SetMarginBottom(10));
 
             // Subtítulo con nombre del usuario
-            document.Add(new Paragraph($"Usuario: {nombreUsuario}")
+            document.Add(new Paragraph($"{nombreUsuario}")
                 .SetFont(boldFont)
                 .SetFontSize(14)
                 .SetTextAlignment(TextAlignment.CENTER)

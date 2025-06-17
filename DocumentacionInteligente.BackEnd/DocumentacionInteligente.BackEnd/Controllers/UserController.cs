@@ -48,7 +48,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
                 }
 
                 // Rol Admin puede ver todos
-                if (usuario.ROL == "Admin")
+                if (usuario.ROL == "Administrador")
                 {
                     var todos = _context.USUARIOS.Select(u => new {
                         u.ID,
@@ -86,7 +86,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
                 new Claim("Correo", user.CORREO),
                 new Claim("Rol", user.ROL),
                 new Claim("User", "true"),
-                new Claim("Admin", user.ROL == "Admin" ? "true" : "false"),
+                new Claim("Administrador", user.ROL == "Administrador" ? "true" : "false"),
                 new Claim("UsuarioId", user.ID.ToString())  // <-- ¡Este es el que necesitas!
             };
 
@@ -131,7 +131,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
                 NOMBRE = request.Nombre,
                 CORREO = request.Correo,
                 PASSWORD_HASH = BCrypt.Net.BCrypt.HashPassword(request.Password),
-                ROL = "Admin",
+                ROL = "Administrador",
                 CREATE_DATE = DateTime.UtcNow
             };
 

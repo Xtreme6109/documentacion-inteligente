@@ -13,7 +13,7 @@
           </p>
         </q-card>
 
-        <q-input
+       <q-input
           bottom-slots
           v-model="documentDescription"
           type="textarea"
@@ -24,13 +24,22 @@
           outlined
           bg-color="white"
           class="q-mb-md"
-          clearable
         >
+          <template v-slot:append>
+            <q-icon
+              name="close"
+              class="cursor-pointer"
+              @click="documentDescription = ''"
+              v-if="documentDescription.length > 0"
+              aria-label="Limpiar texto"
+            />
+          </template>
 
           <template v-slot:hint>
             Describe claramente el contenido, tipo y formato del documento que deseas generar.
           </template>
         </q-input>
+
         <q-btn
             label="Generar contenido"
             icon="smart_toy"

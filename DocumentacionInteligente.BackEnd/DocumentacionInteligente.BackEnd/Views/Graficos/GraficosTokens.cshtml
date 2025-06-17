@@ -44,11 +44,14 @@
         max-height: 400px;
     }
 </style>
-
-<nav class="navbar navbar-dark bg-dark sticky-top">
-    <div class="container-fluid">
-        <span class="navbar-brand mx-auto text-center">Reporte de Consumo de Tokens</span>
-    </div>
+<nav class="navbar navbar-dark bg-primary sticky-top">
+  <div class="container-fluid">
+    <button type="button" class="btn btn-outline-light" onclick="volverVue()">
+      ← Volver a la Página Principal
+    </button>
+    <span class="navbar-brand mx-auto text-center">Reporte de Consumo de Tokens</span>
+    <div style="width: 120px;"></div> 
+  </div>
 </nav>
 
 <main class="container-fluid">
@@ -114,6 +117,9 @@
 </main>
 
 <script>
+    function volverVue() {
+    window.location.href = 'http://localhost:9000/#/inicio'; 
+  }
     async function getConsumoTokens() {
         const res = await fetch('/api/Reporte/TokensPorUsuario');
         if (!res.ok) {

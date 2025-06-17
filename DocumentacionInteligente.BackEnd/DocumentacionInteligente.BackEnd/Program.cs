@@ -63,9 +63,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Configurar pol�ticas de autorizaci�n
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Admin", policy => policy.RequireClaim("Rol", "Admin"));
+    options.AddPolicy("Administrador", policy => policy.RequireClaim("Rol", "Administrador"));
     options.AddPolicy("User", policy => policy.RequireClaim("Rol", "User"));
-    //options.AddPolicy("EsAdministrador", policy => policy.RequireClaim("Rol", "Admin"));
+    //options.AddPolicy("EsAdministrador", policy => policy.RequireClaim("Rol", "Administrador"));
 });
 
 // Agregar DbContexts

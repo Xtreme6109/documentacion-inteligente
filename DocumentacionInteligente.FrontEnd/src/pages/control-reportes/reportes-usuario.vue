@@ -109,34 +109,71 @@ async function generarReporte() {
 
   // Construir objeto con todas las propiedades (aunque vacías)
   const payload = {
-    títuloDelDocumento: "",
-    fechaDeEdición: new Date().toISOString(),
-    version: "",
-    códigoDelDocumento: "",
-    elaboradoPor: "",
-    revisadoPor: "",
-    iObjetivo: "",
-    iiAlcance: "",
-    iiiResponsabilidades: {},
-    ivDesarrollo: {},
-    vVigencia: "",
-    viReferenciasBibliográficas: "",
-    viiHistorialDeCambioDeDocumentos: [],
-    viiiFirmas: "",
-    titulo: "",
-    hoja: 0,
-    totalHojas: 0,
-    autorizadoPor: "",
-    fechaDivulgacion: new Date().toISOString(),
-    categoria: 0,
-    nombreCategoria: "",
-    usuarioCreadorId: 0,
-    usuarioId: usuarioSeleccionado.value,
-    fechaInicio: fechaInicio.value,
-    fechaFin: fechaFin.value,
-    nombreUsuarioCreador: "string"
-  };
+  títuloDelDocumento: "",
+  fechaDeEdición: new Date().toISOString(),
+  version: "",
+  códigoDelDocumento: "",
+  elaboradoPor: "",
+  revisadoPor: "",
+  iObjetivo: "",
+  iiAlcance: "",
+  iiiResponsabilidades: {
+    texto: "",
+    lista: [],
+    objeto: {
+      "nodo1": {
+        texto: "",
+        lista: [],
+        objeto: {}
+      },
+      "nodo2": {
+        texto: "",
+        lista: [],
+        objeto: {}
+      }
+    }
+  },
+  ivDesarrollo: {
+    texto: "",
+    lista: [],
+    objeto: {
+      "nodo1": {
+        texto: "",
+        lista: [],
+        objeto: {}
+      },
+      "nodo2": {
+        texto: "",
+        lista: [],
+        objeto: {}
+      }
+    }
+  },
+  vVigencia: "",
+  viReferenciasBibliográficas: "",
+  viiHistorialDeCambioDeDocumentos: [
+    {
+      number: 0,
+      date: new Date().toISOString(),
+      description: ""
+    }
+  ],
+  viiiFirmas: "",
+  titulo: "",
+  hoja: 0,
+  totalHojas: 0,
+  autorizadoPor: "",
+  fechaDivulgacion: new Date().toISOString(),
+  categoria: 0,
+  nombreCategoria: "",
+  usuarioCreadorId: 0,
+  usuarioId: usuarioSeleccionado.value,
+  fechaInicio: fechaInicio.value,
+  fechaFin: fechaFin.value,
+  nombreUsuarioCreador: ""
+};
 
+console.log('Payload para reporte:', payload);
   try {
     const response = await api.post('/Reporte/reporte-usuario', payload, {
       responseType: 'blob'

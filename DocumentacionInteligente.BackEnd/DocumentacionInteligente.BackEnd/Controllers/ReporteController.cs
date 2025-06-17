@@ -74,7 +74,8 @@ namespace DocumentacionInteligente.BackEnd.Controllers
             }
             if (documentoDto.FechaFin.HasValue)
             {
-                documentosDelUsuarioQuery = documentosDelUsuarioQuery.Where(d => d.CREATE_DATE <= documentoDto.FechaFin.Value);
+                var fechaFinInclusiva = documentoDto.FechaFin.Value.Date.AddDays(1);
+                documentosDelUsuarioQuery = documentosDelUsuarioQuery.Where(d => d.CREATE_DATE < fechaFinInclusiva);
             }
 
             var documentosDelUsuario = documentosDelUsuarioQuery
@@ -108,19 +109,6 @@ namespace DocumentacionInteligente.BackEnd.Controllers
                 return BadRequest("Debe completar categoría, fecha de inicio y fecha de fin.");
             }
 
-            // Ya no validar rol ni hacer autorizaciones especiales
-            //var claims = HttpContext.User.Claims;
-            //var rol = claims.FirstOrDefault(c => c.Type == "Rol")?.Value;
-
-            //if (string.IsNullOrEmpty(rol))
-            //{
-            //    return Unauthorized("No se encontró rol en el token.");
-            //}
-
-            //if (rol != "Admin")
-            //{
-            //    return StatusCode(403, "Solo los administradores pueden generar reportes por categoría.");
-            //}
 
             var categoria = _context.CATEGORIAS.FirstOrDefault(c => c.ID == filtro.Categoria);
             if (categoria == null)
@@ -161,7 +149,7 @@ namespace DocumentacionInteligente.BackEnd.Controllers
         {
             // Validar rol Admin desde las claims del usuario autenticado
             var rol = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Rol")?.Value;
-            if (rol != "Admin")
+            if (rol != "Administrador")
             {
                 return Forbid("Solo los administradores pueden generar este reporte.");
             }
@@ -177,10 +165,12 @@ namespace DocumentacionInteligente.BackEnd.Controllers
                 return NotFound("Usuario no encontrado.");
             }
 
+           var fechaFinInclusiva = filtro.FechaFin.Value.Date.AddDays(1);
+
             var historialTokens = _context.HISTORIALDOCUMENTOSIA
                 .Where(h => h.USUARIO_ID == filtro.UsuarioId
                             && h.FECHA_GENERACION >= filtro.FechaInicio.Value
-                            && h.FECHA_GENERACION <= filtro.FechaFin.Value)
+                            && h.FECHA_GENERACION < fechaFinInclusiva)
                 .OrderBy(h => h.FECHA_GENERACION)
                 .ToList();
 

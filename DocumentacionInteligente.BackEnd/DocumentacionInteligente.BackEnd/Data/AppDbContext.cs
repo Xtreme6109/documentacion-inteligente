@@ -20,6 +20,8 @@ namespace DocumentacionInteligente.BackEnd.Data
         public DbSet<ROL> ROLES { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<HISTORIALDOCUMENTOSIA> HISTORIALDOCUMENTOSIA { get; set; }
+        public DbSet<Menu> MENUS { get; set; }
+        public DbSet<PermisoMenuRol> PERMISOS_MENU_ROLES { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,20 @@ namespace DocumentacionInteligente.BackEnd.Data
             modelBuilder.Entity<LOGS_ACCESO>().ToTable("LOGS_ACCESO");
             modelBuilder.Entity<ROL>().ToTable("ROLES");
             modelBuilder.Entity<HISTORIALDOCUMENTOSIA>().ToTable("HISTORIAL_DOCUMENTOS_IA");
+            modelBuilder.Entity<Menu>().ToTable("MENU");
+            modelBuilder.Entity<PermisoMenuRol>().ToTable("PERMISOS_MENU_ROLES");
+
+            modelBuilder.Entity<PermisoMenuRol>()
+                .HasOne(p => p.Rol)
+                .WithMany()
+                .HasForeignKey(p => p.ROL)
+                .HasPrincipalKey(r => r.NOMBRE);
+
+            modelBuilder.Entity<PermisoMenuRol>()
+                .HasOne(p => p.Menu)
+                .WithMany(m => m.PermisosMenuRoles)
+                .HasForeignKey(p => p.MENU_ID)
+                .HasPrincipalKey(m => m.Id);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -119,14 +119,17 @@ async function guardarRol() {
         id: rol.value.id,
         nombre: rol.value.nombre,
         descripcion: rol.value.descripcion,
-        estado: rol.value.estado
+        estado: rol.value.estado,
+        permisosMenu: rol.value.permisosMenu || []
       })
       $q.notify({ message: 'Rol actualizado', color: 'positive' })
     } else {
       await api.post('/roles', {
         nombre: rol.value.nombre,
         descripcion: rol.value.descripcion,
-        estado: rol.value.estado
+        creatE_DATE: new Date().toISOString(),
+        estado: rol.value.estado,
+        permisosMenu: []
       })
       $q.notify({ message: 'Rol creado', color: 'positive' })
     }
